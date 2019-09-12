@@ -9,9 +9,13 @@ class LoginView {
 	private static $cookiePassword = 'LoginView::CookiePassword';
 	private static $keep = 'LoginView::KeepMeLoggedIn';
 	private static $messageId = 'LoginView::Message';
+	private $message = '';
 
-	
-
+	public function login () {
+		if ($_POST[self::$name] == '') {
+			$this->message = 'Username is missing';
+		}
+	}
 	/**
 	 * Create HTTP response
 	 *
@@ -20,11 +24,11 @@ class LoginView {
 	 * @return  void BUT writes to standard output and cookies!
 	 */
 	public function response() {
-		$message = '';
-		
-		$response = $this->generateLoginFormHTML($message);
-		//$response .= $this->generateLogoutButtonHTML($message);
-		return $response;
+		if(isset($_SESSION['username'])) {
+			return $this->generateLogoutButtonHTML($this->message);
+		} else {
+			return $this->generateLoginFormHTML($this->message);
+		}
 	}
 
 	/**

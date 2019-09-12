@@ -14,6 +14,12 @@ $v = new LoginView();
 $dtv = new DateTimeView();
 $lv = new LayoutView();
 
+session_start();
 
-$lv->render(false, $v, $dtv);
+$v->login();
+if (isset($_SESSION['username'])) {
+        $lv->render(true, $v, $dtv);
+    } else {
+        $lv->render(false, $v, $dtv);
+}
 
