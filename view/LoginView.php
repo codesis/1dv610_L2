@@ -14,6 +14,7 @@ class LoginView {
 	private $passwordTest = '';
 
 	public function login () {
+		$hash = password_hash('Password', PASSWORD_DEFAULT);
 		if (isset($_POST[self::$login])) {
 			if (empty($_POST[self::$name])) {
 				$this->message = 'Username is missing';
@@ -25,8 +26,19 @@ class LoginView {
 				$this->passwordTest = '';
 				$this->message = 'Wrong name or password';
 			}
-			// if ($this->holdUsername = 'Admin' && $this->passwordTest = 'Password') {
-			// }
+		if ($_POST[self::$name] == 'Admin' && password_verify($_POST[self::$password], $hash)) {
+			if (!isset($_SESSION['username']) && !isset($_SESSION['password'])) {
+				$this->message = 'Welcome';
+			}
+			$_SESSION['username'] = $_POST[self::$name];
+			$_SESSION['password'] = $_POST[self::$password];
+		}
+	}
+		if (isset($_POST[self::$logout])) {
+			if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
+				$this->message = 'See you next time!';
+			}
+			session_unset();
 		}
 	}
 	/**
