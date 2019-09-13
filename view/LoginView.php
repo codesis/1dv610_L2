@@ -29,10 +29,10 @@ class LoginView {
 		if ($_POST[self::$name] == 'Admin' && password_verify($_POST[self::$password], $hash)) {
 			if (!isset($_SESSION['username']) && !isset($_SESSION['password'])) {
 				$this->message = 'Welcome';
-			}
+			} 
 			$_SESSION['username'] = $_POST[self::$name];
 			$_SESSION['password'] = $_POST[self::$password];
-		}
+		} 
 	}
 		if (isset($_POST[self::$logout])) {
 			if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
