@@ -15,6 +15,9 @@ class LoginView {
 		if (isset($_POST[self::$name])) {
 			$this->message = 'Username is missing';
 		}
+		if (!empty($_POST[self::$name]) && empty($_POST[self::$password])) {
+			$this->message = 'Password is missing';
+		}
 	}
 	/**
 	 * Create HTTP response
