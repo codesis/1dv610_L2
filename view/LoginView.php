@@ -10,13 +10,16 @@ class LoginView {
 	private static $keep = 'LoginView::KeepMeLoggedIn';
 	private static $messageId = 'LoginView::Message';
 	private $message = '';
+	private $holdUsername = '';
 
 	public function login () {
-		if (isset($_POST[self::$name])) {
-			$this->message = 'Username is missing';
-		}
-		if (!empty($_POST[self::$name]) && empty($_POST[self::$password])) {
-			$this->message = 'Password is missing';
+		if (isset($_POST[self::$login])) {
+			if (empty($_POST[self::$name])) {
+				$this->message = 'Username is missing';
+			} else if (isset($_POST[self::$name])){
+				$this->holdUsername = $_POST[self::$name];
+				$this->message = 'Password is missing';
+			}
 		}
 	}
 	/**
@@ -61,7 +64,7 @@ class LoginView {
 					<p id="' . self::$messageId . '">' . $message . '</p>
 					
 					<label for="' . self::$name . '">Username :</label>
-					<input type="text" id="' . self::$name . '" name="' . self::$name . '" value="" />
+					<input type="text" id="' . self::$name . '" name="' . self::$name . '" value="' . $this->holdUsername . '" />
 
 					<label for="' . self::$password . '">Password :</label>
 					<input type="password" id="' . self::$password . '" name="' . self::$password . '" />
