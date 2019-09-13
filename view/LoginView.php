@@ -11,15 +11,24 @@ class LoginView {
 	private static $messageId = 'LoginView::Message';
 	private $message = '';
 	private $holdUsername = '';
+	private $passwordTest = '';
 
 	public function login () {
 		if (isset($_POST[self::$login])) {
 			if (empty($_POST[self::$name])) {
 				$this->message = 'Username is missing';
-			} else if (isset($_POST[self::$name])){
+			} 
+			if (isset($_POST[self::$name]) && empty($_POST[self::$password])) {
 				$this->holdUsername = $_POST[self::$name];
 				$this->message = 'Password is missing';
 			}
+			if ($this->holdUsername != 'Admin' || $this->passwordTest != 'Password') {
+				$this->holdUsername = $_POST[self::$name];
+				$this->passwordTest = '';
+				$this->message = 'Wrong name or password';
+			}
+			// if ($this->holdUsername = 'Admin' && $this->passwordTest = 'Password') {
+			// }
 		}
 	}
 	/**
@@ -67,7 +76,7 @@ class LoginView {
 					<input type="text" id="' . self::$name . '" name="' . self::$name . '" value="' . $this->holdUsername . '" />
 
 					<label for="' . self::$password . '">Password :</label>
-					<input type="password" id="' . self::$password . '" name="' . self::$password . '" />
+					<input type="password" id="' . self::$password . '" name="' . self::$password . '" value="' . $this->passwordTest . '" />
 
 					<label for="' . self::$keep . '">Keep me logged in  :</label>
 					<input type="checkbox" id="' . self::$keep . '" name="' . self::$keep . '" />
