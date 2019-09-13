@@ -12,7 +12,7 @@ class LoginView {
 	private $message = '';
 
 	public function login () {
-		if ($_POST[self::$name] == '') {
+		if (isset($_POST[self::$name])) {
 			$this->message = 'Username is missing';
 		}
 	}
