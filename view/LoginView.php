@@ -15,6 +15,7 @@ class LoginView {
 
 	public function login () {
 		$hash = password_hash('Password', PASSWORD_DEFAULT);
+		// for when user tries to log in with faults
 		if (isset($_POST[self::$login])) {
 			if (empty($_POST[self::$name])) {
 				$this->message = 'Username is missing';
@@ -35,7 +36,6 @@ class LoginView {
 				$_SESSION['message'] = $this->message = '';
 			}
 		}
-	
 			// if user chooses to be kept signed in
 		if (!empty($_POST[self::$keep]) && $_POST[self::$name] == 'Admin' && password_verify($_POST[self::$password], $hash)) {
 			setcookie(self::$cookieName, $_POST[self::$name], time() + 3600);
@@ -45,9 +45,11 @@ class LoginView {
 			$_SESSION['message'] = $this->message = 'Welcome and you will be remembered';
 
 		} 
+		// if user returns to page while cookie is alive but prev session is not
 		if (isset($_COOKIE[self::$cookieName]) && !isset($_COOKIE['PHPSESSID'])) {
 			$_SESSION['message'] = $this->message = 'Welcome back with cookie';
-		} else if (isset($_COOKIE[self::$cookieName]) && isset($_COOKIE['PHPSESSID'])) {
+		} 
+		if (isset($_COOKIE[self::$cookieName]) && isset($_COOKIE['PHPSESSID'])) {
 			$_SESSION['message'] = $this->message = '';
 
 		}
