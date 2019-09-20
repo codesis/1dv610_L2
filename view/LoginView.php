@@ -26,19 +26,7 @@ class LoginView {
 				$this->passwordTest = '';
 				$this->message = 'Wrong name or password';
 			} 	
-		if (isset($_POST[self::$keep]) && $_POST[self::$name] == 'Admin' && password_verify($_POST[self::$password], $hash)) {
-			setcookie(self::$cookieName, $_POST[self::$name], time() + (86400 * 30), "/");
-			setcookie(self::$cookiePassword, $hash, time() + (86400 * 30), "/");
-			if (!isset($_SESSION['username']) && !isset($_SESSION['password'])) {
-				$this->message = 'Welcome and you will be remembered';
-				$_SESSION['username'] = $_POST[self::$name];
-				$_SESSION['password'] = $_POST[self::$password];	
-		}
-		else {
-			$_SESSION['message'] = $this->message = '';
-		}
-	} 
-		else if ($_POST[self::$name] == 'Admin' && password_verify($_POST[self::$password], $hash)) {
+		if ($_POST[self::$name] == 'Admin' && password_verify($_POST[self::$password], $hash)) {
 			if (!isset($_SESSION['username']) && !isset($_SESSION['password'])) {
 				$this->message = 'Welcome';
 				$_SESSION['username'] = $_POST[self::$name];
@@ -47,12 +35,33 @@ class LoginView {
 				$_SESSION['message'] = $this->message = '';
 			}
 		}
+	
+			// if user chooses to be kept signed in
+		if (!empty($_POST[self::$keep]) && $_POST[self::$name] == 'Admin' && password_verify($_POST[self::$password], $hash)) {
+			setcookie(self::$cookieName, $_POST[self::$name], time() + 3600);
+			setcookie(self::$cookiePassword, $hash, time() + 3600);
+			$_SESSION['username'] = $_POST[self::$name];
+			$_SESSION['password'] = $_POST[self::$password];		
+			$_SESSION['message'] = $this->message = 'Welcome and you will be remembered';
+
+		// }
+		// else if (isset($_COOKIE[self::$cookieName]) && isset($_COOKIE['PHPSESSID'])) {
+		// 	$_SESSION['message'] = $this->message = '';
+		} 
+		if (isset($_COOKIE[self::$cookieName]) && !isset($_COOKIE['PHPSESSID'])) {
+			$_SESSION['message'] = $this->message = 'Welcome back with cookie';
+		} else if (isset($_COOKIE[self::$cookieName]) && isset($_COOKIE['PHPSESSID'])) {
+			$_SESSION['message'] = $this->message = '';
+
+		}
 	}
 		if (isset($_POST[self::$logout])) {
 			if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
 				$this->message = 'Bye bye!';
 			}
 			session_unset();
+			setcookie(self::$cookieName, self::$name, time() - 3600);
+			setcookie(self::$cookiePassword, $hash, time() - 3600);
 		}
 	}
 	/**
