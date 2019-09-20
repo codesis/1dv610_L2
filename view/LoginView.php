@@ -26,12 +26,15 @@ class LoginView {
 				$this->passwordTest = '';
 				$this->message = 'Wrong name or password';
 			}
+			$this->message = '';
 		if ($_POST[self::$name] == 'Admin' && password_verify($_POST[self::$password], $hash)) {
 			if (!isset($_SESSION['username']) && !isset($_SESSION['password'])) {
 				$this->message = 'Welcome';
-			} 
+			}
+			
 			$_SESSION['username'] = $_POST[self::$name];
 			$_SESSION['password'] = $_POST[self::$password];
+			// $_SESSION['message'] = $_POST[$this->message];
 		} 
 	}
 		if (isset($_POST[self::$logout])) {
