@@ -25,15 +25,27 @@ class LoginView {
 				$this->holdUsername = $_POST[self::$name];
 				$this->passwordTest = '';
 				$this->message = 'Wrong name or password';
-			} 
-		if ($_POST[self::$name] == 'Admin' && password_verify($_POST[self::$password], $hash)) {
+			} 	
+		if (isset($_POST[self::$keep]) && $_POST[self::$name] == 'Admin' && password_verify($_POST[self::$password], $hash)) {
+			setcookie(self::$cookieName, $_POST[self::$name], time() + (86400 * 30), "/");
+			setcookie(self::$cookiePassword, $hash, time() + (86400 * 30), "/");
+			if (!isset($_SESSION['username']) && !isset($_SESSION['password'])) {
+				$this->message = 'Welcome and you will be remembered';
+				$_SESSION['username'] = $_POST[self::$name];
+				$_SESSION['password'] = $_POST[self::$password];	
+		}
+		else {
+			$_SESSION['message'] = $this->message = '';
+		}
+	} 
+		else if ($_POST[self::$name] == 'Admin' && password_verify($_POST[self::$password], $hash)) {
 			if (!isset($_SESSION['username']) && !isset($_SESSION['password'])) {
 				$this->message = 'Welcome';
+				$_SESSION['username'] = $_POST[self::$name];
+				$_SESSION['password'] = $_POST[self::$password];	
 			} else {
 				$_SESSION['message'] = $this->message = '';
 			}
-			$_SESSION['username'] = $_POST[self::$name];
-			$_SESSION['password'] = $_POST[self::$password];
 		}
 	}
 		if (isset($_POST[self::$logout])) {
