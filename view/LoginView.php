@@ -53,9 +53,9 @@ class LoginView {
 		if (isset($_COOKIE[self::$cookieName]) && !isset($_COOKIE['PHPSESSID'])) {
 			$_SESSION['message'] = $this->message = 'Welcome back with cookie';
 		} 
-		// if (isset($_COOKIE[self::$cookieName]) && isset($_COOKIE['PHPSESSID'])) {
-		// 	$_SESSION['message'] = $this->message = '';
-		// }
+		if (isset($_COOKIE[self::$cookieName]) && isset($_COOKIE['PHPSESSID'])) {
+			$_SESSION['message'] = $this->message = '';
+		}
 	}
 	// if user chooses to log out
 		if (isset($_POST[self::$logout])) {
