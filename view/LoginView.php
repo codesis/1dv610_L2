@@ -32,7 +32,7 @@ class LoginView {
 				$_SESSION['username'] = $_POST[self::$name];
 				$_SESSION['password'] = $_POST[self::$password];	
 			} else {
-				$this->message = '';
+				$_SESSION['message'] = $this->message = '';
 			}
 		}
 	
@@ -42,13 +42,13 @@ class LoginView {
 			setcookie(self::$cookiePassword, $hash, time() + 3600);
 			$_SESSION['username'] = $_POST[self::$name];
 			$_SESSION['password'] = $_POST[self::$password];		
-			$this->message = 'Welcome and you will be remembered';
+			$_SESSION['message'] = $this->message = 'Welcome and you will be remembered';
 
 		} 
 		if (isset($_COOKIE[self::$cookieName]) && !isset($_COOKIE['PHPSESSID'])) {
-			$this->message = 'Welcome back with cookie';
+			$_SESSION['message'] = $this->message = 'Welcome back with cookie';
 		} else if (isset($_COOKIE[self::$cookieName]) && isset($_COOKIE['PHPSESSID'])) {
-			$this->message = '';
+			$_SESSION['message'] = $this->message = '';
 
 		}
 	}
