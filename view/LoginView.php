@@ -38,7 +38,7 @@ class LoginView {
 	}
 		if (isset($_POST[self::$logout])) {
 			if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
-				$this->message = 'See you next time!';
+				$this->message = 'Bye bye!';
 			}
 			session_unset();
 		}
