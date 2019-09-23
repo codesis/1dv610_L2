@@ -91,9 +91,6 @@ class LoginView {
 			setcookie(self::$cookiePassword, $this->hash, time() - 3600);
 			$this->message = 'Bye bye!';
 		} 
-		if (!isset($_SESSION['username'])) {
-			$this->message = '';
-		}
 	}
 	/**
 	 * Create cookie and new message
