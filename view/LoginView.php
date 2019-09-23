@@ -39,7 +39,7 @@ class LoginView {
 		}
 	    if (isset($_POST[self::$logout])) {
 		$this->logOut();
-	    }
+	    } 
 	}
 	/**
 	 * Feedback changes depending on which credential is wrong
@@ -85,10 +85,12 @@ class LoginView {
 	 * Should be called when user clicks log out
 	 */
 	private function logOut () {
-		session_unset();
-		setcookie(self::$cookieName, self::$name, time() - 3600);
-		setcookie(self::$cookiePassword, $this->hash, time() - 3600);
-		$this->message = 'Bye bye!';
+		if (isset($_SESSION['username'])) {
+			session_unset();
+			setcookie(self::$cookieName, self::$name, time() - 3600);
+			setcookie(self::$cookiePassword, $this->hash, time() - 3600);
+			$this->message = 'Bye bye!';
+		}
 	}
 	/**
 	 * Create cookie and new message
