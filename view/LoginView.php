@@ -86,11 +86,11 @@ class LoginView {
 	 */
 	private function logOut () {
 		if (isset($_SESSION['username'])) {
-			session_unset();
-			setcookie(self::$cookieName, self::$name, time() - 3600);
-			setcookie(self::$cookiePassword, $this->hash, time() - 3600);
 			$this->message = 'Bye bye!';
 		} 
+		session_unset();
+		setcookie(self::$cookieName, self::$name, time() - 3600);
+		setcookie(self::$cookiePassword, $this->hash, time() - 3600);
 	}
 	/**
 	 * Create cookie and new message
