@@ -85,7 +85,7 @@ class LoginView {
 	 * Should be called when user clicks log out
 	 */
 	private function logOut () {
-		if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
+		if (isset($_SESSION['username'])) {
 			session_unset();
 			setcookie(self::$cookieName, self::$name, time() - 3600);
 			setcookie(self::$cookiePassword, $this->hash, time() - 3600);
