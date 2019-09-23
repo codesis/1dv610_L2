@@ -32,10 +32,11 @@ class LoginView {
 			}
 		}
 		if (isset($_COOKIE[self::$cookieName]) && isset($_COOKIE[self::$cookiePassword])) {
-			if (!isset($_SESSION['username'])) {
+			if (!isset($_SESSION['username']) && !isset($_SESSION['password'])) {
 				$this->message = 'Welcome back with cookie';
 			}
 			$_SESSION['username'] = $_COOKIE[self::$cookieName];
+			$_SESSION['password'] = $_COOKIE[self::$cookiePassword];
 		}
 	    if (isset($_POST[self::$logout])) {
 		$this->logOut();
