@@ -29,7 +29,7 @@ class LoginView {
 	public function login () {
 		$this->hash = password_hash('Password', PASSWORD_DEFAULT);
 		if (!isset($_SESSION['initiated'])) {
-			session_regenerate_id();
+			session_regenerate_id(TRUE);
 			$_SESSION['initiated'] = TRUE;
 		}			
 		// for when user tries to log in with faults
