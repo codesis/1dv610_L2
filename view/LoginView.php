@@ -56,7 +56,7 @@ class LoginView {
 			$this->holdUsername = $_POST[self::$name];
 			$this->passwordTest = '';
 			$this->message = 'Wrong name or password';
-		} 	
+		} 
 	}
 	/**
 	 * Sets session variable username to signed in username
@@ -85,13 +85,14 @@ class LoginView {
 	 * Should be called when user clicks log out
 	 */
 	private function logOut () {
-		$this->message = '';
 		if (isset($_SESSION['username'])) {
 			session_unset();
 			setcookie(self::$cookieName, self::$name, time() - 3600);
 			setcookie(self::$cookiePassword, $this->hash, time() - 3600);
 			$this->message = 'Bye bye!';
-		} 
+		} else if (!isset($_SESSION['username'])) {
+			$this->message = '';
+		}
 	}
 	/**
 	 * Create cookie and new message
