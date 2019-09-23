@@ -67,8 +67,6 @@ class LoginView {
 	private function verifiedLoginCredentials () {
 		if (!isset($_SESSION['username'])) {
 			$this->message = 'Welcome';
-			$_SESSION['username'] = $_POST[self::$name];
-			$_SESSION['password'] = $_POST[self::$password];		
 		} else {
 			$this->message = '';
 		}
@@ -76,6 +74,8 @@ class LoginView {
 			$this->keepMeLoggedIn();
 			$this->message = 'Welcome and you will be remembered';
 		}
+		$_SESSION['username'] = $_POST[self::$name];
+		$_SESSION['password'] = $_POST[self::$password];		
 	}
 	/**
 	 * Unsets the session
@@ -85,11 +85,9 @@ class LoginView {
 	 * Should be called when user clicks log out
 	 */
 	private function logOut () {
-		if (isset($_SESSION['username'])) {
+		if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
 			$this->message = 'Bye bye!';
-		} else {
-			$this->message = '';
-		}
+		} 
 		session_unset();
 		setcookie(self::$cookieName, self::$name, time() - 3600);
 		setcookie(self::$cookiePassword, $this->hash, time() - 3600);
