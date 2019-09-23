@@ -19,7 +19,7 @@ $lv = new LayoutView();
 session_start();
 
 $v->login();
-if (isset($_SESSION['username']) || isset($_COOKIE['LoginView::CookieName'])) {
+if (isset($_SESSION['username'])) {
         $lv->render(true, $v, $dtv);
     } else {
         $lv->render(false, $v, $dtv);
