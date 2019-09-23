@@ -29,7 +29,7 @@ class LoginView {
 		    }
 		    if (isset($_COOKIE[self::$cookieName]) && isset($_COOKIE['PHPSESSID'])) {
 			$this->message = '';
-		    }
+			}
 		}
 		if (isset($_COOKIE[self::$cookieName]) && isset($_COOKIE[self::$cookiePassword])) {
 			if (!isset($_SESSION['username'])) {
@@ -65,17 +65,16 @@ class LoginView {
 	 * Should be called when user signs in with verified login credentials
 	 */
 	private function verifiedLoginCredentials () {
-		if (!isset($_SESSION['username']) && !isset($_SESSION['password'])) {
+		if (!isset($_SESSION['username'])) {
 			$this->message = 'Welcome';
 			$_SESSION['username'] = $_POST[self::$name];
 			$_SESSION['password'] = $_POST[self::$password];		
-		} 
+		} else {
+			$this->message = '';
+		}
 		if (!empty($_POST[self::$keep])) {
 			$this->keepMeLoggedIn();
 			$this->message = 'Welcome and you will be remembered';
-		}
-		else {
-			$this->message = '';
 		}
 	}
 	/**
