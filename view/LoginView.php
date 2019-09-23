@@ -3,6 +3,14 @@
  * class @LoginView
  * methods;
  * @login
+ * @faultyLoginCredentials
+ * @verifiedLoginCredentials
+ * @returnWithCookies
+ * @logOut
+ * @keepMeLoggedIn
+ * @response
+ * @generateLogoutButtonHTML
+ * @generateLoginFormHTML
  */
 class LoginView {
 	private static $login = 'LoginView::Login';
@@ -31,12 +39,11 @@ class LoginView {
 			$this->message = '';
 			}
 		}
+		
 		if (isset($_COOKIE[self::$cookieName]) && isset($_COOKIE[self::$cookiePassword])) {
-			if (!isset($_SESSION['username'])) {
-				$this->message = 'Welcome back with cookie';
-			}
-			$_SESSION['username'] = $_COOKIE[self::$cookieName];
+			$this->returnWithCookies();
 		}
+
 	    if (isset($_POST[self::$logout])) {
 		$this->logOut();
 	    } 
@@ -75,6 +82,25 @@ class LoginView {
 			$this->message = 'Welcome and you will be remembered';
 		}
 		$_SESSION['username'] = $_POST[self::$name];
+	}
+	/**
+	 * Checks wether cookies data is correct or faulty
+	 * Kills cookies if cookie data is uncorrect or faulty
+	 * 
+	 * Should be called upon returning to page with cookie data
+	 */
+	private function returnWithCookies () {
+		if ($_COOKIE[self::$cookieName] == 'Admin' && password_verify('Password', $_COOKIE[self::$cookiePassword])) {
+			if (!isset($_SESSION['username'])) {
+				$this->message = 'Welcome back with cookie';
+			}
+			$_SESSION['username'] = $_COOKIE[self::$cookieName];
+		} 
+		else {
+			$this->message = 'Wrong information in cookies';
+			setcookie(self::$cookieName, '', time() - 3600);
+			setcookie(self::$cookiePassword, '', time() -3600);
+		}	
 	}
 	/**
 	 * Unsets the session
