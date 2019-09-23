@@ -32,11 +32,10 @@ class LoginView {
 			}
 		}
 		if (isset($_COOKIE[self::$cookieName]) && isset($_COOKIE[self::$cookiePassword])) {
-			if (!isset($_SESSION['username']) && !isset($_SESSION['password'])) {
+			if (!isset($_SESSION['username'])) {
 				$this->message = 'Welcome back with cookie';
 			}
 			$_SESSION['username'] = $_COOKIE[self::$cookieName];
-			$_SESSION['password'] = $_COOKIE[self::$cookiePassword];
 		}
 	    if (isset($_POST[self::$logout])) {
 		$this->logOut();
@@ -76,7 +75,6 @@ class LoginView {
 			$this->message = 'Welcome and you will be remembered';
 		}
 		$_SESSION['username'] = $_POST[self::$name];
-		$_SESSION['password'] = $_POST[self::$password];		
 	}
 	/**
 	 * Unsets the session
@@ -86,7 +84,7 @@ class LoginView {
 	 * Should be called when user clicks log out
 	 */
 	private function logOut () {
-		if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
+		if (isset($_SESSION['username'])) {
 			$this->message = 'Bye bye!';
 		} 
 		session_unset();
