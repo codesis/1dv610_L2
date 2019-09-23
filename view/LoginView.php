@@ -26,8 +26,6 @@ class LoginView {
 		    // when user logs in with or without keep my logged in checked
 		    if ($_POST[self::$name] == 'Admin' && password_verify($_POST[self::$password], $this->hash)) {
 			$this->verifiedLoginCredentials();
-			$_SESSION['username'] = $_POST[self::$name];
-			$_SESSION['password'] = $_POST[self::$password];		
 		    }
 		    if (isset($_COOKIE[self::$cookieName]) && isset($_COOKIE['PHPSESSID'])) {
 			$this->message = '';
@@ -69,6 +67,8 @@ class LoginView {
 	private function verifiedLoginCredentials () {
 		if (!isset($_SESSION['username'])) {
 			$this->message = 'Welcome';
+			$_SESSION['username'] = $_POST[self::$name];
+			$_SESSION['password'] = $_POST[self::$password];		
 		} else {
 			$this->message = '';
 		}
@@ -87,7 +87,9 @@ class LoginView {
 	private function logOut () {
 		if (isset($_SESSION['username'])) {
 			$this->message = 'Bye bye!';
-		} 
+		} else {
+			$this->message = '';
+		}
 		session_unset();
 		setcookie(self::$cookieName, self::$name, time() - 3600);
 		setcookie(self::$cookiePassword, $this->hash, time() - 3600);
