@@ -28,6 +28,11 @@ class LoginView {
 
 	public function login () {
 		$this->hash = password_hash('Password', PASSWORD_DEFAULT);
+		if (!isset($_SESSION['initiated']) && isset($_SESSION['username'])) {
+			session_regenerate_id();
+			$_SESSION['initiated'] = TRUE;
+			session_unset();
+		}			
 		// for when user tries to log in with faults
 		if (isset($_POST[self::$login])) {
 			$this->faultyLoginCredentials();
