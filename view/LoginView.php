@@ -16,9 +16,10 @@ class LoginView {
 	private $message = '';
 	private $holdUsername = '';
 	private $passwordTest = '';
+	private $hash = '';
 
 	public function login () {
-		$hash = password_hash('Password', PASSWORD_DEFAULT);
+		$this->hash = password_hash('Password', PASSWORD_DEFAULT);
 		// for when user tries to log in with faults
 		if (isset($_POST[self::$login])) {
 			if (empty($_POST[self::$name])) {
@@ -31,31 +32,27 @@ class LoginView {
 				$this->passwordTest = '';
 				$this->message = 'Wrong name or password';
 			} 	
-		if ($_POST[self::$name] == 'Admin' && password_verify($_POST[self::$password], $hash)) {
+		if ($_POST[self::$name] == 'Admin' && password_verify($_POST[self::$password], $this->hash)) {
 			if (!isset($_SESSION['username']) && !isset($_SESSION['password'])) {
 				$this->message = 'Welcome';
 				$_SESSION['username'] = $_POST[self::$name];
-				$_SESSION['password'] = $_POST[self::$password];	
+				$_SESSION['password'] = $_POST[self::$password];		
 			} else {
 				$_SESSION['message'] = $this->message = '';
 			}
 		}
-			// if user chooses to be kept signed in
-		if (!empty($_POST[self::$keep]) && $_POST[self::$name] == 'Admin' && password_verify($_POST[self::$password], $hash)) {
-			setcookie(self::$cookieName, $_POST[self::$name], time() + 3600);
-			setcookie(self::$cookiePassword, $hash, time() + 3600);
-			$_SESSION['username'] = $_POST[self::$name];
-			$_SESSION['password'] = $_POST[self::$password];		
-			$_SESSION['message'] = $this->message = 'Welcome and you will be remembered';
-
-		} 
+		// if user chooses to be kept signed in
+		if (!empty($_POST[self::$keep]) && $_POST[self::$name] == 'Admin' && password_verify($_POST[self::$password], $this->hash)) {
+			$this->keepMeLoggedIn();
+		}
 		// if user returns to page while cookie is alive but prev session is not
-		if (isset($_COOKIE[self::$cookieName]) && !isset($_COOKIE['PHPSESSID'])) {
-			$_SESSION['message'] = $this->message = 'Welcome back with cookie';
-		} 
+		 
 		if (isset($_COOKIE[self::$cookieName]) && isset($_COOKIE['PHPSESSID'])) {
 			$_SESSION['message'] = $this->message = '';
 		}
+	}
+	if (isset($_COOKIE[self::$cookieName]) && !isset($_COOKIE['PHPSESSID'])) {
+		$_SESSION['message'] = $this->message = 'Welcome back with cookie';
 	}
 	// if user chooses to log out
 		if (isset($_POST[self::$logout])) {
@@ -64,8 +61,20 @@ class LoginView {
 			}
 			session_unset();
 			setcookie(self::$cookieName, self::$name, time() - 3600);
-			setcookie(self::$cookiePassword, $hash, time() - 3600);
+			setcookie(self::$cookiePassword, $this->hash, time() - 3600);
 		}
+	}
+	/**
+	 * Create cookie and new message
+	 * 
+	 * Should be called after a login attempt has med determined with Keep me logged in checked
+	 */
+	public function keepMeLoggedIn () {
+			setcookie(self::$cookieName, $_POST[self::$name], time() + 3600);
+			setcookie(self::$cookiePassword, $this->hash, time() + 3600);
+			$_SESSION['username'] = $_POST[self::$name];
+			$_SESSION['password'] = $_POST[self::$password];
+			$_SESSION['message'] = $this->message = 'Welcome and you will be remembered';
 	}
 	/**
 	 * Create HTTP response
@@ -75,7 +84,7 @@ class LoginView {
 	 * @return  void BUT writes to standard output and cookies!
 	 */
 	public function response() {
-		if(isset($_SESSION['username'])) {
+		if(isset($_SESSION['username']) || isset($_COOKIE[self::$cookieName])) {
 			return $this->generateLogoutButtonHTML($this->message);
 		} else {
 			return $this->generateLoginFormHTML($this->message);
@@ -124,8 +133,8 @@ class LoginView {
 	}
 	
 	//CREATE GET-FUNCTIONS TO FETCH REQUEST VARIABLES
-	private function getRequestUserName() {
-		//RETURN REQUEST VARIABLE: USERNAME
+	public function getCookieBool() {
+		return $this->cookieSetBool;
 	}
 	
 }

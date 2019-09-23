@@ -32,3 +32,12 @@ class LayoutView {
     }
   }
 }
+
+//   private function renderRegister($onRegisterPage) {
+//     if ($onRegisterPage) {
+//       return '<a href="/">Back to login</a>';
+//     } else {
+//       return '<a href="/register">Register a new user</a>';
+//     }
+//   }
+// }

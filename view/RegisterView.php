@@ -1,7 +1,7 @@
 <?php
 
 // upcoming for the registration page
-class Register {
+class RegisterView {
 
 	/**
 	* Generate HTML code for register page
