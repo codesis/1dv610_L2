@@ -21,7 +21,7 @@ ini_set('session.cookie_httponly', 1);
 ini_set('session.use_only_cookies', 1);
 session_start();
 $params = session_get_cookie_params();
-setcookie('PHPSESSID', session_id(), 0, $params['path'], $params['domain'], true, true);
+setcookie('PHPSESSID', session_id(), 0, $params['path'], 'samesite=strict', true, true);
 
 $v->login();
 if (isset($_SESSION['username'])) {
