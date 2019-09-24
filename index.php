@@ -20,7 +20,6 @@ ini_set('session.cookie_secure', 1);
 ini_set('session.cookie_httponly', 1);
 ini_set('session.use_only_cookies', 1);
 session_start();
-setcookie('PHPSESSID', '', 0, 'samesite=strict');
 
 $v->login();
 if (isset($_SESSION['username'])) {
