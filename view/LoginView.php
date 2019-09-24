@@ -28,11 +28,7 @@ class LoginView {
 
 	public function login () {
 		$this->hash = password_hash('Password', PASSWORD_DEFAULT);
-		if (!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] != 'on') {
-			header('Location: https://' . $_SERVER['HTTPS_HOST'] . $_SERVER['REQUEST_URI'], true, 301);
-
-			exit;
-		}			
+				
 		// for when user tries to log in with faults
 		if (isset($_POST[self::$login])) {
 			$this->faultyLoginCredentials();
