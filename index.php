@@ -16,6 +16,7 @@ $v = new LoginView();
 $dtv = new DateTimeView();
 $lv = new LayoutView();
 
+ini_set('session.cookie_httponly', 1);
 session_start();
 
 $v->login();

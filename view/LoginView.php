@@ -28,7 +28,6 @@ class LoginView {
 
 	public function login () {
 		$this->hash = password_hash('Password', PASSWORD_DEFAULT);
-		// setcookie('PHPSESSID', '', time() + 3600, true);
 		// for when user tries to log in with faults
 		if (isset($_POST[self::$login])) {
 			$this->faultyLoginCredentials();
