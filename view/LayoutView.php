@@ -5,7 +5,6 @@ class LayoutView {
   public function render($isLoggedIn, LoginView $v, DateTimeView $dtv) {
     echo '<!DOCTYPE html>
       <html>
-      <link rel="icon" href="data:;base64,iVBORw0KGgo=">
         <head>
           <meta charset="utf-8">
           <title>Login Example</title>
