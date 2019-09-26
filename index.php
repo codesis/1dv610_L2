@@ -17,6 +17,14 @@ $dtv = new DateTimeView();
 $lv = new LayoutView();
 
 session_start();
+if (isset($_SESSION['HTTP_USER_AGENT'])) {
+    if ($_SESSION['HTTP_USER_AGENT'] != md5($_SERVER['HTTP_USER_AGENT'])) {
+      session_unset();
+    }
+  } else {
+    $_SESSION['HTTP_USER_AGENT'] = md5($_SERVER['HTTP_USER_AGENT']);
+  }
+  
 
 $v->login();
 if (isset($_SESSION['username'])) {
@@ -24,6 +32,4 @@ if (isset($_SESSION['username'])) {
     } else {
     $lv->render(false, $v, $dtv, $r);
 }
-if (isset($_POST['logout'])) {
-    session_unset();
-}
+

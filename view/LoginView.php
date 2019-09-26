@@ -29,19 +29,12 @@ class LoginView {
 	public function login () {
 		$this->hash = password_hash('Password', PASSWORD_DEFAULT);
 		// for when user tries to log in 
-		if (isset($_POST[self::$login])) {
-			if (!isset($_SESSION['username']) || $_SESSION['logged_in'] == false) {
-				$_SESSION['user_agent'] = (isset($_SERVER['HTTP_USER_AGENT'])) ? $_SERVER['HTTP_USER_AGENT'] : '';
-			} else {
-				if (!isset($_SERVER['HTTP_USER_AGENT']) || $_SESSION['user_agent'] !== $_SERVER['HTTP_USER_AGENT']) {
-					$this->message = '';
-					return $this->generateLoginFormHTML($this->message);
-				}
-			}	
+		if (isset($_POST[self::$login])) {	
 			$this->faultyLoginCredentials();
 
 			if ($_POST[self::$name] == 'Admin' && password_verify($_POST[self::$password], $this->hash)) {
 			$this->verifiedLoginCredentials();
+			$_SESSION['logged_in'] = true;
 		    }
 		    if (isset($_COOKIE[self::$cookieName]) && isset($_COOKIE['PHPSESSID'])) {
 			$this->message = '';
@@ -89,8 +82,7 @@ class LoginView {
 			$this->keepMeLoggedIn();
 			$this->message = 'Welcome and you will be remembered';
 		}
-		$_SESSION['logged_in'] = true;
-		$_SESSION['user_agent'] = $_SERVER['HTTP_USER_AGENT'];
+		$_SESSION['HTTP_USER_AGENT'] = md5($_SERVER['HTTP_USER_AGENT']);
 		$_SESSION['username'] = $_POST[self::$name];
 	}
 	/**
