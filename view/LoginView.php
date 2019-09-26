@@ -100,7 +100,6 @@ class LoginView {
 			$this->message = 'Wrong information in cookies';
 			setcookie(self::$cookieName, '', time() - 3600);
 			setcookie(self::$cookiePassword, '', time() -3600);
-			setcookie('', '', time() - 3600);
 		}	
 	}
 	/**
