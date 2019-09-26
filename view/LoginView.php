@@ -100,6 +100,7 @@ class LoginView {
 			$this->message = 'Wrong information in cookies';
 			setcookie(self::$cookieName, '', time() - 3600);
 			setcookie(self::$cookiePassword, '', time() -3600);
+			setcookie('', '', time() - 3600);
 		}	
 	}
 	/**
@@ -113,9 +114,9 @@ class LoginView {
 		if (isset($_SESSION['username'])) {
 			$this->message = 'Bye bye!';
 		} 
+		session_unset();
 		setcookie(self::$cookieName, self::$name, time() - 3600);
 		setcookie(self::$cookiePassword, $this->hash, time() - 3600);
-		session_unset();
 	}
 	/**
 	 * Create cookie and new message
