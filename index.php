@@ -24,3 +24,6 @@ if (isset($_SESSION['username'])) {
     } else {
     $lv->render(false, $v, $dtv, $r);
 }
+if (isset($_POST['logout'])) {
+    session_unset();
+}
