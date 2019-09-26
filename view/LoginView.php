@@ -28,6 +28,13 @@ class LoginView {
 
 	public function login () {
 		$this->hash = password_hash('Password', PASSWORD_DEFAULT);
+		if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] == false) {
+			$_SESSION['user_agent'] = (isset($_SERVER['HTTP_USER_AGENT'])) ? $_SERVER['HTTP_USER_AGENT'] : '';
+		} else {
+			if (!isset($_SERVER['HTTP_USER_AGENT']) || $_SESSION['user_agent'] !== $_SERVER['HTTP_USER_AGENT']) {
+				session_unset();
+			}
+		}
 		// for when user tries to log in with faults
 		if (isset($_POST[self::$login])) {
 			$this->faultyLoginCredentials();
@@ -82,6 +89,7 @@ class LoginView {
 			$this->message = 'Welcome and you will be remembered';
 		}
 		$_SESSION['username'] = $_POST[self::$name];
+		$_SESSION['logged_in'] = true;
 	}
 	/**
 	 * Checks wether cookies data is correct or faulty
