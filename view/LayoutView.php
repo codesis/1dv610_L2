@@ -11,6 +11,7 @@ class LayoutView {
         </head>
         <body>
           <h1>Assignment 2</h1>
+          ' . $this->renderRegister() . '
           ' . $this->renderIsLoggedIn($isLoggedIn) . '
           
           <div class="container">
@@ -31,13 +32,12 @@ class LayoutView {
       return '<h2>Not logged in</h2>';
     }
   }
-}
 
-//   private function renderRegister($onRegisterPage) {
-//     if ($onRegisterPage) {
-//       return '<a href="/">Back to login</a>';
-//     } else {
-//       return '<a href="/register">Register a new user</a>';
-//     }
-//   }
-// }
+  private function renderRegister() {
+    if (isset($_GET['register'])) {
+      return '<a href="?">Back to login</a>';
+    } else {
+      return '<a href="?register">Register a new user</a>';
+    }
+  }
+}

@@ -25,3 +25,6 @@ if (isset($_SESSION['username'])) {
         $lv->render(false, $v, $dtv);
 }
 
+if (isset($_POST['LoginView::Logout'])) {
+    unset($_SESSION['username']);
+}
