@@ -28,19 +28,19 @@ class LoginView {
 
 	public function login () {
 		$this->hash = password_hash('Password', PASSWORD_DEFAULT);
-		if (!isset($_SESSION['username'])) {
-			$_SESSION['user_agent'] = (isset($_SERVER['HTTP_USER_AGENT'])) ? $_SERVER['HTTP_USER_AGENT'] : '';
-			session_regenerate_id();
-		} else {
-			if (!isset($_SERVER['HTTP_USER_AGENT']) || $_SESSION['user_agent'] !== $_SERVER['HTTP_USER_AGENT']) {
-				session_unset();
-			}
-		}
-		// for when user tries to log in with faults
+		// for when user tries to log in 
 		if (isset($_POST[self::$login])) {
+			if (!isset($_SESSION['username']) || $_SESSION['logged_in'] == false) {
+				$_SESSION['user_agent'] = (isset($_SERVER['HTTP_USER_AGENT'])) ? $_SERVER['HTTP_USER_AGENT'] : '';
+			} else {
+				if (!isset($_SERVER['HTTP_USER_AGENT']) || $_SESSION['user_agent'] !== $_SERVER['HTTP_USER_AGENT']) {
+					$this->message = '';
+					return $this->generateLoginFormHTML($this->message);
+				}
+			}	
 			$this->faultyLoginCredentials();
-		    // when user logs in with or without keep my logged in checked
-		    if ($_POST[self::$name] == 'Admin' && password_verify($_POST[self::$password], $this->hash)) {
+
+			if ($_POST[self::$name] == 'Admin' && password_verify($_POST[self::$password], $this->hash)) {
 			$this->verifiedLoginCredentials();
 		    }
 		    if (isset($_COOKIE[self::$cookieName]) && isset($_COOKIE['PHPSESSID'])) {
@@ -89,7 +89,8 @@ class LoginView {
 			$this->keepMeLoggedIn();
 			$this->message = 'Welcome and you will be remembered';
 		}
-		session_regenerate_id();
+		$_SESSION['logged_in'] = true;
+		$_SESSION['user_agent'] = $_SERVER['HTTP_USER_AGENT'];
 		$_SESSION['username'] = $_POST[self::$name];
 	}
 	/**
