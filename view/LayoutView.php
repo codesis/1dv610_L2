@@ -2,7 +2,7 @@
 
 class LayoutView {
   
-  public function render($isLoggedIn, LoginView $v, DateTimeView $dtv) {
+  public function render($isLoggedIn, LoginView $v, DateTimeView $dtv, RegisterView $r) {
     echo '<!DOCTYPE html>
       <html>
         <head>
@@ -16,6 +16,7 @@ class LayoutView {
           
           <div class="container">
               ' . $v->response() . '
+              ' . $r->response() . '
               
               ' . $dtv->show() . '
           </div>

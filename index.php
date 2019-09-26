@@ -4,7 +4,7 @@
 require_once('view/LoginView.php');
 require_once('view/DateTimeView.php');
 require_once('view/LayoutView.php');
-// require_once('view/RegisterView.php');
+require_once('view/RegisterView.php');
 
 //MAKE SURE ERRORS ARE SHOWN... MIGHT WANT TO TURN THIS OFF ON A PUBLIC SERVER
 error_reporting(E_ALL);
@@ -12,7 +12,7 @@ ini_set('display_errors', 'On');
 
 //CREATE OBJECTS OF THE VIEWS
 $v = new LoginView();
-// $r = new RegisterView();
+$r = new RegisterView();
 $dtv = new DateTimeView();
 $lv = new LayoutView();
 
@@ -20,11 +20,7 @@ session_start();
 
 $v->login();
 if (isset($_SESSION['username'])) {
-        $lv->render(true, $v, $dtv);
+    $lv->render(true, $v, $dtv, $r);
     } else {
-        $lv->render(false, $v, $dtv);
-}
-
-if (isset($_POST['LoginView::Logout'])) {
-    unset($_SESSION['username']);
+    $lv->render(false, $v, $dtv, $r);
 }

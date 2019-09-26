@@ -136,7 +136,7 @@ class LoginView {
 	public function response() {
 		if(isset($_SESSION['username'])) {
 			return $this->generateLogoutButtonHTML($this->message);
-		} else {
+		} else if (!isset($_GET['register'])){
 			return $this->generateLoginFormHTML($this->message);
 		}
 	}
