@@ -24,16 +24,20 @@ class RegisterView {
 	private function faultyRegisterCredentials () {
 		if (empty($_POST[self::$name]) && empty($_POST[self::$password]) && empty($_POST[self::$passwordRepeat])) {
 			$this->message = 'Username has too few characters, at least 3 characters. Password has too few characters, at least 6 characters.';
-		} else if (strlen($_POST[self::$name]) >= 3 && (empty($_POST[self::$password]) || strlen($_POST[self::$password]) <=5) && $_POST[self::$password] === $_POST[self::$passwordRepeat]) {
+		} 
+		if (strlen($_POST[self::$name]) >= 3 && (empty($_POST[self::$password]) || strlen($_POST[self::$password]) <=5) && $_POST[self::$password] === $_POST[self::$passwordRepeat]) {
 			$this->holdUsername = $_POST[self::$name];
 			$this->message = 'Password has too few characters, at least 6 characters.';
-		} else if (strlen($_POST[self::$name]) <= 2 && strlen($_POST[self::$password] >= 6) && $_POST[self::$password] === $_POST[self::$passwordRepeat]) {
+		} 
+		if (strlen($_POST[self::$name]) <= 2 && strlen($_POST[self::$password] >= 6) && $_POST[self::$password] === $_POST[self::$passwordRepeat]) {
 			$this->holdUsername = $_POST[self::$name];
 			$this->message = 'Username has too few characters, at least 3 characters.';
-		} else if (strlen($_POST[self::$name]) >= 3 && strlen($_POST[self::$password]) >= 6 && $_POST[self::$password] != $_POST[self::$passwordRepeat]) {
+		} 
+		if (strlen($_POST[self::$name]) >= 3 && strlen($_POST[self::$password]) >= 6 && $_POST[self::$password] != $_POST[self::$passwordRepeat]) {
 			$this->holdUsername = $_POST[self::$name];
 			$this->message = 'Passwords do not match.';
-		} else if ($_POST[self::$name] === 'Admin' && strlen($_POST[self::$password] >= 6) && $_POST[self::$password] === $_POST[self::$passwordRepeat]) {
+		} 
+		if ($_POST[self::$name] === 'Admin' && strlen($_POST[self::$password] >= 6) && $_POST[self::$password] === $_POST[self::$passwordRepeat]) {
 			$this->holdUsername = $_POST[self::$name];
 			$this->message = 'User exists, pick another username.';
 		} 
