@@ -88,6 +88,7 @@ class LoginView {
 			$this->keepMeLoggedIn();
 			$this->message = 'Welcome and you will be remembered';
 		}
+		session_regenerate_id();
 		$_SESSION['username'] = $_POST[self::$name];
 		$_SESSION['logged_in'] = true;
 	}
