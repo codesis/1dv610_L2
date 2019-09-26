@@ -30,6 +30,7 @@ class LoginView {
 		$this->hash = password_hash('Password', PASSWORD_DEFAULT);
 		if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] == false) {
 			$_SESSION['user_agent'] = (isset($_SERVER['HTTP_USER_AGENT'])) ? $_SERVER['HTTP_USER_AGENT'] : '';
+			session_regenerate_id();
 		} else {
 			if (!isset($_SERVER['HTTP_USER_AGENT']) || $_SESSION['user_agent'] !== $_SERVER['HTTP_USER_AGENT']) {
 				session_unset();
