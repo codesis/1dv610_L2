@@ -28,7 +28,7 @@ class LoginView {
 
 	public function login () {
 		$this->hash = password_hash('Password', PASSWORD_DEFAULT);
-		if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] == false) {
+		if (!isset($_SESSION['username'])) {
 			$_SESSION['user_agent'] = (isset($_SERVER['HTTP_USER_AGENT'])) ? $_SERVER['HTTP_USER_AGENT'] : '';
 			session_regenerate_id();
 		} else {
@@ -91,7 +91,6 @@ class LoginView {
 		}
 		session_regenerate_id();
 		$_SESSION['username'] = $_POST[self::$name];
-		$_SESSION['logged_in'] = true;
 	}
 	/**
 	 * Checks wether cookies data is correct or faulty
