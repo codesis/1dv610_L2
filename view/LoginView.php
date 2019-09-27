@@ -1,4 +1,5 @@
 <?php
+require_once('RegisterView.php');
 /**
  * class @LoginView
  * methods;
@@ -21,19 +22,19 @@ class LoginView {
 	private static $cookiePassword = 'LoginView::CookiePassword';
 	private static $keep = 'LoginView::KeepMeLoggedIn';
 	private static $messageId = 'LoginView::Message';
-	private $takenUsernameArray = array('Admin');
 	private $message = '';
 	private $holdUsername = '';
 	private $passwordTest = '';
 	private $hash = '';
 
 	public function login () {
+		$RegisterView = new RegisterView();
 		$this->hash = password_hash('Password', PASSWORD_DEFAULT);
 		// for when user tries to log in 
 		if (isset($_POST[self::$login])) {	
 			$this->faultyLoginCredentials();
 
-			if (in_array($_POST[self::$name], $this->takenUsernameArray) && password_verify($_POST[self::$password], $this->hash)) {
+			if (in_array($_POST[self::$name], $RegisterView->getRegisteredUsers()) && password_verify($_POST[self::$password], $this->hash)) {
 			$this->verifiedLoginCredentials();
 			$_SESSION['logged_in'] = true;
 		    }

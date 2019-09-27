@@ -62,9 +62,8 @@ class RegisterView {
 	 */
 	private function verifiedRegisterCredentials () {
 	}
-	private function newUserCreated ($username, $password) {
-		self::$name = $username;
-		self::$password = $password;
+	public function getRegisteredUsers () {
+		return $this->takenUsernameArray;
 	}
 
 
