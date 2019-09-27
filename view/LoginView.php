@@ -29,11 +29,13 @@ class LoginView {
 
 	public function login () {
 		$RegisterView = new RegisterView();
+		$takenUsernames = $RegisterView->getRegisteredUsers();
 		$this->hash = password_hash('Password', PASSWORD_DEFAULT);
 		if (isset($_SESSION['newuser'])) {
-			self::$name = $_SESSION['newuser'];
+			$this->holdUsername = $_SESSION['newuser'];
+			array_push($takenUsernames, $this->holdUsername);
 			$this->message = 'Registered new user.';
-		}
+		} 
 
 		// for when user tries to log in 
 		if (isset($_POST[self::$login])) {	
@@ -79,8 +81,6 @@ class LoginView {
 	 * Should be called when user signs in with verified login credentials
 	 */
 	private function verifiedLoginCredentials () {
-		session_regenerate_id(true);
-		// $_SESSION['id'] = $id;
 		if (!isset($_SESSION['username'])) {
 			$this->message = 'Welcome';
 		} else {

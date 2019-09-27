@@ -10,8 +10,8 @@ class RegisterView {
 	private static $messageId = 'RegisterView::Message';
 	private $message = '';
 	private $holdUsername = '';
-	private $takenUsernameArray = array('Admin');
-
+    private $takenUsernameArray = array('Admin');
+    
 	/**
 	 * Called when a register attempt is made
 	 * 
@@ -22,9 +22,10 @@ class RegisterView {
 			$this->faultyRegisterCredentials();
 			
 			if (strlen($_POST[self::$name]) >= 3 && !in_array($_POST[self::$name], $this->takenUsernameArray) && strlen($_POST[self::$password]) >= 6 && $_POST[self::$password] === $_POST[self::$passwordRepeat]) {
-                array_push($this->takenUsernameArray, $_POST[self::$name]);
+                $newusername = $_POST[self::$name];
+                array_push($this->takenUsernameArray, $newusername);
                 $_SESSION['newuser'] = $_POST[self::$name];
-				header('Location: ?');
+                header('Location: ?');
 			}
 		}
 	}
@@ -64,7 +65,11 @@ class RegisterView {
 	 * Called when valid registration is made
 	 */
 	private function verifiedRegisterCredentials () {
-	}
+    }
+    private function setRegisteredUsers ($takenUsernameArray, $newusername) {
+        array_push($takenUsernameArray, $new);
+        $this->takenUsernameArray = $takenUsernameArray;
+    }
 	/**
 	 * Returns takenUsernameArray
 	 */
