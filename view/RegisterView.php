@@ -21,6 +21,11 @@ class RegisterView {
 			$this->faultyRegisterCredentials();
 		}
 	}
+	/**
+	 * Feedback changes depending on which faulty credential
+	 * 
+	 * Should be called when a register attempt is made
+	 */
 	private function faultyRegisterCredentials () {
 		if (empty($_POST[self::$name]) && empty($_POST[self::$password]) && empty($_POST[self::$passwordRepeat])) {
 			$this->message = 'Username has too few characters, at least 3 characters. Password has too few characters, at least 6 characters.';
@@ -41,14 +46,26 @@ class RegisterView {
 			$this->holdUsername = $_POST[self::$name];
 			$this->message = 'User exists, pick another username.';
 		} 
+		if ($_POST[self::$name] != strip_tags($_POST[self::$name])) {
+			$this->holdUsername = strip_tags($_POST[self::$name]);
+			$this->message = 'Username contains invalid characters.';
+		}
 	}
-
+	/**
+	 * Calls register(). 
+	 * Returns generateRegisterFormHTML() when user enters register page
+	 */
 	public function response () {
 		$this->register();
 		if (isset($_GET['register'])) {
 		return $this->generateRegisterFormHTML($this->message);
 		}
 	}
+	/**
+	 * Generate a register form in HTML
+	 * 
+	 * Should be called when user enters register page
+	 */
 	private function generateRegisterFormHTML ($message) {
 		return '
 			<form method="post" > 
