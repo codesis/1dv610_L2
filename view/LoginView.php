@@ -33,7 +33,6 @@ class LoginView {
 		$this->hash = password_hash('Password', PASSWORD_DEFAULT);
 		if (isset($_SESSION['newuser'])) {
 			$this->holdUsername = $_SESSION['newuser'];
-			array_push($takenUsernames, $this->holdUsername);
 			$this->message = 'Registered new user.';
 		} 
 
