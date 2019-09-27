@@ -29,7 +29,7 @@ class RegisterView {
 			$this->holdUsername = $_POST[self::$name];
 			$this->message = 'Password has too few characters, at least 6 characters.';
 		} 
-		if (strlen($_POST[self::$name]) <= 2 && strlen($_POST[self::$password] >= 6) && $_POST[self::$password] === $_POST[self::$passwordRepeat]) {
+		if (strlen($_POST[self::$name]) <= 2 && strlen($_POST[self::$password]) >= 6 && $_POST[self::$password] === $_POST[self::$passwordRepeat]) {
 			$this->holdUsername = $_POST[self::$name];
 			$this->message = 'Username has too few characters, at least 3 characters.';
 		} 
@@ -37,7 +37,7 @@ class RegisterView {
 			$this->holdUsername = $_POST[self::$name];
 			$this->message = 'Passwords do not match.';
 		} 
-		if ($_POST[self::$name] === 'Admin' && strlen($_POST[self::$password] >= 6) && $_POST[self::$password] === $_POST[self::$passwordRepeat]) {
+		if ($_POST[self::$name] === 'Admin' && strlen($_POST[self::$password]) >= 6 && $_POST[self::$password] === $_POST[self::$passwordRepeat]) {
 			$this->holdUsername = $_POST[self::$name];
 			$this->message = 'User exists, pick another username.';
 		} 
