@@ -186,10 +186,4 @@ class LoginView {
 			</form>
 		';
 	}
-	
-	//CREATE GET-FUNCTIONS TO FETCH REQUEST VARIABLES
-	public function getCookieBool() {
-		return $this->cookieSetBool;
-	}
-	
 }

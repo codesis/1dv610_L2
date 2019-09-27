@@ -1,4 +1,5 @@
 <?php
+require_once('LoginView.php');
 
 // upcoming for the registration page
 class RegisterView {
@@ -22,8 +23,7 @@ class RegisterView {
 			
 			if (strlen($_POST[self::$name]) >= 3 && !in_array($_POST[self::$name], $this->takenUsernameArray) && strlen($_POST[self::$password]) >= 6 && $_POST[self::$password] === $_POST[self::$passwordRepeat]) {
 				array_push($this->takenUsernameArray, $_POST[self::$name]);
-				$this->holdUsername = $_POST[self::$name];
-				$this->message = 'Registered new user.';
+				header('Location: ?');
 			}
 		}
 	}
@@ -75,10 +75,11 @@ class RegisterView {
 	 * Returns generateRegisterFormHTML() when user enters register page
 	 */
 	public function response () {
+		$LoginView = new LoginView();
 		$this->register();
 		if (isset($_GET['register'])) {
 		return $this->generateRegisterFormHTML($this->message);
-		}
+		} 
 	}
 	/**
 	 * Generate a register form in HTML
