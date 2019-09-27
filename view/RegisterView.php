@@ -12,10 +12,10 @@ class RegisterView {
 	private $takenUsernameArray = array('Admin');
 
 	/**
-	* Generate HTML code for register page
-	* @param $message, String output message
-	* @return  void, BUT writes to standard output!
-	*/
+	 * Called when a register attempt is made
+	 * 
+	 * Changes feedback depending on outcome
+	 */
 	private function register () {
 		if (isset($_POST[self::$register])) {
 			$this->faultyRegisterCredentials();
@@ -62,11 +62,13 @@ class RegisterView {
 	 */
 	private function verifiedRegisterCredentials () {
 	}
+
+	/**
+	 * Returns takenUsernameArray
+	 */
 	public function getRegisteredUsers () {
 		return $this->takenUsernameArray;
 	}
-
-
 	/**
 	 * Calls register(). 
 	 * Returns generateRegisterFormHTML() when user enters register page

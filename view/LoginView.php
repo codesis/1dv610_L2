@@ -47,6 +47,8 @@ class LoginView {
 			$this->returnWithCookies();
 		}
 
+		if (isset($_SESSION['']))
+
 	    if (isset($_POST[self::$logout])) {
 		$this->logOut();
 	    } 
@@ -84,7 +86,6 @@ class LoginView {
 			$this->keepMeLoggedIn();
 			$this->message = 'Welcome and you will be remembered';
 		}
-		$_SESSION['HTTP_USER_AGENT'] = md5($_SERVER['HTTP_USER_AGENT']);
 		$_SESSION['username'] = $_POST[self::$name];
 	}
 	/**
