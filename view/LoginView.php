@@ -30,6 +30,10 @@ class LoginView {
 	public function login () {
 		$RegisterView = new RegisterView();
 		$this->hash = password_hash('Password', PASSWORD_DEFAULT);
+		if (isset($_SESSION['newuser'])) {
+			self::$name = $_SESSION['newuser'];
+			$this->message = 'Registered new user.';
+		}
 
 		// for when user tries to log in 
 		if (isset($_POST[self::$login])) {	
@@ -76,6 +80,7 @@ class LoginView {
 	 */
 	private function verifiedLoginCredentials () {
 		session_regenerate_id(true);
+		// $_SESSION['id'] = $id;
 		if (!isset($_SESSION['username'])) {
 			$this->message = 'Welcome';
 		} else {
