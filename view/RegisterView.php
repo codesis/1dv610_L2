@@ -20,9 +20,10 @@ class RegisterView {
 		if (isset($_POST[self::$register])) {
 			$this->faultyRegisterCredentials();
 			
-			if (strlen($_POST[self::$name]) >= 3 && !in_array($_POST[self::$name], $this->takenUsernameArray) 
+			if (strlen($_POST[self::$name]) >= 3 && !in_array($_POST[self::$name], $this->takenUsernameArray) && !isHTML($_POST[self::$name])
 			&& strlen($_POST[self::$password]) >= 6 && $_POST[self::$password] === $_POST[self::$passwordRepeat]) {
 				array_push($this->takenUsernameArray, $_POST[self::$name]);
+				$this->holdUsername = $_POST[self::$name];
 				$this->message = 'Registered new user.';
 			}
 		}
