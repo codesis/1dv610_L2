@@ -9,7 +9,7 @@ class RegisterView {
 	private static $messageId = 'RegisterView::Message';
 	private $message = '';
 	private $holdUsername = '';
-
+	private $takenUsernameArray = array('Admin');
 
 	/**
 	* Generate HTML code for register page
@@ -19,6 +19,12 @@ class RegisterView {
 	private function register () {
 		if (isset($_POST[self::$register])) {
 			$this->faultyRegisterCredentials();
+			
+			if (strlen($_POST[self::$name]) >= 3 && !in_array($_POST[self::$name], $this->takenUsernameArray) 
+			&& strlen($_POST[self::$password]) >= 6 && $_POST[self::$password] === $_POST[self::$passwordRepeat]) {
+				array_push($this->$takenUsernameArray, $_POST[self::$name]);
+				$this->message = 'Registered new user.';
+			}
 		}
 	}
 	/**
@@ -42,15 +48,26 @@ class RegisterView {
 			$this->holdUsername = $_POST[self::$name];
 			$this->message = 'Passwords do not match.';
 		} 
-		if ($_POST[self::$name] === 'Admin' && strlen($_POST[self::$password]) >= 6 && $_POST[self::$password] === $_POST[self::$passwordRepeat]) {
+		if (in_array($_POST[self::$name], $this->takenUsernameArray) && strlen($_POST[self::$password]) >= 6 && $_POST[self::$password] === $_POST[self::$passwordRepeat]) {
 			$this->holdUsername = $_POST[self::$name];
 			$this->message = 'User exists, pick another username.';
 		} 
-		if ($_POST[self::$name] != strip_tags($_POST[self::$name])) {
+		if ($_POST[self::$name] != strip_tags($_POST[self::$name]) && strlen($_POST[self::$password]) >= 6 && $_POST[self::$password] === $_POST[self::$passwordRepeat]) {
 			$this->holdUsername = strip_tags($_POST[self::$name]);
 			$this->message = 'Username contains invalid characters.';
 		}
 	}
+	/**
+	 * Called when valid registration is made
+	 */
+	private function verifiedRegisterCredentials () {
+	}
+	private function newUserCreated ($username, $password) {
+		self::$name = $username;
+		self::$password = $password;
+	}
+
+
 	/**
 	 * Calls register(). 
 	 * Returns generateRegisterFormHTML() when user enters register page

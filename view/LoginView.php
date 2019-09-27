@@ -21,6 +21,7 @@ class LoginView {
 	private static $cookiePassword = 'LoginView::CookiePassword';
 	private static $keep = 'LoginView::KeepMeLoggedIn';
 	private static $messageId = 'LoginView::Message';
+	private $takenUsernameArray = array('Admin');
 	private $message = '';
 	private $holdUsername = '';
 	private $passwordTest = '';
@@ -32,7 +33,7 @@ class LoginView {
 		if (isset($_POST[self::$login])) {	
 			$this->faultyLoginCredentials();
 
-			if ($_POST[self::$name] == 'Admin' && password_verify($_POST[self::$password], $this->hash)) {
+			if (in_array($_POST[self::$name], $this->takenUsernameArray) && password_verify($_POST[self::$password], $this->hash)) {
 			$this->verifiedLoginCredentials();
 			$_SESSION['logged_in'] = true;
 		    }
