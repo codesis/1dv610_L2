@@ -53,7 +53,7 @@ class RegisterView {
 			$this->holdUsername = $_POST[self::$name];
 			$this->message = 'User exists, pick another username.';
 		} 
-		if (strlen($_POST[self::$name]) >= 3 && $_POST[self::$name] != strip_tags($_POST[self::$name]) && strlen($_POST[self::$password]) >= 6 && $_POST[self::$password] === $_POST[self::$passwordRepeat]) {
+		if ($_POST[self::$name] != strip_tags($_POST[self::$name])) {
 			$this->holdUsername = strip_tags($_POST[self::$name]);
 			$this->message = 'Username contains invalid characters.';
 		}
