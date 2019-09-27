@@ -30,24 +30,22 @@ class LoginView {
 	public function login () {
 		$RegisterView = new RegisterView();
 		$this->hash = password_hash('Password', PASSWORD_DEFAULT);
+
 		// for when user tries to log in 
 		if (isset($_POST[self::$login])) {	
 			$this->faultyLoginCredentials();
 
 			if (in_array($_POST[self::$name], $RegisterView->getRegisteredUsers()) && password_verify($_POST[self::$password], $this->hash)) {
-			$this->verifiedLoginCredentials();
-			$_SESSION['logged_in'] = true;
+				$this->verifiedLoginCredentials();
 		    }
 		    if (isset($_COOKIE[self::$cookieName]) && isset($_COOKIE['PHPSESSID'])) {
-			$this->message = '';
+			    $this->message = '';
 			}
 		}
 		
 		if (isset($_COOKIE[self::$cookieName]) && isset($_COOKIE[self::$cookiePassword])) {
 			$this->returnWithCookies();
 		}
-
-		if (isset($_SESSION['']))
 
 	    if (isset($_POST[self::$logout])) {
 		$this->logOut();
@@ -77,6 +75,7 @@ class LoginView {
 	 * Should be called when user signs in with verified login credentials
 	 */
 	private function verifiedLoginCredentials () {
+		session_regenerate_id(true);
 		if (!isset($_SESSION['username'])) {
 			$this->message = 'Welcome';
 		} else {
@@ -119,6 +118,7 @@ class LoginView {
 			$this->message = 'Bye bye!';
 		} 
 		session_unset();
+		session_destroy();
 		setcookie(self::$cookieName, '', time() - 3600);
 		setcookie(self::$cookiePassword, '', time() - 3600);
 	}
