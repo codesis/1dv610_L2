@@ -20,7 +20,7 @@ class RegisterView {
 		if (isset($_POST[self::$register])) {
 			$this->faultyRegisterCredentials();
 			
-			if (strlen($_POST[self::$name]) >= 3 && !in_array($_POST[self::$name], $this->takenUsernameArray) && !isHTML($_POST[self::$name])
+			if (strlen($_POST[self::$name]) >= 3 && !in_array($_POST[self::$name], $this->takenUsernameArray) 
 			&& strlen($_POST[self::$password]) >= 6 && $_POST[self::$password] === $_POST[self::$passwordRepeat]) {
 				array_push($this->takenUsernameArray, $_POST[self::$name]);
 				$this->holdUsername = $_POST[self::$name];
@@ -53,7 +53,7 @@ class RegisterView {
 			$this->holdUsername = $_POST[self::$name];
 			$this->message = 'User exists, pick another username.';
 		} 
-		if ($_POST[self::$name] != strip_tags($_POST[self::$name]) && strlen($_POST[self::$password]) >= 6 && $_POST[self::$password] === $_POST[self::$passwordRepeat]) {
+		if (strlen($_POST[self::$name]) >= 3 && $_POST[self::$name] != strip_tags($_POST[self::$name]) && strlen($_POST[self::$password]) >= 6 && $_POST[self::$password] === $_POST[self::$passwordRepeat]) {
 			$this->holdUsername = strip_tags($_POST[self::$name]);
 			$this->message = 'Username contains invalid characters.';
 		}
@@ -68,9 +68,6 @@ class RegisterView {
 	 */
 	public function getRegisteredUsers () {
 		return $this->takenUsernameArray;
-	}
-	private function isHTML ($string) {
-		return $string != strip_tags($string) ? true:false;
 	}
 	/**
 	 * Calls register(). 
