@@ -69,6 +69,9 @@ class RegisterView {
 	public function getRegisteredUsers () {
 		return $this->takenUsernameArray;
 	}
+	private function isHTML ($string) {
+		return $string != strip_tags($string) ? true:false;
+	}
 	/**
 	 * Calls register(). 
 	 * Returns generateRegisterFormHTML() when user enters register page
