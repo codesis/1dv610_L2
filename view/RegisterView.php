@@ -1,4 +1,5 @@
 <?php
+var_dump('HELLO!');
 require_once('LoginView.php');
 /**
  * class RegisterView
