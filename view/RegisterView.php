@@ -36,7 +36,7 @@ class RegisterView {
 			} else if (isset($_POST[self::$name]) != strip_tags($_POST[self::$name]) && strlen($_POST[self::$password]) >= 6 && $_POST[self::$password] === $_POST[self::$passwordRepeat]) {
 				$this->holdUsername = strip_tags($_POST[self::$name]);
 				$this->message = 'Username contains invalid characters.';
-			} else if (strlen($_POST[self::$name]) >= 3 && !in_array($_POST[self::$name], $this->takenUsernameArray) && strlen($_POST[self::$password]) >= 6 && $_POST[self::$password] === $_POST[self::$passwordRepeat]) {
+			} else if (isset($_POST[self::$name]) == strip_tags($_POST[self::$name]) && strlen($_POST[self::$name]) >= 3 && !in_array($_POST[self::$name], $this->takenUsernameArray) && strlen($_POST[self::$password]) >= 6 && $_POST[self::$password] === $_POST[self::$passwordRepeat]) {
                 $newusername = $_POST[self::$name];
                 array_push($this->takenUsernameArray, $newusername);
                 $_SESSION['newuser'] = $_POST[self::$name];
