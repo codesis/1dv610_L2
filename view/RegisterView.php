@@ -18,6 +18,7 @@ class RegisterView {
 	 * Changes feedback depending on outcome
 	 */
 	private function register () {
+		session_unset();
 		if (isset($_POST[self::$register])) {
 			if (empty($_POST[self::$name]) && empty($_POST[self::$password]) && empty($_POST[self::$passwordRepeat])) {
 				$this->message = 'Username has too few characters, at least 3 characters. Password has too few characters, at least 6 characters.';
@@ -33,7 +34,7 @@ class RegisterView {
 			} else if (in_array($_POST[self::$name], $this->takenUsernameArray) && strlen($_POST[self::$password]) >= 6 && $_POST[self::$password] === $_POST[self::$passwordRepeat]) {
 				$this->holdUsername = $_POST[self::$name];
 				$this->message = 'User exists, pick another username.';
-			} else if (isset($_POST[self::$name]) != strip_tags($_POST[self::$name]) && strlen($_POST[self::$password]) >= 6 && $_POST[self::$password] === $_POST[self::$passwordRepeat]) {
+			} else if ($_POST[self::$name] != strip_tags($_POST[self::$name]) && strlen($_POST[self::$password]) >= 6 && $_POST[self::$password] === $_POST[self::$passwordRepeat]) {
 				$this->holdUsername = strip_tags($_POST[self::$name]);
 				$this->message = 'Username contains invalid characters.';
 			} else if (strlen($_POST[self::$name]) >= 3 && !in_array($_POST[self::$name], $this->takenUsernameArray) && strlen($_POST[self::$password]) >= 6 && $_POST[self::$password] === $_POST[self::$passwordRepeat]) {
