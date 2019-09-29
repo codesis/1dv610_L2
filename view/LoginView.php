@@ -27,16 +27,19 @@ class LoginView {
 	private $passwordTest = '';
 	private $hash = '';
 
+	/**
+	 * Handles login attempt
+	 * Hashes password
+	 * 
+	 * Calls different methods depending on action
+	 */
 	public function login () {
 		$RegisterView = new RegisterView();
-		$takenUsernames = $RegisterView->getRegisteredUsers();
 		$this->hash = password_hash('Password', PASSWORD_DEFAULT);
 		if (isset($_SESSION['newuser'])) {
 			$this->holdUsername = $_SESSION['newuser'];
 			$this->message = 'Registered new user.';
 		} 
-
-		// for when user tries to log in 
 		if (isset($_POST[self::$login])) {	
 			$this->faultyLoginCredentials();
 
@@ -47,11 +50,9 @@ class LoginView {
 			    $this->message = '';
 			}
 		}
-		
 		if (isset($_COOKIE[self::$cookieName]) && isset($_COOKIE[self::$cookiePassword])) {
 			$this->returnWithCookies();
 		}
-
 	    if (isset($_POST[self::$logout])) {
 		$this->logOut();
 	    } 

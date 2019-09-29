@@ -1,7 +1,15 @@
 <?php
 require_once('LoginView.php');
-
-// upcoming for the registration page
+/**
+ * class RegisterView
+ * methods;
+ * @register
+ * @faultyRegisterCredentials (unused atm)
+ * @setRegisteredUsers
+ * @getRegisteredUsers
+ * @response
+ * @genereateRegisterFormHTML
+ */
 class RegisterView {
 	private static $register = 'RegisterView::Register';
 	private static $name = 'RegisterView::UserName';
@@ -16,6 +24,7 @@ class RegisterView {
 	 * Called when a register attempt is made
 	 * 
 	 * Changes feedback depending on outcome
+	 * Redirects when validated creation attempt is made
 	 */
 	private function register () {
 		if (isset($_POST[self::$register])) {
@@ -47,7 +56,6 @@ class RegisterView {
 				$_SESSION['newuser'] = $_POST[self::$name];
 				header('Location: ?');
 			}
-
 		}
 	}
 	/**
@@ -80,11 +88,6 @@ class RegisterView {
 	// 		$this->message = 'Username contains invalid characters.';
 	// 	}
 	// }
-	/**
-	 * Called when valid registration is made
-	 */
-	private function verifiedRegisterCredentials () {
-    }
     private function setRegisteredUsers ($takenUsernameArray, $newusername) {
         array_push($takenUsernameArray, $new);
         $this->takenUsernameArray = $takenUsernameArray;
