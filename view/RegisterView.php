@@ -18,7 +18,10 @@ class RegisterView {
 	private static $messageId = 'RegisterView::Message';
 	private $message = '';
 	private $holdUsername = '';
-    private $takenUsernameArray = array('Admin');
+	private $takenUsernameArray = array('Admin');
+	private $username;
+	private $passwordInput;
+	private $passwordRepeatInput;
     
 	/**
 	 * Called when a register attempt is made
@@ -26,72 +29,70 @@ class RegisterView {
 	 * Changes feedback depending on outcome
 	 * Redirects when validated creation attempt is made
 	 */
-	private function register () {
+	private function registerNewUser () {
 		if (isset($_POST[self::$register])) {
-			if (empty($_POST[self::$name]) && empty($_POST[self::$password]) && empty($_POST[self::$passwordRepeat])) {
-				$this->message = 'Username has too few characters, at least 3 characters. Password has too few characters, at least 6 characters.';
-			} 
-			if (strlen($_POST[self::$name]) >= 3 && (empty($_POST[self::$password]) || strlen($_POST[self::$password]) <=5) && $_POST[self::$password] === $_POST[self::$passwordRepeat]) {
-				$this->holdUsername = $_POST[self::$name];
-				$this->message = 'Password has too few characters, at least 6 characters.';
-			} 
-			if (strlen($_POST[self::$name]) <= 2 && strlen($_POST[self::$password]) >= 6 && $_POST[self::$password] === $_POST[self::$passwordRepeat]) {
-				$this->holdUsername = $_POST[self::$name];
-				$this->message = 'Username has too few characters, at least 3 characters.';
-			} 
-			if (strlen($_POST[self::$name]) >= 3 && strlen($_POST[self::$password]) >= 6 && $_POST[self::$password] != $_POST[self::$passwordRepeat]) {
-				$this->holdUsername = $_POST[self::$name];
-				$this->message = 'Passwords do not match.';
-			} 
-			if (in_array($_POST[self::$name], $this->takenUsernameArray) && strlen($_POST[self::$password]) >= 6 && $_POST[self::$password] === $_POST[self::$passwordRepeat]) {
-				$this->holdUsername = $_POST[self::$name];
-				$this->message = 'User exists, pick another username.';
-			} 
-			if ($_POST[self::$name] != strip_tags($_POST[self::$name]) && strlen($_POST[self::$password]) >= 6 && $_POST[self::$password] === $_POST[self::$passwordRepeat]) {
-				$this->holdUsername = strip_tags($_POST[self::$name]);
-				$this->message = 'Username contains invalid characters.';
-			}	else if (strlen($_POST[self::$name]) >= 3 && !in_array($_POST[self::$name], $this->takenUsernameArray) && strlen($_POST[self::$password]) >= 6 && $_POST[self::$password] === $_POST[self::$passwordRepeat]) {
-                $newusername = $_POST[self::$name];
-                array_push($this->takenUsernameArray, $newusername);
-				$_SESSION['newuser'] = $_POST[self::$name];
-				header('Location: ?');
-			}
+			$this->username = $_POST[self::$name];
+			$this->passwordInput = $_POST[self::$password];
+			$this->passwordRepeatInput = $_POST[self::$passwordRepeat];
+			$tooFewCharInUsername = 'Username has too few characters, at least 3 characters.';
+			$tooFewCharInPassword = 'Password has too few characters, at least 6 characters.';
+			$this->emptyRegisterInputs();
+			$this->tooFewCharInPassword();
+			$this->tooFewCharInUsername();
+			$this->passwordsNotMatching();
+			$this->usernameAlreadyExists();
+			$this->invalidCharInUsername();
+			$this->validUserRegistration();
 		}
 	}
-	/**
-	 * Feedback changes depending on which faulty credential
-	 * 
-	 * Should be called when a register attempt is made
-	 */
-	// private function faultyRegisterCredentials () {
-	// 	if (empty($_POST[self::$name]) && empty($_POST[self::$password]) && empty($_POST[self::$passwordRepeat])) {
-	// 		$this->message = 'Username has too few characters, at least 3 characters. Password has too few characters, at least 6 characters.';
-	// 	} 
-	// 	if (strlen($_POST[self::$name]) >= 3 && (empty($_POST[self::$password]) || strlen($_POST[self::$password]) <=5) && $_POST[self::$password] === $_POST[self::$passwordRepeat]) {
-	// 		$this->holdUsername = $_POST[self::$name];
-	// 		$this->message = 'Password has too few characters, at least 6 characters.';
-	// 	} 
-	// 	if (strlen($_POST[self::$name]) <= 2 && strlen($_POST[self::$password]) >= 6 && $_POST[self::$password] === $_POST[self::$passwordRepeat]) {
-	// 		$this->holdUsername = $_POST[self::$name];
-	// 		$this->message = 'Username has too few characters, at least 3 characters.';
-	// 	} 
-	// 	if (strlen($_POST[self::$name]) >= 3 && strlen($_POST[self::$password]) >= 6 && $_POST[self::$password] != $_POST[self::$passwordRepeat]) {
-	// 		$this->holdUsername = $_POST[self::$name];
-	// 		$this->message = 'Passwords do not match.';
-	// 	} 
-	// 	if (in_array($_POST[self::$name], $this->takenUsernameArray) && strlen($_POST[self::$password]) >= 6 && $_POST[self::$password] === $_POST[self::$passwordRepeat]) {
-	// 		$this->holdUsername = $_POST[self::$name];
-	// 		$this->message = 'User exists, pick another username.';
-	// 	} 
-	// 	if ($_POST[self::$name] != strip_tags($_POST[self::$name]) && strlen($_POST[self::$password]) >= 6 && $_POST[self::$password] === $_POST[self::$passwordRepeat]) {
-	// 		$this->holdUsername = strip_tags($_POST[self::$name]);
-	// 		$this->message = 'Username contains invalid characters.';
-	// 	}
-	// }
+	private function emptyRegisterInputs () {
+		if (empty($this->username) && empty($this->passwordInput) && empty($this->passwordRepeat)) {
+			$this->message = $tooFewCharInUsername . $tooFewCharInPassword;
+		} 
+	}
+	private function tooFewCharInPassword () {
+		if (strlen($this->username) <= 3 && (empty($this->passwordInput) || strlen($this->passwordInput) <=5) && $this->passwordInput === $this->passwordRepeatInput) {
+			$this->holdUsername = $this->username;
+			$this->message = $tooFewCharInPassword;
+		} 
+	}
+	private function tooFewCharInUsername () {
+		if (strlen($this->username) <= 2 && strlen($this->passwordInput) >= 6 && $this->passwordInput === $this->passwordRepeatInput) {
+			$this->holdUsername = $this->username;
+			$this->message = $tooFewCharInUsername;
+		} 
+	}
+	private function passwordsNotMatching () {
+		if (strlen($this->username) >= 3 && strlen($this->passwordInput) >= 6 && $this->passwordInput != $this->passwordRepeatInput) {
+			$this->holdUsername = $this->username;
+			$this->message = 'Passwords do not match.';
+		} 
+	}
+	private function usernameAlreadyExists () {
+		if (in_array($this->username, $this->takenUsernameArray) && strlen($this->passwordInput) >= 6 && $this->passwordInput === $this->passwordRepeatInput) {
+			$this->holdUsername = $this->username;
+			$this->message = 'User exists, pick another username.';
+		} 
+	}
+	private function invalidCharInUsername () {
+		if ($this->username != strip_tags($this->username) && strlen($this->passwordInput) >= 6 && $this->passwordInput === $this->passwordRepeatInput) {
+			$this->holdUsername = strip_tags($this->username);
+			$this->message = 'Username contains invalid characters.';
+		}	
+	}
+	private function validUserRegistration () {
+		if (strlen($this->username) >= 3 && !in_array($this->username, $this->takenUsernameArray) && strlen($this->passwordInput) >= 6 && $this->passwordInput === $this->passwordRepeatInput) {
+			$newusername = $this->username;
+			array_push($this->takenUsernameArray, $newusername);
+			$_SESSION['newuser'] = $newusername;
+			header('Location: ?');
+		}
+	}
     private function setRegisteredUsers ($takenUsernameArray, $newusername) {
         array_push($takenUsernameArray, $new);
         $this->takenUsernameArray = $takenUsernameArray;
-    }
+	}
+	
 	/**
 	 * Returns takenUsernameArray
 	 */
@@ -104,7 +105,7 @@ class RegisterView {
 	 */
 	public function response () {
 		$LoginView = new LoginView();
-		$this->register();
+		$this->registerNewUser();
 		if (isset($_GET['register'])) {
 		return $this->generateRegisterFormHTML($this->message);
 		} 
