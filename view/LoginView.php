@@ -7,9 +7,6 @@ require_once('RegisterView.php');
  * class @LoginView
  * methods;
  * @login
- * @faultyLoginCredentials
- * @verifiedLoginCredentials
- * @returnWithCookies
  * @logOut
  * @keepMeLoggedIn
  * @response
@@ -32,37 +29,38 @@ class LoginView {
 		return isset($_POST[self::$login]);
 	}
 	/**
-	 * Sets session variable username to signed in username
-	 * Calls keepMeLoggedIn() when keep my logged in is checked
-	 * 
-	 * Should be called when user signs in with verified login credentials
-	 */
-	private function verifiedLoginCredentials () {
-		if (!isset($_SESSION['username'])) {
-			$this->message = 'Welcome';
-		} else {
-			$this->message = '';
-		}
-		if (!empty($_POST[self::$keep])) {
-			$this->keepMeLoggedIn();
-			$this->message = 'Welcome and you will be remembered';
-		}
-		$_SESSION['username'] = $_POST[self::$name];
-	}
-	/**
 	 * Unsets the session
 	 * Sets feedback to Bye Bye!
 	 * Kills cookies
 	 * 
 	 * Should be called when user clicks log out
 	 */
-	private function logOut () {
+	public function logOut () {
 		if (isset($_SESSION['username'])) {
 			$this->message = 'Bye bye!';
 		} 
 		session_destroy();
 		setcookie(self::$cookieName, '', time() - 3600);
 		setcookie(self::$cookiePassword, '', time() - 3600);
+	}
+	public function usernameFilledIn () {
+		return isset($_POST[self::$name]);
+	}
+
+	public function getUsername () {
+		return $_POST[self::$name];
+	}
+
+	public function passwordFilledIn () {
+		return isset($_POST[self::$password]);
+	}
+
+	public function getPassword() {
+		return $_POST[self::$password];
+	}
+
+	public function keepUserLoggedIn () {
+		return isset($_POST[self::$keep]);
 	}
 	/**
 	 * Create HTTP response

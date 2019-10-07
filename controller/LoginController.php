@@ -29,7 +29,7 @@ class LoginController {
 		// 	$this->holdUsername = $_SESSION['newuser'];
 		// 	$this->message = 'Registered new user.';
 		// } 
-		if (isset($_POST[self::$login])) {	
+		if ($this->loginView->login()) {	
 			$this->faultyLoginCredentials();
 
 			if (in_array($_POST[self::$name], $RegisterView->getRegisteredUsers()) && password_verify($_POST[self::$password], $this->hash)) {
@@ -46,23 +46,51 @@ class LoginController {
 		$this->logOut();
 	    } 
     }
-    
+    	/**
+	 * Sets session variable username to signed in username
+	 * Calls keepMeLoggedIn() when keep my logged in is checked
+	 * 
+	 * Should be called when user signs in with verified login credentials
+	 */
+	private function verifiedLoginCredentials () {
+		if (!isset($_SESSION['username'])) {
+			$this->message = 'Welcome';
+		} else {
+			$this->message = '';
+		}
+		if (!empty($_POST[self::$keep])) {
+			$this->keepMeLoggedIn();
+			$this->message = 'Welcome and you will be remembered';
+		}
+		$_SESSION['username'] = $_POST[self::$name];
+	}
+
 	/**
 	 * Feedback changes depending on which credential is wrong
 	 * 
 	 * Should be called on faulty login tries
 	 */
 	public function faultyLoginCredentials () {
-		if (empty($_POST[self::$name])) {
-			$this->message = 'Username is missing';
-		} else if (isset($_POST[self::$name]) && empty($_POST[self::$password])) {
-			$this->holdUsername = $_POST[self::$name];
-			$this->message = 'Password is missing';
-		} else if ($this->holdUsername = 'admin' || $this->passwordTest = 'password') {
-			$this->holdUsername = $_POST[self::$name];
-			$this->passwordTest = '';
-			$this->message = 'Wrong name or password';
-		} 
-	}
-
+		if ($this->loginView->usernameFilledIn() && $this->loginView->passwordFilledIn()) {
+            $this->emptyUsername();
+            $this->emptyPassword();
+        } 
+		else {
+            $this->message = 'Wrong name or password';
+        }
+	} 
+    private function emptyUsername () {
+        if ($this->loginView->getUsername() == '') {
+            $this->message = 'Username is missing';
+        }    
+    }
+    private function emptyPassword () {
+        if ($this->loginView->getPassword() == '') {
+            $this->message = 'Password is missing';
+        }
+    }
+    
+    public function getMessage () {
+        return $this->message;
+    }
 }
