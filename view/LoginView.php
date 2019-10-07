@@ -1,4 +1,7 @@
 <?php
+
+namespace view;
+
 require_once('RegisterView.php');
 /**
  * class @LoginView
@@ -27,36 +30,6 @@ class LoginView {
 	private $passwordTest = '';
 	private $hash = '';
 
-	/**
-	 * Handles login attempt
-	 * Hashes password
-	 * 
-	 * Calls different methods depending on action
-	 */
-	public function login () {
-		$RegisterView = new RegisterView();
-		$this->hash = password_hash('Password', PASSWORD_DEFAULT);
-		if (isset($_SESSION['newuser'])) {
-			$this->holdUsername = $_SESSION['newuser'];
-			$this->message = 'Registered new user.';
-		} 
-		if (isset($_POST[self::$login])) {	
-			$this->faultyLoginCredentials();
-
-			if (in_array($_POST[self::$name], $RegisterView->getRegisteredUsers()) && password_verify($_POST[self::$password], $this->hash)) {
-				$this->verifiedLoginCredentials();
-		    }
-		    if (isset($_COOKIE[self::$cookieName]) && isset($_COOKIE['PHPSESSID'])) {
-			    $this->message = '';
-			}
-		}
-		if (isset($_COOKIE[self::$cookieName]) && isset($_COOKIE[self::$cookiePassword])) {
-			$this->returnWithCookies();
-		}
-	    if (isset($_POST[self::$logout])) {
-		$this->logOut();
-	    } 
-	}
 	/**
 	 * Feedback changes depending on which credential is wrong
 	 * 
@@ -122,7 +95,6 @@ class LoginView {
 		if (isset($_SESSION['username'])) {
 			$this->message = 'Bye bye!';
 		} 
-		session_unset();
 		session_destroy();
 		setcookie(self::$cookieName, '', time() - 3600);
 		setcookie(self::$cookiePassword, '', time() - 3600);
