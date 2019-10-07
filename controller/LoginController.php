@@ -16,19 +16,19 @@ class LoginController {
 
         $this->database->connectToDatabase();
     }
-    	/**
+    /**
 	 * Handles login attempt
 	 * Hashes password
 	 * 
 	 * Calls different methods depending on action
 	 */
 	public function login () {
-		$RegisterView = new RegisterView();
-		$this->hash = password_hash('Password', PASSWORD_DEFAULT);
-		if (isset($_SESSION['newuser'])) {
-			$this->holdUsername = $_SESSION['newuser'];
-			$this->message = 'Registered new user.';
-		} 
+		// $RegisterView = new RegisterView();
+		// $this->hash = password_hash('Password', PASSWORD_DEFAULT);
+		// if (isset($_SESSION['newuser'])) {
+		// 	$this->holdUsername = $_SESSION['newuser'];
+		// 	$this->message = 'Registered new user.';
+		// } 
 		if (isset($_POST[self::$login])) {	
 			$this->faultyLoginCredentials();
 
@@ -45,6 +45,24 @@ class LoginController {
 	    if (isset($_POST[self::$logout])) {
 		$this->logOut();
 	    } 
+    }
+    
+	/**
+	 * Feedback changes depending on which credential is wrong
+	 * 
+	 * Should be called on faulty login tries
+	 */
+	public function faultyLoginCredentials () {
+		if (empty($_POST[self::$name])) {
+			$this->message = 'Username is missing';
+		} else if (isset($_POST[self::$name]) && empty($_POST[self::$password])) {
+			$this->holdUsername = $_POST[self::$name];
+			$this->message = 'Password is missing';
+		} else if ($this->holdUsername = 'admin' || $this->passwordTest = 'password') {
+			$this->holdUsername = $_POST[self::$name];
+			$this->passwordTest = '';
+			$this->message = 'Wrong name or password';
+		} 
 	}
 
 }

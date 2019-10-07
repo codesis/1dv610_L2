@@ -21,8 +21,6 @@ class LoginView {
 	private static $logout = 'LoginView::Logout';
 	private static $name = 'LoginView::UserName';
 	private static $password = 'LoginView::Password';
-	private static $cookieName = 'LoginView::CookieName';
-	private static $cookiePassword = 'LoginView::CookiePassword';
 	private static $keep = 'LoginView::KeepMeLoggedIn';
 	private static $messageId = 'LoginView::Message';
 	private $message = '';
@@ -30,22 +28,8 @@ class LoginView {
 	private $passwordTest = '';
 	private $hash = '';
 
-	/**
-	 * Feedback changes depending on which credential is wrong
-	 * 
-	 * Should be called on faulty login tries
-	 */
-	private function faultyLoginCredentials () {
-		if (empty($_POST[self::$name])) {
-			$this->message = 'Username is missing';
-		} else if (isset($_POST[self::$name]) && empty($_POST[self::$password])) {
-			$this->holdUsername = $_POST[self::$name];
-			$this->message = 'Password is missing';
-		} else if ($this->holdUsername = 'admin' || $this->passwordTest = 'password') {
-			$this->holdUsername = $_POST[self::$name];
-			$this->passwordTest = '';
-			$this->message = 'Wrong name or password';
-		} 
+	public function login () {
+		return isset($_POST[self::$login]);
 	}
 	/**
 	 * Sets session variable username to signed in username
@@ -66,25 +50,6 @@ class LoginView {
 		$_SESSION['username'] = $_POST[self::$name];
 	}
 	/**
-	 * Checks wether cookies data is correct or faulty
-	 * Kills cookies if cookie data is uncorrect or faulty
-	 * 
-	 * Should be called upon returning to page with cookie data
-	 */
-	private function returnWithCookies () {
-		if ($_COOKIE[self::$cookieName] == 'Admin' && password_verify('Password', $_COOKIE[self::$cookiePassword])) {
-			if (!isset($_SESSION['username'])) {
-				$this->message = 'Welcome back with cookie';
-			}
-			$_SESSION['username'] = $_COOKIE[self::$cookieName];
-		} 
-		else {
-			$this->message = 'Wrong information in cookies';
-			setcookie(self::$cookieName, '', time() - 3600);
-			setcookie(self::$cookiePassword, '', time() -3600);
-		}	
-	}
-	/**
 	 * Unsets the session
 	 * Sets feedback to Bye Bye!
 	 * Kills cookies
@@ -98,15 +63,6 @@ class LoginView {
 		session_destroy();
 		setcookie(self::$cookieName, '', time() - 3600);
 		setcookie(self::$cookiePassword, '', time() - 3600);
-	}
-	/**
-	 * Create cookie and new message
-	 * 
-	 * Should be called after a login attempt has med determined with Keep me logged in checked
-	 */
-	private function keepMeLoggedIn () {
-		setcookie(self::$cookieName, $_POST[self::$name], time() + 3600);
-		setcookie(self::$cookiePassword, $this->hash, time() + 3600);
 	}
 	/**
 	 * Create HTTP response
