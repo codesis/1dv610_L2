@@ -3,15 +3,28 @@
 namespace controller;
 
 require_once('view/LoginView.php');
+require_once('view/CookiesView.php');
 require_once('model/Database.php');
 
 class LoginController {
     private $loginView;
+    private $cookieView;
+    private $username;
+    private $usernameExist;
+    private $passwordExist;
+    private $password;
     private $message = '';
     private $database;
 
-    public function __construct (\view\LoginView $loginView, \model\Database $database) {
+    public function __construct (\view\LoginView $loginView, \view\CookieView $cookieView, \model\Database $database) {
         $this->loginView = $loginView;
+        $this->username = $this->loginView->getUsername();
+        $this->usernameExist = $this->loginView->usernameFilledIn();
+        $this->passwordExist = $this->loginView->passwordFilledIn();
+        $this->password = $this->loginView->getPassword();
+
+
+        $this->cookieView = $cookieView;
         $this->database = $database;
 
         $this->database->connectToDatabase();
@@ -30,11 +43,8 @@ class LoginController {
 		// 	$this->message = 'Registered new user.';
 		// } 
 		if ($this->loginView->login()) {	
-			$this->faultyLoginCredentials();
+			$this->checkLoginCredentials();
 
-			if (in_array($_POST[self::$name], $RegisterView->getRegisteredUsers()) && password_verify($_POST[self::$password], $this->hash)) {
-				$this->verifiedLoginCredentials();
-		    }
 		    if (isset($_COOKIE[self::$cookieName]) && isset($_COOKIE['PHPSESSID'])) {
 			    $this->message = '';
 			}
@@ -53,39 +63,37 @@ class LoginController {
 	 * Should be called when user signs in with verified login credentials
 	 */
 	private function verifiedLoginCredentials () {
-		if (!isset($_SESSION['username'])) {
-			$this->message = 'Welcome';
-		} else {
-			$this->message = '';
-		}
-		if (!empty($_POST[self::$keep])) {
-			$this->keepMeLoggedIn();
-			$this->message = 'Welcome and you will be remembered';
-		}
-		$_SESSION['username'] = $_POST[self::$name];
+		if ($this->database->checkIfUserExist($this->username, $this->password)) {
+            if ($this->loginView->keepUserLoggedIn()) {
+                $this->message = 'Welcome and you will be remembered';
+            }
+            $this->loginView->setSessionToLoggedIn(true);
+            $this->message = 'Welcome';
+        }
 	}
 
 	/**
 	 * Feedback changes depending on which credential is wrong
 	 * 
-	 * Should be called on faulty login tries
+	 * Should be called on check login tries
 	 */
-	public function faultyLoginCredentials () {
-		if ($this->loginView->usernameFilledIn() && $this->loginView->passwordFilledIn()) {
+	public function checkLoginCredentials () {
+		if ($this->usernameExist && $this->passwordExist) {
             $this->emptyUsername();
             $this->emptyPassword();
+            $this->verifiedLoginCredentials();
         } 
 		else {
             $this->message = 'Wrong name or password';
         }
 	} 
     private function emptyUsername () {
-        if ($this->loginView->getUsername() == '') {
+        if ($this->username == '') {
             $this->message = 'Username is missing';
         }    
     }
     private function emptyPassword () {
-        if ($this->loginView->getPassword() == '') {
+        if ($this->password == '') {
             $this->message = 'Password is missing';
         }
     }

@@ -20,6 +20,7 @@ class LoginView {
 	private static $password = 'LoginView::Password';
 	private static $keep = 'LoginView::KeepMeLoggedIn';
 	private static $messageId = 'LoginView::Message';
+	private static $loggedIn = 'LoginView::isLoggedIn';
 	private $message = '';
 	private $holdUsername = '';
 	private $passwordTest = '';
@@ -27,6 +28,10 @@ class LoginView {
 
 	public function login () {
 		return isset($_POST[self::$login]);
+	}
+
+	public function setSessionToLoggedIn ($bool) {
+		$_SESSION[self::$loggedIn] = $bool;
 	}
 	/**
 	 * Unsets the session
