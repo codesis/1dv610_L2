@@ -1,4 +1,7 @@
 <?php
+
+namespace view;
+
 require_once('LoginView.php');
 /**
  * class RegisterView

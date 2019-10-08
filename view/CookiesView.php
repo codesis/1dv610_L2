@@ -1,5 +1,7 @@
 <?php
 
+namespace view;
+
 class CookiesView {
     private static $cookieName = 'LoginView::CookieName';
 	private static $cookiePassword = 'LoginView::CookiePassword';

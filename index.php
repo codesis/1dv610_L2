@@ -1,6 +1,10 @@
 <?php
+session_start();
 
 //INCLUDE THE FILES NEEDED...
+include 'settings/settings.php';
+require_once('controller/AppController.php');
+require_once('model/Database.php');
 require_once('view/LoginView.php');
 require_once('view/DateTimeView.php');
 require_once('view/LayoutView.php');
@@ -10,18 +14,8 @@ require_once('view/RegisterView.php');
 error_reporting(E_ALL);
 ini_set('display_errors', 'On');
 
-//CREATE OBJECTS OF THE VIEWS
-$v = new LoginView();
-$r = new RegisterView();
-$dtv = new DateTimeView();
-$lv = new LayoutView();
+$database = new \model\Database($dbServer, $dbName, $dbUsername, $dbPassword);
 
-session_start();  
-
-$v->login();
-if (isset($_SESSION['username'])) {
-    $lv->render(true, $v, $dtv, $r);
-    } else {
-    $lv->render(false, $v, $dtv, $r);
-}
+$appController = new \controller\AppController($database);
+$appController->route();
 

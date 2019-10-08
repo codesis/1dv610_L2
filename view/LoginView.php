@@ -2,17 +2,6 @@
 
 namespace view;
 
-require_once('RegisterView.php');
-/**
- * class @LoginView
- * methods;
- * @login
- * @logOut
- * @keepMeLoggedIn
- * @response
- * @generateLogoutButtonHTML
- * @generateLoginFormHTML
- */
 class LoginView {
 	private static $login = 'LoginView::Login';
 	private static $logout = 'LoginView::Logout';
@@ -21,6 +10,7 @@ class LoginView {
 	private static $keep = 'LoginView::KeepMeLoggedIn';
 	private static $messageId = 'LoginView::Message';
 	private static $loggedIn = 'LoginView::isLoggedIn';
+
 	private $message = '';
 	private $holdUsername = '';
 	private $passwordTest = '';
@@ -34,26 +24,25 @@ class LoginView {
 		$_SESSION[self::$loggedIn] = $bool;
 	}
 	/**
-	 * Unsets the session
-	 * Sets feedback to Bye Bye!
 	 * Kills cookies
+	 * Destroys the session
 	 * 
 	 * Should be called when user clicks log out
 	 */
 	public function logOut () {
-		if (isset($_SESSION['username'])) {
-			$this->message = 'Bye bye!';
-		} 
-		session_destroy();
 		setcookie(self::$cookieName, '', time() - 3600);
 		setcookie(self::$cookiePassword, '', time() - 3600);
+
+		session_destroy();
 	}
 	public function usernameFilledIn () {
 		return isset($_POST[self::$name]);
 	}
 
 	public function getUsername () {
-		return $_POST[self::$name];
+		if ($this->usernameFilledIn()) {
+		    return $_POST[self::$name];
+		}
 	}
 
 	public function passwordFilledIn () {
@@ -61,7 +50,9 @@ class LoginView {
 	}
 
 	public function getPassword() {
-		return $_POST[self::$password];
+		if ($this->passwordFilledIn()) {
+		    return $_POST[self::$password];
+		}
 	}
 
 	public function keepUserLoggedIn () {
@@ -74,14 +65,14 @@ class LoginView {
 	 *
 	 * @return  void BUT writes to standard output and cookies!
 	 */
-	public function response() {
-		if(isset($_SESSION['username'])) {
-			return $this->generateLogoutButtonHTML($this->message);
-		} else if (!isset($_GET['register'])){
-			return $this->generateLoginFormHTML($this->message);
+	public function response($isLoggedIn, $message) {
+		if($isLoggedIn) {
+			$response = $this->generateLogoutButtonHTML($message);
+		} else {
+			$response = $this->generateLoginFormHTML($message);
 		}
+		return $response;
 	}
-
 	/**
 	* Generate HTML code on the output buffer for the logout button
 	* @param $message, String output message
