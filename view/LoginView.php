@@ -23,18 +23,14 @@ class LoginView {
 	public function setSessionToLoggedIn ($bool) {
 		$_SESSION[self::$loggedIn] = $bool;
 	}
-	/**
-	 * Kills cookies
-	 * Destroys the session
-	 * 
-	 * Should be called when user clicks log out
-	 */
+
 	public function logOut () {
 		setcookie(self::$cookieName, '', time() - 3600);
 		setcookie(self::$cookiePassword, '', time() - 3600);
 
 		session_destroy();
 	}
+
 	public function usernameFilledIn () {
 		return isset($_POST[self::$name]);
 	}
@@ -58,13 +54,7 @@ class LoginView {
 	public function keepUserLoggedIn () {
 		return isset($_POST[self::$keep]);
 	}
-	/**
-	 * Create HTTP response
-	 *
-	 * Should be called after a login attempt has been determined
-	 *
-	 * @return  void BUT writes to standard output and cookies!
-	 */
+
 	public function response($isLoggedIn, $message) {
 		if($isLoggedIn) {
 			$response = $this->generateLogoutButtonHTML($message);
@@ -73,11 +63,7 @@ class LoginView {
 		}
 		return $response;
 	}
-	/**
-	* Generate HTML code on the output buffer for the logout button
-	* @param $message, String output message
-	* @return  void, BUT writes to standard output!
-	*/
+
 	private function generateLogoutButtonHTML($message) {
 		return '
 			<form  method="post" >
@@ -87,11 +73,6 @@ class LoginView {
 		';
 	}
 	
-	/**
-	* Generate HTML code on the output buffer for the logout button
-	* @param $message, String output message
-	* @return  void, BUT writes to standard output!
-	*/
 	private function generateLoginFormHTML($message) {
 		return '
 			<form method="post" > 

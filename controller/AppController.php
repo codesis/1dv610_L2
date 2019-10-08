@@ -35,6 +35,6 @@ class AppController {
             $this->message = $this->loginController->getMessage();
         }
         $response = $this->loginView->response($this->isLoggedIn, $this->message);
-        $this->layoutView->render(false, $this->loginView, $this->dateTimeView, $this->message, $response);
+        $this->layoutView->render($this->isLoggedIn, $this->loginView, $this->dateTimeView, $this->message, $response);
     }
 }

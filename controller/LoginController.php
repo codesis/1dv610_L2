@@ -18,6 +18,8 @@ class LoginController {
     private $message;
     private $database;
 
+    private $isLoggedIn = false;
+
     public function __construct (\view\LoginView $loginView, \view\MessageView $messageView, \model\Database $database) {
         $this->loginView = $loginView;
         $this->username = $this->loginView->getUsername();
@@ -32,57 +34,38 @@ class LoginController {
 
         $this->database->connectToDatabase();
     }
-    /**
-	 * Handles login attempt
-	 * Hashes password
-	 * 
-	 * Calls different methods depending on action
-	 */
-	public function login () {
-		$this->checkLoginCredentials();
+
+    public function login () {
+        $this->checkLoginCredentials();
+        $this->verifiedLoginCredentials();
+
+        return $this->isLoggedIn;
     }
-    	/**
-	 * Sets session variable username to signed in username
-	 * Calls keepMeLoggedIn() when keep my logged in is checked
-	 * 
-	 * Should be called when user signs in with verified login credentials
-	 */
-	private function verifiedLoginCredentials () {
+
+    private function verifiedLoginCredentials () {
 		if ($this->database->checkIfUserExist($this->username, $this->password)) {
             if ($this->loginView->keepUserLoggedIn()) {
                 $this->message = $this->messageView->welcomeCookiesMessage();
+            } else {
+                $this->message = $this->messageView->welcomeMessage();
             }
             $this->loginView->setSessionToLoggedIn(true);
-            $this->message = $this->messageView->welcomeMessage();
+            $this->isLoggedIn = true;
         }
 	}
 
-	/**
-	 * Feedback changes depending on which credential is wrong
-	 * 
-	 * Should be called on check login tries
-	 */
-	public function checkLoginCredentials () {
+	private function checkLoginCredentials () {
 		if ($this->usernameExist && $this->passwordExist) {
-            $this->emptyUsername();
-            $this->emptyPassword();
-            $this->verifiedLoginCredentials();
-        } 
-		else {
-            $this->message = $this->messageView->wrongCredentialsMessage();
+            if ($this->username == '') {
+                $this->message = $this->messageView->missingUsernameMessage();
+            } else if ($this->password == '') {
+                $this->message = $this->messageView->missingPasswordMessage();
+            } else {
+                $this->message = $this->messageView->wrongCredentialsMessage();
+            }
         }
-	} 
-    private function emptyUsername () {
-        if ($this->username == '') {
-            $this->message = $this->messageView->missingUsernameMessage();
-        }    
-    }
-    private function emptyPassword () {
-        if ($this->password == '') {
-            $this->message = $this->messageView->missingPasswordMessage();
-        }
-    }
-
+    } 
+    
     public function logout () {
         $this->loginView->logOut();
         $this->message = $this->messageView->logoutMessage();
