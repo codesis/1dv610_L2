@@ -2,7 +2,6 @@
 
 namespace model;
 
-
 class Database {
     private $dbServer;
     private $dbUsername;

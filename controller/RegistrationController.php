@@ -1,15 +1,21 @@
 <?php
+/**
+ * 
+ * NEEDS TO BE RESTRUCTURED 
+ * AND VALID FOR CURRENT CODE SETUP
+ * 
+ * 
+ */
 
 namespace controller;
 
 class RegistrationController {
+	
     private function registerNewUser () {
 		if (isset($_POST[self::$register])) {
 			$this->username = $_POST[self::$name];
 			$this->passwordInput = $_POST[self::$password];
 			$this->passwordRepeatInput = $_POST[self::$passwordRepeat];
-			$tooFewCharInUsername = 'Username has too few characters, at least 3 characters.';
-			$tooFewCharInPassword = 'Password has too few characters, at least 6 characters.';
 			$this->emptyRegisterInputs();
 			$this->tooFewCharInPassword();
 			$this->tooFewCharInUsername();
@@ -39,7 +45,6 @@ class RegistrationController {
 	private function passwordsNotMatching () {
 		if (strlen($this->username) >= 3 && strlen($this->passwordInput) >= 6 && $this->passwordInput != $this->passwordRepeatInput) {
 			$this->holdUsername = $this->username;
-			$this->message = 'Passwords do not match.';
 		} 
 	}
 	private function usernameAlreadyExists () {
@@ -51,7 +56,6 @@ class RegistrationController {
 	private function invalidCharInUsername () {
 		if ($this->username != strip_tags($this->username) && strlen($this->passwordInput) >= 6 && $this->passwordInput === $this->passwordRepeatInput) {
 			$this->holdUsername = strip_tags($this->username);
-			$this->message = 'Username contains invalid characters.';
 		}	
 	}
 	private function validUserRegistration () {

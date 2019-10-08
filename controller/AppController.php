@@ -8,6 +8,7 @@ require_once('./view/DateTimeView.php');
 require_once('./view/LayoutView.php');
 require_once('./view/MessageView.php');
 require_once('./view/LoginView.php');
+require_once('./view/CookiesView.php');
 
 class AppController {
     private $isLoggedIn = false;
@@ -17,6 +18,7 @@ class AppController {
     private $layoutView;
     private $messageView;
     private $loginView;
+    private $cookieView;
 
     private $message;
     
@@ -25,13 +27,19 @@ class AppController {
         $this->layoutView = new \view\LayoutView();
         $this->messageView = new \view\MessageView();
         $this->loginView = new \view\LoginView();
+        $this->cookieView = new \view\CookiesView();
 
-        $this->loginController = new \controller\LoginController($this->loginView, $this->messageView, $database);
+        $this->loginController = new \controller\LoginController($this->loginView, $this->messageView, $this->cookieView, $database);
     }
 
     public function route () {
         if ($this->loginView->login()) {
             $this->isLoggedIn = $this->loginController->login();
+            $this->message = $this->loginController->getMessage();
+        }
+
+        if ($this->loginView->logOut()) {
+            $this->isLoggedIn = $this->loginController->logout();
             $this->message = $this->loginController->getMessage();
         }
         $response = $this->loginView->response($this->isLoggedIn, $this->message);

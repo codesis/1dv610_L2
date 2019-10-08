@@ -6,9 +6,14 @@ class CookiesView {
     private static $cookieName = 'LoginView::CookieName';
 	private static $cookiePassword = 'LoginView::CookiePassword';
 
-	public function keepMeLoggedIn () {
-		setcookie(self::$cookieName, $_POST[self::$name], time() + 3600);
-		setcookie(self::$cookiePassword, $this->hash, time() + 3600);
+	public function keepMeLoggedIn ($username, $password) {
+		setcookie(self::$cookieName, $username, time() + 3600);
+		setcookie(self::$cookiePassword, $password, time() + 3600);
+	}
+
+	public function killCookies ($username, $password) {
+		setcookie(self::$cookieName, $username, time() - 3600);
+		setcookie(self::$cookiePassword, $password, time() - 3600);
 	}
 
 	public function returnWithCookies () {

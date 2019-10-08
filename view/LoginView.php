@@ -11,10 +11,10 @@ class LoginView {
 	private static $messageId = 'LoginView::Message';
 	private static $loggedIn = 'LoginView::isLoggedIn';
 
-	private $message = '';
-	private $holdUsername = '';
-	private $passwordTest = '';
-	private $hash = '';
+	private $message;
+	private $holdUsername;
+	private $passwordTest;
+	private $hash;
 
 	public function login () {
 		return isset($_POST[self::$login]);
@@ -25,10 +25,7 @@ class LoginView {
 	}
 
 	public function logOut () {
-		setcookie(self::$cookieName, '', time() - 3600);
-		setcookie(self::$cookiePassword, '', time() - 3600);
-
-		session_destroy();
+		return isset($_POST[self::$logout]);
 	}
 
 	public function usernameFilledIn () {

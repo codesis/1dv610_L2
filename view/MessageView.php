@@ -33,6 +33,10 @@ class MessageView {
         return $this->message = $this->welcomeMessage() . ' and you will be remembered.';
     }
 
+    public function welcomeBackWithCookiesMessage () {
+        return $this->message = $this->welcomeMessage() . ' back with cookies.';
+    }
+
     public function tooShortUsernameMessage () {
         return $this->message = $this->username . ' has too few ' . $this->characters . ' , at least 3 ' . $this->characters . '.';
     }

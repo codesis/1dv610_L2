@@ -14,22 +14,24 @@ class LoginController {
     private $usernameExist;
     private $passwordExist;
     private $password;
+    private $hashedPassword;
     private $messageView;
     private $message;
     private $database;
 
     private $isLoggedIn = false;
 
-    public function __construct (\view\LoginView $loginView, \view\MessageView $messageView, \model\Database $database) {
+    public function __construct (\view\LoginView $loginView, \view\MessageView $messageView, \view\CookiesView $cookieView, \model\Database $database) {
         $this->loginView = $loginView;
         $this->username = $this->loginView->getUsername();
         $this->usernameExist = $this->loginView->usernameFilledIn();
         $this->passwordExist = $this->loginView->passwordFilledIn();
         $this->password = $this->loginView->getPassword();
+        $this->hashedPassword = password_hash($this->password, PASSWORD_DEFAULT);
 
         $this->messageView = $messageView;
 
-        // $this->cookieView = $cookieView;
+        $this->cookieView = $cookieView;
         $this->database = $database;
 
         $this->database->connectToDatabase();
@@ -45,6 +47,7 @@ class LoginController {
     private function verifiedLoginCredentials () {
 		if ($this->database->checkIfUserExist($this->username, $this->password)) {
             if ($this->loginView->keepUserLoggedIn()) {
+                $this->cookieView->keepMeLoggedIn($this->username, $this->hashedPassword);
                 $this->message = $this->messageView->welcomeCookiesMessage();
             } else {
                 $this->message = $this->messageView->welcomeMessage();
@@ -67,6 +70,7 @@ class LoginController {
     } 
     
     public function logout () {
+        $this->cookieView->killCookies($this->username, $this->hashedPassword);
         $this->loginView->logOut();
         $this->message = $this->messageView->logoutMessage();
     }
