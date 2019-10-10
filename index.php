@@ -5,10 +5,6 @@ session_start();
 include 'settings/settings.php';
 require_once('controller/AppController.php');
 require_once('model/Database.php');
-require_once('view/LoginView.php');
-require_once('view/DateTimeView.php');
-require_once('view/LayoutView.php');
-require_once('view/RegisterView.php');
 
 //MAKE SURE ERRORS ARE SHOWN... MIGHT WANT TO TURN THIS OFF ON A PUBLIC SERVER
 error_reporting(E_ALL);

@@ -1,0 +1,19 @@
+body {
+    background-color: #887456;;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    width: 50%;
+    margin: auto;
+    text-align: center;
+}
+
+.container {
+    background-color: white;
+    margin: auto;
+    min-height: 600px;
+    border-radius: 16px;
+}
+
+fieldset {
+    max-width: 750px;
+    margin: auto;
+}

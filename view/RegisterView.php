@@ -8,8 +8,7 @@ class RegisterView {
 	private static $password = 'RegisterView::Password';
 	private static $passwordRepeat = 'RegisterView::PasswordRepeat';
 	private static $messageId = 'RegisterView::Message';
-	private $message = '';
-	private $holdUsername = '';
+
 	private $username;
 	private $passwordInput;
 	private $passwordRepeatInput;
@@ -21,7 +20,7 @@ class RegisterView {
 	public function registerNewUser () {
 		return isset($_POST[self::$register]);
 	}
-	
+
 	public function usernameFilledIn () {
 		return isset($_POST[self::$name]);
 	}
@@ -32,12 +31,12 @@ class RegisterView {
 		}
 	}
 
-	public function passwordFilledIn () {
+	public function passwordsFilledIn () {
 		return isset($_POST[self::$password]);
 	}
 
 	public function getPassword() {
-		if ($this->passwordFilledIn()) {
+		if ($this->passwordsFilledIn()) {
 		    return $_POST[self::$password];
 		}
 	}
@@ -57,7 +56,7 @@ class RegisterView {
 					<p id="' . self::$messageId . '">' . $message . '</p>
 					
 					<label for="' . self::$name . '">Username :</label>
-					<input type="text" id="' . self::$name . '" name="' . self::$name . '" value="' . $this->holdUsername . '" />
+					<input type="text" id="' . self::$name . '" name="' . self::$name . '" value="" />
 
 					<label for="' . self::$password . '">Password :</label>
 					<input type="password" id="' . self::$password . '" name="' . self::$password . '" value="" />

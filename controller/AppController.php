@@ -34,28 +34,36 @@ class AppController {
         $this->cookieView = new \view\CookiesView();
 
         $this->loginController = new \controller\LoginController($this->loginView, $this->messageView, $this->cookieView, $database);
-        $this->registerController = new \controller\RegistrationController($this->registerView, $this->messageView, $database);
+        $this->registrationController = new \controller\RegistrationController($this->registerView, $this->messageView, $database);
     }
 
     public function route () {
         if ($this->registerView->renderRegisterPage()) {
             $this->registerResponse();
-        }
-        
-        else {
+        } else {
             $this->login();
         }
+
+        if ($this->register()) {
+        }
+        
 
         if ($this->logout()) {
         }
     }
 
     private function register () {
+        if ($this->registerView->registerNewUser()) {
+            $this->registrationController->registerNewUser();
+            $this->message = $this->registrationController->getMessage();
+        }
+
     }
 
     private function registerResponse () {
         $response = $this->registerView->response($this->message);
         $this->layoutView->render($this->isLoggedIn, $this->loginView, $this->dateTimeView, $this->message, $response);
+        $this->message = $this->registrationController->getMessage();
     }
 
     private function login () {

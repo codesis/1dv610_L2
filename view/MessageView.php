@@ -33,6 +33,10 @@ class MessageView {
         return $this->message = $this->welcomeMessage() . ' back with cookie.';
     }
 
+    public function usernameExistMessage () {
+        return $this->message = 'User exist, pick another username.';
+    }
+
     public function tooShortUsernameMessage () {
         return $this->message = 'Username has too few characters, at least 3 characters.';
     }
