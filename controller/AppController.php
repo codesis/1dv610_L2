@@ -33,15 +33,29 @@ class AppController {
     }
 
     public function route () {
+        if ($this->login()) {
+        }
+
+        if ($this->logout()) {
+        }
+        $this->loginResponse();
+    }
+
+    private function login () {
         if ($this->loginView->login()) {
             $this->isLoggedIn = $this->loginController->login();
             $this->message = $this->loginController->getMessage();
         }
+    }
 
+    private function logout () {
         if ($this->loginView->logOut()) {
             $this->isLoggedIn = $this->loginController->logout();
             $this->message = $this->loginController->getMessage();
         }
+    }
+
+    private function loginResponse () {
         $response = $this->loginView->response($this->isLoggedIn, $this->message);
         $this->layoutView->render($this->isLoggedIn, $this->loginView, $this->dateTimeView, $this->message, $response);
     }
