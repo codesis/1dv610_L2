@@ -1,5 +1,7 @@
 <?php
 
+// REMEMBER TO REMOVE ECHOES BEFORE PUBLICING!
+
 namespace model;
 
 class Database {
