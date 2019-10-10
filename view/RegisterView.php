@@ -2,8 +2,6 @@
 
 namespace view;
 
-require_once('LoginView.php');
-
 class RegisterView {
 	private static $register = 'RegisterView::Register';
 	private static $name = 'RegisterView::UserName';
@@ -12,22 +10,20 @@ class RegisterView {
 	private static $messageId = 'RegisterView::Message';
 	private $message = '';
 	private $holdUsername = '';
-	private $takenUsernameArray = array('Admin');
 	private $username;
 	private $passwordInput;
 	private $passwordRepeatInput;
-    
+
 
 	public function response ($isLoggedIn, $message) {
-		$LoginView = new LoginView();
-		$this->registerNewUser();
-		if (isset($_GET['register'])) {
-		return $this->generateRegisterFormHTML($this->message);
+		if (!$isLoggedIn) {
+		return $this->generateRegisterFormHTML($message);
 		} 
 	}
 
 	private function generateRegisterFormHTML ($message) {
 		return '
+		<a href="?">Back to login</a>
 			<form method="post" > 
 				<fieldset>
 					<legend>Register - enter Username and password</legend>

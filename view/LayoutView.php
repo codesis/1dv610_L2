@@ -33,14 +33,4 @@ class LayoutView {
       return '<h2>Not logged in</h2>';
     }
   }
-
-  // private function renderRegister($isLoggedIn) {
-  //   if (!$isLoggedIn) {
-  //     if ($_GET['register']) {
-  //       return '<a href="?">Back to login</a>';
-  //     } else {
-  //       return '<a href="?register">Register a new user</a>';
-  //     }
-  //   }
-  // }
 }

@@ -11,11 +11,6 @@ class LoginView {
 	private static $messageId = 'LoginView::Message';
 	private static $loggedIn = 'LoginView::isLoggedIn';
 
-	private $message;
-	private $holdUsername;
-	private $passwordTest;
-	private $hash;
-
 	public function login () {
 		return isset($_POST[self::$login]);
 	}
@@ -63,7 +58,7 @@ class LoginView {
 
 	private function generateLogoutButtonHTML($message) {
 		return '
-			<form  method="post" >
+			<form method="post" >
 				<p id="' . self::$messageId . '">' . $message .'</p>
 				<input type="submit" name="' . self::$logout . '" value="logout"/>
 			</form>
@@ -72,16 +67,17 @@ class LoginView {
 	
 	private function generateLoginFormHTML($message) {
 		return '
+		<a href="?register">Register a new user</a>
 			<form method="post" > 
 				<fieldset>
 					<legend>Login - enter Username and password</legend>
 					<p id="' . self::$messageId . '">' . $message . '</p>
 					
 					<label for="' . self::$name . '">Username :</label>
-					<input type="text" id="' . self::$name . '" name="' . self::$name . '" value="' . $this->holdUsername . '" />
+					<input type="text" id="' . self::$name . '" name="' . self::$name . '" value="" />
 
 					<label for="' . self::$password . '">Password :</label>
-					<input type="password" id="' . self::$password . '" name="' . self::$password . '" value="' . $this->passwordTest . '" />
+					<input type="password" id="' . self::$password . '" name="' . self::$password . '" value="" />
 
 					<label for="' . self::$keep . '">Keep me logged in  :</label>
 					<input type="checkbox" id="' . self::$keep . '" name="' . self::$keep . '" />
