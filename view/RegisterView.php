@@ -14,11 +14,38 @@ class RegisterView {
 	private $passwordInput;
 	private $passwordRepeatInput;
 
+	public function renderRegisterPage () {
+		return isset($_GET['register']);
+	}
 
-	public function response ($isLoggedIn, $message) {
-		if (!$isLoggedIn) {
-		return $this->generateRegisterFormHTML($message);
-		} 
+	public function registerNewUser () {
+		return isset($_POST[self::$register]);
+	}
+	
+	public function usernameFilledIn () {
+		return isset($_POST[self::$name]);
+	}
+
+	public function getUsername () {
+		if ($this->usernameFilledIn()) {
+		    return $_POST[self::$name];
+		}
+	}
+
+	public function passwordFilledIn () {
+		return isset($_POST[self::$password]);
+	}
+
+	public function getPassword() {
+		if ($this->passwordFilledIn()) {
+		    return $_POST[self::$password];
+		}
+	}
+
+	
+	public function response ($message) {
+		$response = $this->generateRegisterFormHTML($message);
+		return $response;
 	}
 
 	private function generateRegisterFormHTML ($message) {

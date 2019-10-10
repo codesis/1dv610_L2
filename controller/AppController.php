@@ -3,11 +3,13 @@
 namespace controller;
 
 require_once('LoginController.php');
+require_once('RegistrationController.php');
 require_once('./model/Database.php');
 require_once('./view/DateTimeView.php');
 require_once('./view/LayoutView.php');
 require_once('./view/MessageView.php');
 require_once('./view/LoginView.php');
+require_once('./view/RegisterView.php');
 require_once('./view/CookiesView.php');
 
 class AppController {
@@ -18,6 +20,7 @@ class AppController {
     private $layoutView;
     private $messageView;
     private $loginView;
+    private $registerView;
     private $cookieView;
 
     private $message;
@@ -27,18 +30,32 @@ class AppController {
         $this->layoutView = new \view\LayoutView();
         $this->messageView = new \view\MessageView();
         $this->loginView = new \view\LoginView();
+        $this->registerView = new \view\RegisterView();
         $this->cookieView = new \view\CookiesView();
 
         $this->loginController = new \controller\LoginController($this->loginView, $this->messageView, $this->cookieView, $database);
+        $this->registerController = new \controller\RegistrationController($this->registerView, $this->messageView, $database);
     }
 
     public function route () {
-        if ($this->login()) {
+        if ($this->registerView->renderRegisterPage()) {
+            $this->registerResponse();
+        }
+        
+        else {
+            $this->login();
         }
 
         if ($this->logout()) {
         }
-        $this->loginResponse();
+    }
+
+    private function register () {
+    }
+
+    private function registerResponse () {
+        $response = $this->registerView->response($this->message);
+        $this->layoutView->render($this->isLoggedIn, $this->loginView, $this->dateTimeView, $this->message, $response);
     }
 
     private function login () {
@@ -46,6 +63,7 @@ class AppController {
             $this->isLoggedIn = $this->loginController->login();
             $this->message = $this->loginController->getMessage();
         }
+        $this->loginResponse();
     }
 
     private function logout () {
