@@ -10,6 +10,7 @@ class LoginView {
 	private static $keep = 'LoginView::KeepMeLoggedIn';
 	private static $messageId = 'LoginView::Message';
 	private static $loggedIn = 'LoginView::isLoggedIn';
+	private $holdUsername = '';
 
 	public function login () {
 		return isset($_POST[self::$login]);
@@ -30,6 +31,12 @@ class LoginView {
 	public function getUsername () {
 		if ($this->usernameFilledIn()) {
 		    return $_POST[self::$name];
+		}
+	}
+
+	public function setUsername () {
+		if ($this->getUsername()) {
+			$this->holdUsername = $this->getUsername();
 		}
 	}
 
@@ -74,7 +81,7 @@ class LoginView {
 					<p id="' . self::$messageId . '">' . $message . '</p>
 					
 					<label for="' . self::$name . '">Username :</label>
-					<input type="text" id="' . self::$name . '" name="' . self::$name . '" value="" />
+					<input type="text" id="' . self::$name . '" name="' . self::$name . '" value="' . $this->holdUsername . '" />
 
 					<label for="' . self::$password . '">Password :</label>
 					<input type="password" id="' . self::$password . '" name="' . self::$password . '" value="" />

@@ -59,6 +59,7 @@ class LoginController {
 
 	private function checkLoginCredentials () {
 		if ($this->usernameExist && $this->passwordExist) {
+            $this->loginView->setUsername();
             if ($this->username == '') {
                 $this->message = $this->messageView->missingUsernameMessage();
             } else if ($this->password == '') {

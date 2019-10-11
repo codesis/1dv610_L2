@@ -19,7 +19,6 @@ class Database {
         $this->connection = false;
     }
 
-    // PDO has an exception class to handle any problems in our database queries
     public function connectToDatabase () {
         try {
             $this->connection = new \PDO('mysql:host=' . $this->dbServer . ';dbname=' . $this->dbName, $this->dbUsername, $this->dbPassword);
@@ -34,7 +33,7 @@ class Database {
 
     public function checkIfUserExist ($username, $password) {
         try {
-            $statement = $this->connection->prepare('SELECT * FROM users WHERE username = :username AND password = :password');
+            $statement = $this->connection->prepare('SELECT * FROM users WHERE BINARY username = :username AND BINARY password = :password');
             $statement->execute(array('username' => $username, 'password' => $password));
 
             if ($statement->rowCount() > 0) {
