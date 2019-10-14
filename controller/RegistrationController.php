@@ -37,19 +37,8 @@ class RegistrationController {
         $this->checkRegisterCredentials();
         $this->tryToRegisterNewUser($this->username, $this->password);
     }
-	
-    public function tryToRegisterNewUser ($username, $password) {
-        if ($this->checkRegisterCredentials()) {
-            if (!$this->database->registerNewUser($username, $password)) {
-                $this->messageView->usernameExistMessage();
-                return false;
-            } else {
-                return true;
-            }
-        }
-	}
-
-	private function checkRegisterCredentials () {
+    
+    private function checkRegisterCredentials () {
 		if ($this->usernameExist && $this->passwordExist) {
             if ($this->username == '') {
                 $this->message = $this->messageView->missingUsernameMessage();
@@ -60,6 +49,18 @@ class RegistrationController {
             }
         }
     } 
+
+    public function tryToRegisterNewUser () {
+        if ($this->checkRegisterCredentials()) {
+            if (!$this->database->registerNewUser($this->username, $this->password)) {
+                $this->messageView->usernameExistMessage();
+                return false;
+            } else {
+                return true;
+            }
+        }
+	}
+
     public function getMessage () {
         return $this->message;
     }

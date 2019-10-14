@@ -39,15 +39,24 @@ class LoginController {
     }
 
       public function login () {
-        if ($this->cookieView->getLoggedInStatus() === true) {
-            return $this->isLoggedIn = true;
-        }
         $this->loginView->setUsername();
         $this->checkLoginCredentials();
         $this->verifiedLoginCredentials();
 
         return $this->isLoggedIn;
     }
+
+	private function checkLoginCredentials () {
+		if ($this->usernameExist && $this->passwordExist) {
+            if ($this->username == '') {
+                $this->message = $this->messageView->missingUsernameMessage();
+            } else if ($this->password == '') {
+                $this->message = $this->messageView->missingPasswordMessage();
+            } else {
+                $this->message = $this->messageView->wrongCredentialsMessage();
+            }
+        }
+    } 
 
     private function verifiedLoginCredentials () {
 		if ($this->database->checkIfUserExist($this->username, $this->password)) {
@@ -63,7 +72,7 @@ class LoginController {
             $this->keepUserLoggedIn();
         } 
         else {
-            $this->message = $this->messageView->emptyMessage();
+            $this->message = $this->getEmptyMessage();
         }
         $this->cookieView->loggedInCookie($this->username);
     }
@@ -75,20 +84,9 @@ class LoginController {
         }
     }
 
-    // private function getEmptyMessage () {
-    //     return $this->message = $this->messageView->emptyMessage();
-    // }
-	private function checkLoginCredentials () {
-		if ($this->usernameExist && $this->passwordExist) {
-            if ($this->username == '') {
-                $this->message = $this->messageView->missingUsernameMessage();
-            } else if ($this->password == '') {
-                $this->message = $this->messageView->missingPasswordMessage();
-            } else {
-                $this->message = $this->messageView->wrongCredentialsMessage();
-            }
-        }
-    } 
+    private function getEmptyMessage () {
+        return $this->message = $this->messageView->emptyMessage();
+    }
     
     public function logout () {
         $this->cookieView->killCookies($this->username, $this->hashedPassword);

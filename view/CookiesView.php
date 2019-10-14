@@ -20,14 +20,6 @@ class CookiesView {
 		    return $_COOKIE[self::$cookieName];
 		}
 	}
-
-	// public function getCookiesBool () {
-	// 	if (!isset($_COOKIE[self::$cookiePassword])) {
-	// 		return false;
-	// 	} else {
-	// 		return true;
-	// 	}
-	// }
 	
 	public function keepMeLoggedIn ($username, $password) {
 		setcookie(self::$cookieName, $username, time() + 3600);
@@ -37,6 +29,8 @@ class CookiesView {
 	public function killCookies ($username, $password) {
 		setcookie(self::$cookieName, $username, time() - 3600);
 		setcookie(self::$cookiePassword, $password, time() - 3600);
+		session_unset();
+		session_destroy();
 	}
 
 	public function returnWithCookies ($username, $password) {

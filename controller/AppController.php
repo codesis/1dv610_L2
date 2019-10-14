@@ -39,6 +39,8 @@ class AppController {
 
     public function route () {
         if ($this->registerView->renderRegisterPage()) {
+            if ($this->register()) {
+            }
             $this->registerResponse();
         } else {
             $this->checkLoggedInStatus();

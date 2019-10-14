@@ -1,4 +1,5 @@
 <?php
+ini_set('session.cookie_lifetime', 0);
 session_start();
 
 //INCLUDE THE FILES NEEDED...
@@ -14,4 +15,3 @@ $database = new \model\Database($dbServer, $dbName, $dbUsername, $dbPassword);
 
 $appController = new \controller\AppController($database);
 $appController->route();
-
