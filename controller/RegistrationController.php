@@ -16,8 +16,10 @@ class RegistrationController {
 
     private $username;
     private $usernameExist;
+    private $tooShortUsername;
     private $passwordExist;
     private $password;
+    private $tooShortPassword;
     private $message;
 
 	public function __construct (\view\RegisterView $registerView, \view\MessageView $messageView, \model\Database $database) {
@@ -27,37 +29,50 @@ class RegistrationController {
 
         $this->username = $this->registerView->getUsername();
         $this->usernameExist = $this->registerView->usernameFilledIn();
+        $this->tooShortUsername = $this->registerView->tooShortUsername();
         $this->passwordExist = $this->registerView->passwordsFilledIn();
         $this->password = $this->registerView->getPassword();
+        $this->tooShortPassword = $this->registerView->tooShortPassword();
 
         $this->database->connectToDatabase();
     }
 
     public function registerNewUser () {
         $this->checkRegisterCredentials();
-        $this->tryToRegisterNewUser($this->username, $this->password);
+        if (!$this->database->registerNewUser($this->username, $this->password)) {
+            $this->message = $this->messageView->usernameExistMessage();
+            // return false;
+        } else {
+            // return true;
+        }
     }
     
     private function checkRegisterCredentials () {
 		if ($this->usernameExist && $this->passwordExist) {
-            if ($this->username == '') {
-                $this->message = $this->messageView->missingUsernameMessage();
-            } else if ($this->password == '') {
-                $this->message = $this->messageView->missingPasswordMessage();
-            } else {
-                $this->message = $this->messageView->wrongCredentialsMessage();
-            }
+            $this->emptyCredentials();
         }
     } 
 
+    private function emptyCredentials () {
+        if ($this->tooShortUsername && $this->tooShortPassword) {
+            $this->message = $this->messageView->tooShortUsernameMessage() . ' ' . $this->messageView->tooShortPasswordMessage();
+        } else if ($this->tooShortPassword) {
+            $this->message = $this->messageView->tooShortPasswordMessage();
+        } else if ($this->tooShortUsername) {
+            $this->message = $this->messageView->tooShortUsernameMessage();
+        }
+
+        if ($this->password === false) {
+            $this->message = $this->messageView->notMatchingPasswordsMessage();
+        }
+    }
+
     public function tryToRegisterNewUser () {
-        if ($this->checkRegisterCredentials()) {
-            if (!$this->database->registerNewUser($this->username, $this->password)) {
-                $this->messageView->usernameExistMessage();
-                return false;
-            } else {
-                return true;
-            }
+        if (!$this->database->registerNewUser($this->username, $this->password)) {
+            $this->message = $this->messageView->usernameExistMessage();
+            return false;
+        } else {
+            return true;
         }
 	}
 

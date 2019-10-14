@@ -31,13 +31,33 @@ class RegisterView {
 		}
 	}
 
+	public function tooShortUsername () {
+		if (strlen($this->getUsername()) <= 2) {
+			return true;
+		}
+	}
+
+	public function tooShortPassword () {
+		if (strlen($this->getPassword()) <= 6) {
+			return true;
+		}
+	}
+
 	public function passwordsFilledIn () {
-		return isset($_POST[self::$password]);
+		return isset($_POST[self::$password]) && isset($_POST[self::$passwordRepeat]);
+	}
+
+	private function passwordsMatching () {
+        if ($_POST[self::$password] == $_POST[self::$passwordRepeat]) {
+			return true;
+		}
 	}
 
 	public function getPassword() {
-		if ($this->passwordsFilledIn()) {
+		if ($this->passwordsMatching()) {
 		    return $_POST[self::$password];
+		} else {
+			return false;
 		}
 	}
 
