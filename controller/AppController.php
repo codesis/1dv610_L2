@@ -67,7 +67,7 @@ class AppController {
     }
 
     private function login () {
-        if ($this->loginView->login()) {
+        if ($this->loginView->login()) {   
             $this->isLoggedIn = $this->loginController->login();
             $this->message = $this->loginController->getMessage();
         }

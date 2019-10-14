@@ -10,6 +10,7 @@ require_once('./model/Database.php');
 class LoginController {
     private $loginView;
     private $cookieView;
+    private $isUserLoggedIn;
     private $username;
     private $usernameExist;
     private $passwordExist;
@@ -37,7 +38,8 @@ class LoginController {
         $this->database->connectToDatabase();
     }
 
-    public function login () {
+      public function login () {
+        $this->loginView->setUsername();
         $this->checkLoginCredentials();
         $this->verifiedLoginCredentials();
 
@@ -46,20 +48,35 @@ class LoginController {
 
     private function verifiedLoginCredentials () {
 		if ($this->database->checkIfUserExist($this->username, $this->password)) {
-            if ($this->loginView->keepUserLoggedIn()) {
-                $this->cookieView->keepMeLoggedIn($this->username, $this->hashedPassword);
-                $this->message = $this->messageView->welcomeCookiesMessage();
-            } else {
-                $this->message = $this->messageView->welcomeMessage();
-            }
-            $this->loginView->setSessionToLoggedIn(true);
+            $this->isUserLoggedIn();
+
             $this->isLoggedIn = true;
         }
-	}
+    }
+    
+    private function isUserLoggedIn () {
+        if ($this->cookieView->getLoggedInCookie() === false) {
+            $this->message = $this->messageView->welcomeMessage();
+            $this->keepUserLoggedIn();
+        } 
+        else {
+            $this->message = $this->messageView->emptyMessage();
+        }
+        $this->cookieView->loggedInCookie($this->username);
+    }
 
+    private function keepUserLoggedIn () {
+        if ($this->loginView->keepUserLoggedIn()) {
+            $this->cookieView->keepMeLoggedIn($this->username, $this->hashedPassword);
+            $this->message = $this->messageView->welcomeCookiesMessage();
+        }
+    }
+
+    // private function getEmptyMessage () {
+    //     return $this->message = $this->messageView->emptyMessage();
+    // }
 	private function checkLoginCredentials () {
 		if ($this->usernameExist && $this->passwordExist) {
-            $this->loginView->setUsername();
             if ($this->username == '') {
                 $this->message = $this->messageView->missingUsernameMessage();
             } else if ($this->password == '') {

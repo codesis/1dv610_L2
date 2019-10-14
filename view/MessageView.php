@@ -5,6 +5,10 @@ namespace view;
 class MessageView {
     private $message;
 
+    public function emptyMessage () {
+        return $this->message = '';
+    }
+    
     public function welcomeMessage () {
         return $this->message = 'Welcome';
     }
@@ -31,6 +35,10 @@ class MessageView {
 
     public function welcomeBackWithCookiesMessage () {
         return $this->message = $this->welcomeMessage() . ' back with cookie.';
+    }
+
+    public function wrongInformationInCookiesMessage () {
+        return $this->message = 'Wrong information in cookies.';
     }
 
     public function usernameExistMessage () {

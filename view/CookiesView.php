@@ -6,6 +6,26 @@ class CookiesView {
     private static $cookieName = 'LoginView::CookieName';
 	private static $cookiePassword = 'LoginView::CookiePassword';
 
+	public function loggedInCookie ($username) {
+		setcookie(self::$cookieName, $username, time() + 3600);
+	}
+
+	public function getLoggedInCookie () {
+		if (!isset($_COOKIE[self::$cookieName])) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	public function getCookiesBool () {
+		if (!isset($_COOKIE[self::$cookiePassword])) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
 	public function keepMeLoggedIn ($username, $password) {
 		setcookie(self::$cookieName, $username, time() + 3600);
 		setcookie(self::$cookiePassword, $password, time() + 3600);

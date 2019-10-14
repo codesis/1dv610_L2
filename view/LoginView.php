@@ -16,10 +16,6 @@ class LoginView {
 		return isset($_POST[self::$login]);
 	}
 
-	public function setSessionToLoggedIn ($bool) {
-		$_SESSION[self::$loggedIn] = $bool;
-	}
-
 	public function logOut () {
 		return isset($_POST[self::$logout]);
 	}
