@@ -41,14 +41,12 @@ class AppController {
         if ($this->registerView->renderRegisterPage()) {
             $this->registerResponse();
         } else {
+            $this->checkLoggedInStatus();
+
             $this->login();
         }
 
         if ($this->register()) {
-        }
-        
-
-        if ($this->logout()) {
         }
     }
 
@@ -64,6 +62,13 @@ class AppController {
         $response = $this->registerView->response($this->message);
         $this->layoutView->render($this->isLoggedIn, $this->loginView, $this->dateTimeView, $this->message, $response);
         $this->message = $this->registrationController->getMessage();
+    }
+
+    private function checkLoggedInStatus () {
+        if ($this->cookieView->getLoggedInStatus()) {
+            $this->isLoggedIn = $this->cookieView->getLoggedInCookie();
+        }
+        if ($this->logout());
     }
 
     private function login () {

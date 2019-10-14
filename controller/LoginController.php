@@ -39,6 +39,9 @@ class LoginController {
     }
 
       public function login () {
+        if ($this->cookieView->getLoggedInStatus() === true) {
+            return $this->isLoggedIn = true;
+        }
         $this->loginView->setUsername();
         $this->checkLoginCredentials();
         $this->verifiedLoginCredentials();
@@ -55,7 +58,7 @@ class LoginController {
     }
     
     private function isUserLoggedIn () {
-        if ($this->cookieView->getLoggedInCookie() === false) {
+        if ($this->cookieView->getLoggedInStatus() === false) {
             $this->message = $this->messageView->welcomeMessage();
             $this->keepUserLoggedIn();
         } 

@@ -8,23 +8,26 @@ class CookiesView {
 
 	public function loggedInCookie ($username) {
 		setcookie(self::$cookieName, $username, time() + 3600);
+		// $_SESSION['username'] = $username;
+	}
+
+	public function getLoggedInStatus () {
+		return isset($_COOKIE[self::$cookieName]);
 	}
 
 	public function getLoggedInCookie () {
-		if (!isset($_COOKIE[self::$cookieName])) {
-			return false;
-		} else {
-			return true;
+		if ($this->getLoggedInStatus()) {
+		    return $_COOKIE[self::$cookieName];
 		}
 	}
 
-	public function getCookiesBool () {
-		if (!isset($_COOKIE[self::$cookiePassword])) {
-			return false;
-		} else {
-			return true;
-		}
-	}
+	// public function getCookiesBool () {
+	// 	if (!isset($_COOKIE[self::$cookiePassword])) {
+	// 		return false;
+	// 	} else {
+	// 		return true;
+	// 	}
+	// }
 	
 	public function keepMeLoggedIn ($username, $password) {
 		setcookie(self::$cookieName, $username, time() + 3600);
