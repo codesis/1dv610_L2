@@ -70,11 +70,14 @@ class LoginController {
         if ($this->cookieView->getLoggedInStatus() === false) {
             $this->message = $this->messageView->welcomeMessage();
             $this->keepUserLoggedIn();
-        } 
-        else {
+        } else if ($this->cookieView->returnWithCookies($this->username, $this->password) === true) {
+            $this->message = $this->messageView->welcomeBackWithCookiesMessage();
+        } else if ($this->cookieView->returnWithCookies($this->username, $this->password) === false) {
+            $this->message = $this->messageView->wrongInformationInCookiesMessage();
+        } else {
             $this->message = $this->getEmptyMessage();
         }
-        $this->cookieView->loggedInCookie($this->username);
+        $this->cookieView->loggedInCookie($this->password);
     }
 
     private function keepUserLoggedIn () {

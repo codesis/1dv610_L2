@@ -37,13 +37,13 @@ class CookiesView {
 	public function returnWithCookies ($username, $password) {
 		if ($_COOKIE[self::$cookieName] == $username && password_verify($password, $_COOKIE[self::$cookiePassword])) {
 			if ($this->getLoggedInStatus()) {
-				$this->message = 'Welcome back with cookie';
+				return true;
 			}
 		} 
 		else {
-			$this->message = 'Wrong information in cookies';
 			setcookie(self::$cookieName, '', time() - 3600);
 			setcookie(self::$cookiePassword, '', time() -3600);
+			return false;
 		}	
 	}
 
