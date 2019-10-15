@@ -3,21 +3,22 @@
 namespace view;
 
 class CookiesView {
+	private static $cookieLoggedIn = 'LoginView::CookieLoggedIn';
     private static $cookieName = 'LoginView::CookieName';
 	private static $cookiePassword = 'LoginView::CookiePassword';
 
 	public function loggedInCookie ($username) {
-		setcookie(self::$cookieName, $username, time() + 3600);
+		setcookie(self::$cookieLoggedIn, $username, time() + 3600);
 		// $_SESSION['username'] = $username;
 	}
 
 	public function getLoggedInStatus () {
-		return isset($_COOKIE[self::$cookieName]);
+		return isset($_COOKIE[self::$cookieLoggedIn]);
 	}
 
 	public function getLoggedInCookie () {
 		if ($this->getLoggedInStatus()) {
-		    return $_COOKIE[self::$cookieName];
+		    return $_COOKIE[self::$cookieLoggedIn];
 		}
 	}
 	
@@ -29,6 +30,7 @@ class CookiesView {
 	public function killCookies ($username, $password) {
 		setcookie(self::$cookieName, $username, time() - 3600);
 		setcookie(self::$cookiePassword, $password, time() - 3600);
+		setcookie(self::$cookieLoggedIn, '', time() - 3600);
 		session_unset();
 		session_destroy();
 	}
