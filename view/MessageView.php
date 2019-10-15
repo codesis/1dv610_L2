@@ -49,7 +49,7 @@ class MessageView {
         return $this->message = 'Username has too few characters, at least 3 characters.';
     }
 
-    public function invalidCharacterInUsername () {
+    public function invalidCharacterInUsernameMessage () {
         return $this->message = 'Username contains invalid characters.';
     }
 
@@ -59,5 +59,9 @@ class MessageView {
 
     public function notMatchingPasswordsMessage () {
         return $this->message = 'Passwords do not match.';
+    }
+
+    public function registeredUserMessage () {
+        return $this->message = 'Registered new user';
     }
 }

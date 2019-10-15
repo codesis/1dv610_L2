@@ -31,16 +31,34 @@ class RegisterView {
 		}
 	}
 
-	public function tooShortUsername () {
-		if (strlen($this->getUsername()) <= 2) {
-			return true;
+	public function setUsername () {
+		if ($this->getUsername()) {
+			if ($this->checkUsernameForHTML($this->getUsername()) == true) {
+				$this->username = strip_tags($this->getUsername());
+			} else {
+				$this->username = $this->getUsername();
+			}
+			return $this->username;
 		}
 	}
 
-	public function tooShortPassword () {
-		if (strlen($this->getPassword()) <= 6) {
+	public function checkUsernameForHTML ($string) {
+		if ($string != strip_tags($string)) {
 			return true;
-		}
+		} 
+		return false;
+	}
+
+	public function tooShortUsername () {
+		if (strlen($this->getUsername()) <= 2) {
+			return true;
+		} 
+	}
+
+	public function tooShortPassword () {
+		if (strlen($this->getPassword()) <= 5) {
+			return true;
+		} 
 	}
 
 	public function passwordsFilledIn () {
@@ -78,7 +96,7 @@ class RegisterView {
 					<p id="' . self::$messageId . '">' . $message . '</p>
 					
 					<label for="' . self::$name . '">Username :</label>
-					<input type="text" id="' . self::$name . '" name="' . self::$name . '" value="" />
+					<input type="text" id="' . self::$name . '" name="' . self::$name . '" value="' . $this->username . '" />
 
 					<label for="' . self::$password . '">Password :</label>
 					<input type="password" id="' . self::$password . '" name="' . self::$password . '" value="" />

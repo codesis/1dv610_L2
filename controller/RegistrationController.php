@@ -38,13 +38,12 @@ class RegistrationController {
     }
 
     public function registerNewUser () {
+        $this->registerView->setUsername();
+
         $this->checkRegisterCredentials();
-        if (!$this->database->registerNewUser($this->username, $this->password)) {
-            $this->message = $this->messageView->usernameExistMessage();
-            // return false;
-        } else {
-            // return true;
-        }
+        // $this->tryToRegisterNewUser();
+
+        
     }
     
     private function checkRegisterCredentials () {
@@ -62,8 +61,19 @@ class RegistrationController {
             $this->message = $this->messageView->tooShortUsernameMessage();
         }
 
+        $this->notMatchingPasswords();
+        $this->notAllowedCharactersInUsername();
+    }
+
+    private function notMatchingPasswords () {
         if ($this->password === false) {
             $this->message = $this->messageView->notMatchingPasswordsMessage();
+        }
+    }
+
+    private function notAllowedCharactersInUsername () {
+        if ($this->registerView->checkUsernameForHTML($this->username)) {
+            $this->message = $this->messageView->invalidCharacterInUsernameMessage();
         }
     }
 
@@ -72,6 +82,7 @@ class RegistrationController {
             $this->message = $this->messageView->usernameExistMessage();
             return false;
         } else {
+            $this->message = $this->messageView->registeredUserMessage();
             return true;
         }
 	}
