@@ -11,10 +11,10 @@ require_once('model/Database.php');
 error_reporting(E_ALL);
 ini_set('display_errors', 'On');
 
-$dbName;
-$dbPassword;
-$dbServer;
-$dbUsername;
+$dbName = getenv('dbName');
+$dbPassword = getenv('dbPassword');
+$dbServer = getenv('dbServer');
+$dbUsername = getenv('dbUsername');
 
 $database = new \model\Database($dbServer, $dbName, $dbUsername, $dbPassword);
 
