@@ -3,7 +3,8 @@ ini_set('session.cookie_lifetime', 0);
 session_start();
 
 //INCLUDE THE FILES NEEDED...
-include 'settings/settings.php';
+// include 'settings/settings.php';
+include 'ignore.php';
 require_once('controller/AppController.php');
 require_once('model/Database.php');
 

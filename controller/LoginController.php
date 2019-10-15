@@ -65,19 +65,24 @@ class LoginController {
             $this->isLoggedIn = true;
         }
     }
+
+    private function returningWithCookies () {
+        if ($this->cookieView->returnWithCookies($this->username, $this->hashedPassword) === true) {
+            $this->message = $this->messageView->welcomeBackWithCookiesMessage();
+        } else {
+            $this->message = $this->messageView->wrongInformationInCookiesMessage();
+            $this->logout();
+      }
+    }
     
     private function isUserLoggedIn () {
         if ($this->cookieView->getLoggedInStatus() === false) {
             $this->message = $this->messageView->welcomeMessage();
             $this->keepUserLoggedIn();
-        } else if ($this->cookieView->returnWithCookies($this->username, $this->password) === true) {
-            $this->message = $this->messageView->welcomeBackWithCookiesMessage();
-        } else if ($this->cookieView->returnWithCookies($this->username, $this->password) === false) {
-            $this->message = $this->messageView->wrongInformationInCookiesMessage();
-        } else {
+        }  else {
             $this->message = $this->getEmptyMessage();
         }
-        $this->cookieView->loggedInCookie($this->password);
+        $this->cookieView->loggedInCookie($this->hashedPassword);
     }
 
     private function keepUserLoggedIn () {
