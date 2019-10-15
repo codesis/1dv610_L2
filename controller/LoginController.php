@@ -91,7 +91,11 @@ class LoginController {
     public function logout () {
         $this->cookieView->killCookies($this->username, $this->hashedPassword);
         $this->loginView->logOut();
-        $this->message = $this->messageView->logoutMessage();
+        if ($this->cookieView->getLoggedInStatus() === false) {
+            $this->message = $this->getEmptyMessage();
+        } else {
+            $this->message = $this->messageView->logoutMessage();
+        }
     }
     
     public function getMessage () {
