@@ -11,6 +11,11 @@ require_once('model/Database.php');
 error_reporting(E_ALL);
 ini_set('display_errors', 'On');
 
+$dbName;
+$dbPassword;
+$dbServer;
+$dbUsername;
+
 $database = new \model\Database($dbServer, $dbName, $dbUsername, $dbPassword);
 
 $appController = new \controller\AppController($database);
