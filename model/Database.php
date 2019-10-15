@@ -27,7 +27,7 @@ class Database {
             echo 'Connection failed: ' . $e->getMessage();
             return false;
         }
-        echo 'Connected successfully';
+        // echo 'Connected successfully';
         return true;
     }
 
