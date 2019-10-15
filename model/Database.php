@@ -48,13 +48,12 @@ class Database {
 
     public function registerNewUser ($username, $password) {
         try {
-            $this->connection->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-            $sql = 'INSERT INTO users (username, password) VALUES (username, password)';
 
-            $this->connection->exec($sql);
+            $statement = $this->connection->prepare("INSERT INTO users (username, password) VALUES ('$username', '$password')");
+            $statement->execute(array('username' => $username, 'password' => $password));
 
             echo 'new user registered' . $sql;
-            // $statement->execute(array('username' => $username, 'password' => $password));
+            
         } catch (\PDOException $e) {
             echo 'User could not be added to database: ' . $e->getMessage();
             return false;

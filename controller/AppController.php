@@ -47,9 +47,6 @@ class AppController {
 
             $this->login();
         }
-
-        if ($this->register()) {
-        }
     }
 
     private function register () {
