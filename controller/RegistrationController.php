@@ -39,16 +39,15 @@ class RegistrationController {
 
     public function registerNewUser () {
         $this->registerView->setUsername();
-
         $this->checkRegisterCredentials();
         // $this->tryToRegisterNewUser();
-
-        
     }
     
     private function checkRegisterCredentials () {
 		if ($this->usernameExist && $this->passwordExist) {
             $this->emptyCredentials();
+            $this->notMatchingPasswords();
+            $this->notAllowedCharactersInUsername();    
         }
     } 
 
@@ -60,9 +59,6 @@ class RegistrationController {
         } else if ($this->tooShortUsername) {
             $this->message = $this->messageView->tooShortUsernameMessage();
         }
-
-        $this->notMatchingPasswords();
-        $this->notAllowedCharactersInUsername();
     }
 
     private function notMatchingPasswords () {

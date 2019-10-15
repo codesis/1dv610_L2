@@ -54,7 +54,6 @@ class AppController {
             $this->registrationController->registerNewUser();
             $this->message = $this->registrationController->getMessage();
         }
-
     }
 
     private function registerResponse () {

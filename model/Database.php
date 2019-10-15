@@ -52,7 +52,7 @@ class Database {
             $statement = $this->connection->prepare("INSERT INTO users (username, password) VALUES ('$username', '$password')");
             $statement->execute(array('username' => $username, 'password' => $password));
 
-            echo 'new user registered' . $sql;
+            echo 'new user registered';
             
         } catch (\PDOException $e) {
             echo 'User could not be added to database: ' . $e->getMessage();
