@@ -24,10 +24,8 @@ class Database {
             $this->connection = new \PDO('mysql:host=' . $this->dbServer . ';dbname=' . $this->dbName, $this->dbUsername, $this->dbPassword);
             $this->connection->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
         } catch (\PDOException $e) {
-            echo 'Connection failed: ' . $e->getMessage();
             return false;
         }
-        // echo 'Connected successfully';
         return true;
     }
 
@@ -40,7 +38,7 @@ class Database {
                 return true;
             }
         } catch (\PDOException $e) {
-            echo 'User does not exist in database: ' . $e->getMessage();
+
             return false;
         }
         return false;
@@ -51,11 +49,9 @@ class Database {
 
             $statement = $this->connection->prepare("INSERT INTO users (username, password) VALUES ('$username', '$password')");
             $statement->execute(array('username' => $username, 'password' => $password));
-
-            echo 'new user registered';
             
         } catch (\PDOException $e) {
-            echo 'User could not be added to database: ' . $e->getMessage();
+
             return false;
         }
         return true;
