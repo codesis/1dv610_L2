@@ -56,8 +56,10 @@ class RegisterView {
 	}
 
 	public function tooShortPassword () {
-		if (strlen($this->getPassword()) <= 5) {
-			return true;
+		if ($this->getPassword()) {
+			if (strlen($this->getPassword()) <= 5) {
+				return true;
+			}
 		} 
 	}
 
@@ -67,10 +69,10 @@ class RegisterView {
 
 	private function passwordsMatching () {
 		if ($this->passwordsFilledIn()) {
-        if ($_POST[self::$password] == $_POST[self::$passwordRepeat]) {
-			return true;
+			if ($_POST[self::$password] == $_POST[self::$passwordRepeat]) {
+				return true;
+			}
 		}
-	}
 	}
 
 	public function getPassword() {
