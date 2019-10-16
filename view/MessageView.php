@@ -45,6 +45,10 @@ class MessageView {
         return $this->message = 'User exists, pick another username.';
     }
 
+    public function tooShortCredentialsMessage () {
+        return $this->message = $this->tooShortUsernameMessage() . ' ' . $this->tooShortPasswordMessage();
+    }
+
     public function tooShortUsernameMessage () {
         return $this->message = 'Username has too few characters, at least 3 characters.';
     }

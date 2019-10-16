@@ -7,11 +7,20 @@ class LoginView {
 	private static $logout = 'LoginView::Logout';
 	private static $name = 'LoginView::UserName';
 	private static $password = 'LoginView::Password';
+	private static $updatePassword = 'LoginView::UpdatePassword';
+	private static $updatePasswordRepeat = 'LoginView::UpdatePasswordRepeat';
+	private static $update = 'LoginView::Update';
 	private static $keep = 'LoginView::KeepMeLoggedIn';
 	private static $messageId = 'LoginView::Message';
 	private static $loggedIn = 'LoginView::isLoggedIn';
+	private static $updatePasswordURL = 'updatepassword';
+	private static $loginPage = '?';
 	private $holdUsername = '';
 
+	public function loginPage () {
+		return isset($_GET[self::$loginPage]);
+	}
+	
 	public function login () {
 		return isset($_POST[self::$login]);
 	}
@@ -50,9 +59,17 @@ class LoginView {
 		return isset($_POST[self::$keep]);
 	}
 
+	public function newUserRegistered ($username) {
+		$this->holdUsername = $username;
+	}
+
 	public function response($isLoggedIn, $message) {
 		if($isLoggedIn) {
-			$response = $this->generateLogoutButtonHTML($message);
+			if (isset($_GET[self::$updatePasswordURL])) {
+				$response = $this->generateChangePasswordHTML($message);
+			} else {
+				$response = $this->generateLogoutButtonHTML($message);
+			}
 		} else {
 			$response = $this->generateLoginFormHTML($message);
 		}
@@ -61,10 +78,31 @@ class LoginView {
 
 	private function generateLogoutButtonHTML($message) {
 		return '
+		<a href="?updatepassword">Update password</a>
 			<form method="post" >
 				<p id="' . self::$messageId . '">' . $message .'</p>
 				<input type="submit" name="' . self::$logout . '" value="logout"/>
 			</form>
+		';
+	}
+
+	private function generateChangePasswordHTML ($message) {
+		return '
+			<a href="?">Back to start</a>
+			<form method="post" >
+				<fieldset>
+			    <legend>Update password</legend>
+			    <p id="' . self::$messageId . '">' . $message .'</p>
+
+				<label for="' . self::$updatePassword . '">Enter new password: </label>
+				<input type="password" id="' . self::$updatePassword . '" name="' . self::$updatePassword . '" value="" />
+
+				<label for="' . self::$updatePasswordRepeat . '">Repeat new password: </label>
+				<input type="password" id="' . self::$updatePasswordRepeat . '" name="' . self::$updatePasswordRepeat . '" value="" />
+
+				<input type="submit" name="' . self::$update . '" value="Update password"/>
+				</fieldset>
+				</form>
 		';
 	}
 	

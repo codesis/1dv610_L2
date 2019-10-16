@@ -2,10 +2,10 @@
 
 namespace controller;
 
-require_once('./view/LoginView.php');
-require_once('./view/CookiesView.php');
-require_once('./view/MessageView.php');
-require_once('./model/Database.php');
+// require_once('./view/LoginView.php');
+// require_once('./view/CookiesView.php');
+// require_once('./view/MessageView.php');
+// require_once('./model/Database.php');
 
 class LoginController {
     private $loginView;
@@ -13,6 +13,8 @@ class LoginController {
     private $isUserLoggedIn;
     private $username;
     private $usernameExist;
+    private $hashedUsername;
+
     private $passwordExist;
     private $password;
     private $hashedPassword;
@@ -26,6 +28,8 @@ class LoginController {
         $this->loginView = $loginView;
         $this->username = $this->loginView->getUsername();
         $this->usernameExist = $this->loginView->usernameFilledIn();
+        $this->hashedUsername = password_hash($this->username, PASSWORD_DEFAULT);
+        
         $this->passwordExist = $this->loginView->passwordFilledIn();
         $this->password = $this->loginView->getPassword();
         $this->hashedPassword = password_hash($this->password, PASSWORD_DEFAULT);
@@ -84,7 +88,7 @@ class LoginController {
         }  else {
             $this->message = $this->getEmptyMessage();
         }
-        $this->cookieView->loggedInCookie($this->hashedPassword);
+        $this->cookieView->loggedInCookie($this->hashedUsername);
     }
 
     private function checkIfCookiesExist () {
@@ -98,6 +102,12 @@ class LoginController {
             $this->cookieView->keepMeLoggedIn($this->username, $this->hashedPassword);
             $this->message = $this->messageView->welcomeCookiesMessage();
         }
+    }
+
+    public function getRegistratedCookie () {
+        $username = $this->cookieView->getRegistratedCookie();
+        $this->message = $this->messageView->registeredUserMessage();
+        $this->loginView->newUserRegistered($username);
     }
 
     private function getEmptyMessage () {

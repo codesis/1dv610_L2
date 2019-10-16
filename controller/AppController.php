@@ -35,18 +35,31 @@ class AppController {
 
         $this->loginController = new \controller\LoginController($this->loginView, $this->messageView, $this->cookieView, $database);
         $this->registrationController = new \controller\RegistrationController($this->registerView, $this->messageView, $database);
+
+        $this->username = $this->registerView->getUsername();
+        $this->password = $this->registerView->getPassword();
     }
 
     public function route () {
-        if ($this->registerView->renderRegisterPage()) {
+        if ($this->cookieView->getRegistratedCookie()) {
+            $this->loginController->getRegistratedCookie();
+            $this->message = $this->loginController->getMessage();
+
+            $response = $this->loginView->response($this->isLoggedIn, $this->message);
+        } else if ($this->registerView->renderRegisterPage()) {
             if ($this->register()) {
             }
+            
             $this->registerResponse();
         } else {
             $this->checkLoggedInStatus();
 
             $this->login();
         }
+    }
+
+    private function redirectNewUser () {
+        $this->loginView->loginPage();
     }
 
     private function register () {

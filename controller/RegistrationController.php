@@ -1,18 +1,15 @@
 <?php
-/**
- * 
- * NEEDS TO BE RESTRUCTURED 
- * AND VALID FOR CURRENT CODE SETUP
- * 
- * 
- */
 
 namespace controller;
+
+require_once('./view/CookiesView.php');
+
 
 class RegistrationController {
     private $registerView;
     private $messageView;
     private $database;
+    private $cookieView;
 
     private $username;
     private $usernameExist;
@@ -26,6 +23,7 @@ class RegistrationController {
         $this->registerView = $registerView;
         $this->messageView = $messageView;
         $this->database = $database;
+        $this->cookieView = new \view\CookiesView();
 
         $this->username = $this->registerView->getUsername();
         $this->usernameExist = $this->registerView->usernameFilledIn();
@@ -52,8 +50,14 @@ class RegistrationController {
 
     private function emptyCredentials () {
         if ($this->tooShortUsername && $this->tooShortPassword) {
-            $this->message = $this->messageView->tooShortUsernameMessage() . ' ' . $this->messageView->tooShortPasswordMessage();
-        } else if ($this->tooShortPassword) {
+            $this->message = $this->messageView->tooShortCredentialsMessage();
+        } else {
+            $this->tooShortCredentials();
+        }
+    }
+
+    private function tooShortCredentials () {
+        if ($this->tooShortPassword) {
             $this->message = $this->messageView->tooShortPasswordMessage();
         } else if ($this->tooShortUsername) {
             $this->message = $this->messageView->tooShortUsernameMessage();
@@ -87,12 +91,10 @@ class RegistrationController {
     public function tryToRegisterNewUser () {
         if (!$this->database->registerNewUser($this->username, $this->password)) {
             $this->message = $this->messageView->usernameExistMessage();
-            return false;
         } else {
-            $this->message = $this->messageView->registeredUserMessage();
-            return true;
+            $this->cookieView->newUserRegistratedCookie($this->username);
         }
-	}
+    }
 
     public function getMessage () {
         return $this->message;

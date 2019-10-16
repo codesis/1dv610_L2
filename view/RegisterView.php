@@ -8,13 +8,14 @@ class RegisterView {
 	private static $password = 'RegisterView::Password';
 	private static $passwordRepeat = 'RegisterView::PasswordRepeat';
 	private static $messageId = 'RegisterView::Message';
+	private static $registerURL = 'register';
 
 	private $username;
 	private $passwordInput;
 	private $passwordRepeatInput;
 
 	public function renderRegisterPage () {
-		return isset($_GET['register']);
+		return isset($_GET[self::$registerURL]);
 	}
 
 	public function registerNewUser () {
