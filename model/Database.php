@@ -46,7 +46,6 @@ class Database {
 
     public function registerNewUser ($username, $password) {
         try {
-
             $statement = $this->connection->prepare("INSERT INTO users (username, password) VALUES ('$username', '$password')");
             $statement->execute(array('username' => $username, 'password' => $password));
             

@@ -56,10 +56,8 @@ class RegisterView {
 	}
 
 	public function tooShortPassword () {
-		if ($this->getPassword()) {
-			if (strlen($this->getPassword()) <= 5) {
-				return true;
-			}
+		if (strlen($this->getPassword()) <= 5) {
+			return true;
 		} 
 	}
 
