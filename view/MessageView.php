@@ -42,7 +42,7 @@ class MessageView {
     }
 
     public function usernameExistMessage () {
-        return $this->message = 'User exist, pick another username.';
+        return $this->message = 'User exists, pick another username.';
     }
 
     public function tooShortUsernameMessage () {
