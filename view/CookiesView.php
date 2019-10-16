@@ -21,10 +21,8 @@ class CookiesView {
 		}
 	}
 
-	public function checkKeepMeLoggedInCookies ($username, $password) { 
-		if (isset($_COOKIE[self::$cookieName]) && isset($_COOKIE[self::$cookiePassword])) {
-			$this->returnWithCookies($username, $password);
-		}
+	public function checkKeepMeLoggedInCookies () { 
+		return isset($_COOKIE[self::$cookieName]) && isset($_COOKIE[self::$cookiePassword]);
 	}
 	
 	public function keepMeLoggedIn ($username, $password) {
@@ -40,15 +38,14 @@ class CookiesView {
 		session_destroy();
 	}
 
-	public function returnWithCookies ($username, $password) { this needs to be fixed 
-		if ($_COOKIE[self::$cookieName] == $username && password_verify($password, $_COOKIE[self::$cookiePassword])) {
-			return true;
-		} 
-		else {
-			// setcookie(self::$cookieName, '', time() - 3600);
-			// setcookie(self::$cookiePassword, '', time() -3600);
-			return false;
-		}	
+	public function returnWithCookies ($username, $password) { 
+		if ($this->checkKeepMeLoggedInCookies()) {
+			if ($_COOKIE[self::$cookieName] == $username && password_verify($password, $_COOKIE[self::$cookiePassword])) {
+				return true;
+			} else {
+				return false;
+			}
+		}
 	}
 
 }
