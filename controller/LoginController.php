@@ -43,9 +43,7 @@ class LoginController {
         $this->checkLoginCredentials();
         $this->verifiedLoginCredentials();
 
-        if ($this->cookieView->checkKeepMeLoggedInCookies() === true) {
-            $this->returningWithCookies();
-        }
+        $this->checkIfCookiesExist();
 
         return $this->isLoggedIn;
     }
@@ -79,14 +77,22 @@ class LoginController {
         }
     }
     
-    private function isUserLoggedIn () {
+    public function isUserLoggedIn () {
         if ($this->cookieView->getLoggedInStatus() === false) {
             $this->message = $this->messageView->welcomeMessage();
             $this->keepUserLoggedIn();
         }  else {
-            $this->message = $this->getEmptyMessage();
+            $this->checkIfCookiesExist();
         }
         $this->cookieView->loggedInCookie($this->hashedPassword);
+    }
+
+    private function checkIfCookiesExist () {
+        if ($this->cookieView->checkKeepMeLoggedInCookies() === true) {
+            $this->returningWithCookies();
+        } else {
+            $this->message = $this->getEmptyMessage();
+        }
     }
 
     private function keepUserLoggedIn () {
