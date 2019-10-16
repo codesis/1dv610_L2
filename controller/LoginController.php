@@ -42,7 +42,10 @@ class LoginController {
         $this->loginView->setUsername();
         $this->checkLoginCredentials();
         $this->verifiedLoginCredentials();
-        $this->returningWithCookies();
+
+        if ($this->cookieView->checkKeepMeLoggedInCookies() === true) {
+            $this->returningWithCookies();
+        }
 
         return $this->isLoggedIn;
     }

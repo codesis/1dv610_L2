@@ -22,7 +22,11 @@ class CookiesView {
 	}
 
 	public function checkKeepMeLoggedInCookies () { 
-		return isset($_COOKIE[self::$cookieName]) && isset($_COOKIE[self::$cookiePassword]);
+		if (isset($_COOKIE[self::$cookieName]) && isset($_COOKIE[self::$cookiePassword])) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	public function keepMeLoggedIn ($username, $password) {
@@ -39,12 +43,10 @@ class CookiesView {
 	}
 
 	public function returnWithCookies ($username, $password) { 
-		if ($this->checkKeepMeLoggedInCookies()) {
-			if ($_COOKIE[self::$cookieName] == $username && password_verify($password, $_COOKIE[self::$cookiePassword])) {
-				return true;
-			} else {
-				return false;
-			}
+		if ($_COOKIE[self::$cookieName] == $username && password_verify($password, $_COOKIE[self::$cookiePassword])) {
+			return true;
+		} else {
+			return false;
 		}
 	}
 
