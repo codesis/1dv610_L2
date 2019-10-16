@@ -59,7 +59,7 @@ class RegistrationController {
         } else if ($this->tooShortUsername) {
             $this->message = $this->messageView->tooShortUsernameMessage();
         } else {
-            return false;
+            return true;
         }
     }
 
@@ -67,7 +67,7 @@ class RegistrationController {
         if ($this->password === false) {
             $this->message = $this->messageView->notMatchingPasswordsMessage();
         } else {
-            return false;
+            return true;
         }
     }
 
@@ -75,12 +75,12 @@ class RegistrationController {
         if ($this->registerView->checkUsernameForHTML($this->username)) {
             $this->message = $this->messageView->invalidCharacterInUsernameMessage();
         } else {
-            return false;
+            return true;
         }
     }
 
     private function validRegistrationAttempt () {
-        if ($this->emptyCredentials() === false && $this->notMatchingPasswords() === false && $this->notAllowedCharactersInUsername() === false) {
+        if ($this->emptyCredentials()&& $this->notMatchingPasswords() && $this->notAllowedCharactersInUsername()) {
             $this->tryToRegisterNewUser();
         } 
     }

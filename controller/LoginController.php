@@ -82,7 +82,7 @@ class LoginController {
             $this->message = $this->messageView->welcomeMessage();
             $this->keepUserLoggedIn();
         }  else {
-            $this->checkIfCookiesExist();
+            $this->message = $this->getEmptyMessage();
         }
         $this->cookieView->loggedInCookie($this->hashedPassword);
     }
@@ -90,8 +90,6 @@ class LoginController {
     private function checkIfCookiesExist () {
         if ($this->cookieView->checkKeepMeLoggedInCookies() === true) {
             $this->returningWithCookies();
-        } else {
-            $this->message = $this->getEmptyMessage();
         }
     }
 
