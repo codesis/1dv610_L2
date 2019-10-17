@@ -59,7 +59,7 @@ class AppController {
     }
 
     private function welcomeNewUser () {
-        $this->loginController->getNewUserCookie();
+        $this->loginController->setNewUsernameToForm();
         $this->message = $this->loginController->getMessage();    
 
         $response = $this->loginView->response($this->isLoggedIn, $this->message);
@@ -99,6 +99,10 @@ class AppController {
     private function checkLoggedInStatus () {
         if ($this->cookieView->getLoggedInStatus()) {
             $this->isLoggedIn = $this->cookieView->getLoggedInCookie();
+        }
+        if ($this->cookieView->checkKeepMeLoggedInCookies()) {
+            $this->loginController->returningWithCookies();
+            $this->message = $this->loginController->getMessage();
         }
         if ($this->logout());
     }

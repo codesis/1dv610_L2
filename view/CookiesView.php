@@ -23,9 +23,7 @@ class CookiesView {
 	}
 
 	public function checkKeepMeLoggedInCookies () { 
-		if (isset($_COOKIE[self::$cookieName]) && isset($_COOKIE[self::$cookiePassword])) {
-			return true;
-		} 
+		return isset($_COOKIE[self::$cookieName]) && isset($_COOKIE[self::$cookiePassword]);
 	}
 
 	public function newUserRegistratedCookie ($username) {

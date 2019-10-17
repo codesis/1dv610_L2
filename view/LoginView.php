@@ -15,10 +15,11 @@ class LoginView {
 	private static $loggedIn = 'LoginView::isLoggedIn';
 	private static $updatePasswordURL = 'updatepassword';
 	private static $loginPage = '?';
+	private static $headerLocationString = 'Location: ?';
 	private $holdUsername = '';
 
 	public function loginPageRedirect () {
-		return header('Location: ?');
+		return header(self::$headerLocationString);
 	}
 
 	public function loginPage () {

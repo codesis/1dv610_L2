@@ -67,15 +67,6 @@ class LoginController {
             $this->isLoggedIn = true;
         }
     }
-
-    private function returningWithCookies () {
-        if ($this->cookieView->returnWithCookies($this->username, $this->password) === true) {
-            $this->message = $this->messageView->welcomeBackWithCookiesMessage();
-        } else {
-            $this->message = $this->messageView->wrongInformationInCookiesMessage();
-            // $this->logout();
-        }
-    }
     
     public function isUserLoggedIn () {
         if ($this->cookieView->getLoggedInStatus() === false) {
@@ -87,12 +78,6 @@ class LoginController {
         $this->cookieView->loggedInCookie($this->hashedUsername);
     }
 
-    private function checkIfCookiesExist () {
-        if ($this->cookieView->checkKeepMeLoggedInCookies() === true) {
-            $this->returningWithCookies();
-        }
-    }
-
     private function keepUserLoggedIn () {
         if ($this->loginView->keepUserLoggedIn()) {
             $this->cookieView->keepMeLoggedIn($this->username, $this->hashedPassword);
@@ -100,7 +85,22 @@ class LoginController {
         }
     }
 
-    public function getNewUserCookie () {
+    private function checkIfCookiesExist () {
+        if ($this->cookieView->checkKeepMeLoggedInCookies()) {
+            $this->returningWithCookies();
+        }
+    }
+
+    public function returningWithCookies () {
+        if ($this->cookieView->returnWithCookies($this->username, $this->password)) {
+            $this->message = $this->messageView->welcomeBackWithCookiesMessage();
+        } else {
+            $this->message = $this->messageView->wrongInformationInCookiesMessage();
+            // $this->logout();
+        }
+    }
+
+    public function setNewUsernameToForm () {
         $username = $this->cookieView->getNewUserCookie();
         $this->message = $this->messageView->registeredUserMessage();
         $this->loginView->newUserRegistered($username);
