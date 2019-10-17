@@ -68,4 +68,8 @@ class MessageView {
     public function registeredUserMessage () {
         return $this->message = 'Registered new user';
     }
+
+    public function passwordUpdatedMessage () {
+        return $this->message = 'Password updated successfully';
+    }
 }

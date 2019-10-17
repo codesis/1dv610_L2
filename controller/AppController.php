@@ -24,6 +24,7 @@ class AppController {
     private $cookieView;
 
     private $message;
+    private $renderLogin = false;
     
     public function __construct ($database) {
         $this->dateTimeView = new \view\DateTimeView();
@@ -41,31 +42,51 @@ class AppController {
     }
 
     public function route () {
-        if ($this->cookieView->getRegistratedCookie()) {
-            $this->loginController->getRegistratedCookie();
-            $this->message = $this->loginController->getMessage();
-
-            $response = $this->loginView->response($this->isLoggedIn, $this->message);
-        } else if ($this->registerView->renderRegisterPage()) {
-            if ($this->register()) {
-            }
-            
-            $this->registerResponse();
+        if ($this->registerView->renderRegisterPage()) {
+            $this->register();           
         } else {
-            $this->checkLoggedInStatus();
-
-            $this->login();
+            $this->checkIfNewUser();
         }
     }
 
-    private function redirectNewUser () {
-        $this->loginView->loginPage();
+    private function checkIfNewUser () {
+        if ($this->cookieView->getNewUserCookie()) {
+            $this->welcomeNewUser();
+        } else {
+            $this->checkLoggedInStatus();
+            $this->login();    
+        }
+    }
+
+    private function welcomeNewUser () {
+        $this->loginController->getNewUserCookie();
+        $this->message = $this->loginController->getMessage();    
+
+        $response = $this->loginView->response($this->isLoggedIn, $this->message);
+        $this->layoutView->render($this->isLoggedIn, $this->loginView, $this->dateTimeView, $this->message, $response);    
     }
 
     private function register () {
         if ($this->registerView->registerNewUser()) {
             $this->registrationController->registerNewUser();
-            $this->message = $this->registrationController->getMessage();
+            $this->checkNewUserBool();
+        }
+        $this->redirectNewUser();
+    }
+
+    private function checkNewUserBool () {
+        if ($this->registrationController->getNewUserBool()) {
+            $this->renderLogin = true;
+        } else {
+        $this->message = $this->registrationController->getMessage();
+        }
+    }
+
+    private function redirectNewUser () {
+        if ($this->renderLogin) {
+            $this->loginView->loginPageRedirect();
+        } else {
+            $this->registerResponse();
         }
     }
 
@@ -86,6 +107,7 @@ class AppController {
         if ($this->loginView->login()) {   
             $this->isLoggedIn = $this->loginController->login();
             $this->message = $this->loginController->getMessage();
+
         }
         $this->loginResponse();
     }

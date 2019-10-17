@@ -25,19 +25,17 @@ class CookiesView {
 	public function checkKeepMeLoggedInCookies () { 
 		if (isset($_COOKIE[self::$cookieName]) && isset($_COOKIE[self::$cookiePassword])) {
 			return true;
-		} else {
-			return false;
-		}
+		} 
 	}
 
 	public function newUserRegistratedCookie ($username) {
-		setcookie(self::$cookieRegistration, $username, time() + 3600);
+		setcookie(self::$cookieRegistration, $username, time() + 1);
 	}
 
-	public function getRegistratedCookie () {
+	public function getNewUserCookie () {
 		if (isset($_COOKIE[self::$cookieRegistration])) {
 			return $_COOKIE[self::$cookieRegistration];
-		}
+		} 
 	}
 
 	public function killRegistratedCookie () {

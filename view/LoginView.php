@@ -17,6 +17,10 @@ class LoginView {
 	private static $loginPage = '?';
 	private $holdUsername = '';
 
+	public function loginPageRedirect () {
+		return header('Location: ?');
+	}
+
 	public function loginPage () {
 		return isset($_GET[self::$loginPage]);
 	}

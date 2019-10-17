@@ -19,6 +19,8 @@ class RegistrationController {
     private $tooShortPassword;
     private $message;
 
+    private $newUserRegistered = false;
+
 	public function __construct (\view\RegisterView $registerView, \view\MessageView $messageView, \model\Database $database) {
         $this->registerView = $registerView;
         $this->messageView = $messageView;
@@ -93,7 +95,12 @@ class RegistrationController {
             $this->message = $this->messageView->usernameExistMessage();
         } else {
             $this->cookieView->newUserRegistratedCookie($this->username);
+            $this->newUserRegistered = true;
         }
+    }
+
+    public function getNewUserBool () {
+        return $this->newUserRegistered;
     }
 
     public function getMessage () {

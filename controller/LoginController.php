@@ -2,10 +2,6 @@
 
 namespace controller;
 
-// require_once('./view/LoginView.php');
-// require_once('./view/CookiesView.php');
-// require_once('./view/MessageView.php');
-// require_once('./model/Database.php');
 
 class LoginController {
     private $loginView;
@@ -53,7 +49,7 @@ class LoginController {
     }
 
 	private function checkLoginCredentials () {
-		if ($this->usernameExist && $this->passwordExist) {
+        if ($this->usernameExist && $this->passwordExist) {
             if ($this->username == '') {
                 $this->message = $this->messageView->missingUsernameMessage();
             } else if ($this->password == '') {
@@ -104,8 +100,8 @@ class LoginController {
         }
     }
 
-    public function getRegistratedCookie () {
-        $username = $this->cookieView->getRegistratedCookie();
+    public function getNewUserCookie () {
+        $username = $this->cookieView->getNewUserCookie();
         $this->message = $this->messageView->registeredUserMessage();
         $this->loginView->newUserRegistered($username);
     }
