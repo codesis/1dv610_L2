@@ -92,7 +92,7 @@ class LoginController {
     }
 
     public function returningWithCookies () {
-        if ($this->cookieView->returnWithCookies($this->username, $this->password)) {
+        if ($this->cookieView->returnWithCookies($this->username, $this->hashedPassword)) {
             $this->message = $this->messageView->welcomeBackWithCookiesMessage();
         } else {
             $this->message = $this->messageView->wrongInformationInCookiesMessage();

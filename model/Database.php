@@ -56,6 +56,18 @@ class Database {
         return true;
     }
 
+    public function verifyPassword ($username, $password) {
+        try {
+            $statement = $this->connection->prepare("SELECT * FROM users WHERE username LIKE '$username' AND password LIKE '$password'");
+            $statement->execute(array('username' => $username, 'password' => $password));
+
+        } catch (\PDOException $e) {
+
+            return false;
+        }
+        return true; 
+    }
+
     public function updatePassword ($username, $password) {
         try {
             $statement = $this->connection->prepare("UPDATE users SET password = '$password' WHERE username = '$username'");
