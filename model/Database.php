@@ -56,7 +56,7 @@ class Database {
         return true;
     }
 
-    public function verifyPassword ($username, $password) {
+    public function verifyPassword ($username, $password) { // REMEMBER WE HASH PASSWORD
         try {
             $statement = $this->connection->prepare("SELECT * FROM users WHERE username LIKE '$username' AND password LIKE '$password'");
             $statement->execute(array('username' => $username, 'password' => $password));
