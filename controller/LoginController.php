@@ -70,7 +70,7 @@ class LoginController {
     }
     
     public function isUserLoggedIn () {
-        if ($this->cookieView->getLoggedInStatus() === false) {
+        if (!$this->cookieView->getLoggedInStatus()) {
             $this->message = $this->messageView->welcomeMessage();
             $this->keepUserLoggedIn();
         }  else {
@@ -107,12 +107,20 @@ class LoginController {
 
     private function verifyReturnerOfCookies ($username, $password) {
         if ($this->database->verifyPassword($username, $password)) {
-            $this->message = $this->messageView->welcomeBackWithCookiesMessage();
+            $this->checkIfCookieMessage();
         } else {
             $this->message = $this->messageView->wrongInformationInCookiesMessage();
             $this->cookieView->killCookies();
             $this->loginView->emptyUsername();
             $this->isLoggedIn = false;
+        }
+    }
+
+    private function checkIfCookieMessage () {
+        if (!$this->cookieView->checkPHPSessIdCookie()) {
+            $this->message = $this->messageView->welcomeBackWithCookiesMessage();
+        } else {
+            $this->getEmptyMessage();
         }
     }
 
@@ -133,7 +141,7 @@ class LoginController {
     }
 
     private function setLogoutMessage () {
-        if ($this->cookieView->getLoggedInStatus() === false) {
+        if (!$this->cookieView->getLoggedInStatus()) {
             $this->message = $this->getEmptyMessage();
         } else {
             $this->message = $this->messageView->logoutMessage();

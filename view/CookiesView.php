@@ -22,6 +22,10 @@ class CookiesView {
 		}
 	}
 
+	public function checkPHPSessIdCookie () {
+		return isset($_COOKIE['PHPSESSID']);
+	}
+
 	public function checkKeepMeLoggedInCookies () { 
 		return isset($_COOKIE[self::$cookieName]) && isset($_COOKIE[self::$cookiePassword]);
 	}
