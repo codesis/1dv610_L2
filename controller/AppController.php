@@ -106,6 +106,7 @@ class AppController {
 
             $this->isLoggedIn = $this->loginController->login();
         } 
+        if ($this->logout());
     }
 
     private function checkLoggedInStatus () {
