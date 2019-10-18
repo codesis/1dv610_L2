@@ -26,6 +26,7 @@ class CookiesView {
 	public function checkPHPSessIdCookie () {
 		return isset($_COOKIE[self::$phpSessCookie]);
 	}
+	
 
 	public function checkKeepMeLoggedInCookies () { 
 		return isset($_COOKIE[self::$cookieName]) && isset($_COOKIE[self::$cookiePassword]);
@@ -66,6 +67,8 @@ class CookiesView {
 		setcookie(self::$cookieName, '', time() - 3600);
 		setcookie(self::$cookiePassword, '', time() - 3600);
 		setcookie(self::$cookieLoggedIn, '', time() - 3600);
+
+		session_regenerate_id(self::$phpSessCookie);
 		session_unset();
 		session_destroy();
 	}

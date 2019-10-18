@@ -85,6 +85,10 @@ class LoginView {
 		return $response;
 	}
 
+	private function setResponseIfWantingPasswordChange ($message) {
+		
+	}
+
 	private function generateLogoutButtonHTML($message) {
 		return '
 		<a href="?updatepassword">Update password</a>

@@ -109,11 +109,11 @@ class LoginController {
     private function verifyReturnerOfCookies ($username, $password) {
         if ($this->database->verifyPassword($username, $password)) {
             $this->checkIfCookieMessage();
+            $this->isLoggedIn = true;
         } else {
             $this->message = $this->messageView->wrongInformationInCookiesMessage();
             $this->cookieView->killCookies();
             $this->loginView->emptyUsername();
-            $this->isLoggedIn = false;
         }
     }
 

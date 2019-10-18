@@ -49,23 +49,6 @@ class AppController {
         }
     }
 
-    private function checkIfNewUser () {
-        if ($this->cookieView->getNewUserCookie()) {
-            $this->welcomeNewUser();
-        } else {
-            $this->checkLoggedInStatus();
-            $this->login();    
-        }
-    }
-
-    private function welcomeNewUser () {
-        $this->loginController->setNewUsernameToForm();
-        $this->message = $this->loginController->getMessage();    
-
-        $response = $this->loginView->response($this->isLoggedIn, $this->message);
-        $this->layoutView->render($this->isLoggedIn, $this->loginView, $this->dateTimeView, $this->message, $response);    
-    }
-
     private function register () {
         if ($this->registerView->registerNewUser()) {
             $this->registrationController->registerNewUser();
@@ -96,13 +79,38 @@ class AppController {
         $this->message = $this->registrationController->getMessage();
     }
 
-    private function checkLoggedInStatus () {
-        if ($this->cookieView->getLoggedInStatus()) {
-            $this->isLoggedIn = $this->cookieView->getLoggedInCookie();
+
+    private function checkIfNewUser () {
+        if ($this->cookieView->getNewUserCookie()) {
+            $this->welcomeNewUser();
+        } else {
+            $this->checkLoggedInStatus();
+            $this->checkReturnerOfCookies();
+            $this->login();    
+
         }
+    }
+
+    private function welcomeNewUser () {
+        $this->loginController->setNewUsernameToForm();
+        $this->message = $this->loginController->getMessage();    
+
+        $response = $this->loginView->response($this->isLoggedIn, $this->message);
+        $this->layoutView->render($this->isLoggedIn, $this->loginView, $this->dateTimeView, $this->message, $response);    
+    }
+
+    private function checkReturnerOfCookies () {
         if ($this->cookieView->checkKeepMeLoggedInCookies()) {
             $this->loginController->returningWithCookies();
             $this->message = $this->loginController->getMessage();
+
+            $this->isLoggedIn = $this->loginController->login();
+        } 
+    }
+
+    private function checkLoggedInStatus () {
+        if ($this->cookieView->getLoggedInStatus()) {
+            $this->isLoggedIn = $this->cookieView->getLoggedInCookie();
         }
         if ($this->logout());
     }
@@ -111,7 +119,6 @@ class AppController {
         if ($this->loginView->login()) {   
             $this->isLoggedIn = $this->loginController->login();
             $this->message = $this->loginController->getMessage();
-
         }
         $this->loginResponse();
     }
