@@ -7,6 +7,7 @@ class CookiesView {
     private static $cookieName = 'LoginView::CookieName';
 	private static $cookiePassword = 'LoginView::CookiePassword';
 	private static $cookieRegistration = 'RegistrationView::CookieRegistration';
+	private static $phpSessCookie = 'PHPSESSID';
 
 	public function loggedInCookie ($username) {
 		setcookie(self::$cookieLoggedIn, $username, time() + 3600);
@@ -23,7 +24,7 @@ class CookiesView {
 	}
 
 	public function checkPHPSessIdCookie () {
-		return isset($_COOKIE['PHPSESSID']);
+		return isset($_COOKIE[self::$phpSessCookie]);
 	}
 
 	public function checkKeepMeLoggedInCookies () { 

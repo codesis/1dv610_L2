@@ -62,7 +62,8 @@ class LoginController {
     } 
 
     private function verifiedLoginCredentials () {
-		if ($this->database->checkIfUserExist($this->username, $this->password)) { 
+		if ($this->database->checkIfUserExist($this->username, $this->password)) {
+            $this->updateDbHash();
             $this->isUserLoggedIn();
 
             $this->isLoggedIn = true;
@@ -81,7 +82,7 @@ class LoginController {
 
     private function keepUserLoggedIn () {
         if ($this->loginView->keepUserLoggedIn()) {
-            $this->cookieView->keepMeLoggedIn($this->username, $this->hashedPassword);
+            $this->cookieView->keepMeLoggedIn($this->username, $this->newHashedPassword);
             $this->message = $this->messageView->welcomeCookiesMessage();
         }
     }
