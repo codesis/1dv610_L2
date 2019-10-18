@@ -4,6 +4,7 @@ namespace view;
 
 class CookiesView {
 	private static $cookieLoggedIn = 'LoginView::CookieLoggedIn';
+	private static $cookieUserLoggedIn = 'LoginView::CookieUserLoggedIn';
     private static $cookieName = 'LoginView::CookieName';
 	private static $cookiePassword = 'LoginView::CookiePassword';
 	private static $cookieRegistration = 'RegistrationView::CookieRegistration';
@@ -11,6 +12,20 @@ class CookiesView {
 
 	public function loggedInCookie ($username) {
 		setcookie(self::$cookieLoggedIn, $username, time() + 3600);
+	}
+
+	public function setCookieUserLoggedIn ($username) {
+		setcookie(self::$cookieUserLoggedIn, $username, time() + 3600);
+	}
+
+	private function checkIfUserCookieExist () {
+		return isset($_COOKIE[self::$cookieUserLoggedIn]);
+	}
+
+	public function getCookieUserLoggedIn () {
+		if ($this->checkIfUserCookieExist()) {
+		    return $_COOKIE[self::$cookieUserLoggedIn];
+		}
 	}
 
 	public function getLoggedInStatus () {
@@ -67,6 +82,7 @@ class CookiesView {
 		setcookie(self::$cookieName, '', time() - 3600);
 		setcookie(self::$cookiePassword, '', time() - 3600);
 		setcookie(self::$cookieLoggedIn, '', time() - 3600);
+		setcookie(self::$cookieUserLoggedIn, '', time() - 3600);
 
 		session_regenerate_id(self::$phpSessCookie);
 		session_unset();
@@ -79,12 +95,12 @@ class CookiesView {
 		}
 	}
 
-	public function verifyLoggedInUsernameCookie ($username) {
-		if (password_verify($username, $_COOKIE[self::$cookieLoggedIn])) {
-			return true;
-		} else {
-			return false;
-		}
-	}
+	// public function verifyLoggedInUsernameCookie ($username) {
+	// 	if (password_verify($username, $_COOKIE[self::$cookieLoggedIn])) {
+	// 		return true;
+	// 	} else {
+	// 		return false;
+	// 	}
+	// }
 
 }

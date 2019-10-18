@@ -39,6 +39,8 @@ class AppController {
 
         $this->username = $this->registerView->getUsername();
         $this->password = $this->registerView->getPassword();
+
+        $this->signedInUsername = $this->cookieView->getCookieUserLoggedIn();
     }
 
     public function route () {
@@ -46,6 +48,11 @@ class AppController {
             $this->register();           
         } else {
             $this->checkIfNewUser();
+        }
+
+        if ($this->loginView->updatePassword()) {
+            $this->loginController->updatePassword();
+            $this->message = $this->loginController->getMessage();
         }
     }
 
@@ -75,7 +82,7 @@ class AppController {
 
     private function registerResponse () {
         $response = $this->registerView->response($this->message);
-        $this->layoutView->render($this->isLoggedIn, $this->loginView, $this->dateTimeView, $this->message, $response);
+        $this->layoutView->render($this->isLoggedIn, $username, $this->loginView, $this->dateTimeView, $this->message, $response);
         $this->message = $this->registrationController->getMessage();
     }
 
@@ -96,7 +103,7 @@ class AppController {
         $this->message = $this->loginController->getMessage();    
 
         $response = $this->loginView->response($this->isLoggedIn, $this->message);
-        $this->layoutView->render($this->isLoggedIn, $this->loginView, $this->dateTimeView, $this->message, $response);    
+        $this->layoutView->render($this->isLoggedIn, $username, $this->loginView, $this->dateTimeView, $this->message, $response);    
     }
 
     private function checkReturnerOfCookies () {
@@ -132,7 +139,10 @@ class AppController {
     }
 
     private function loginResponse () {
+        if (!$this->cookieView->getCookieUserLoggedIn()) {
+            $this->signedInUsername = $this->loginView->getUsername();
+        }
         $response = $this->loginView->response($this->isLoggedIn, $this->message);
-        $this->layoutView->render($this->isLoggedIn, $this->loginView, $this->dateTimeView, $this->message, $response);
+        $this->layoutView->render($this->isLoggedIn, $this->signedInUsername, $this->loginView, $this->dateTimeView, $this->message, $response);
     }
 }

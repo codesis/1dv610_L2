@@ -64,8 +64,18 @@ class LoginView {
 		}
 	}
 
+	public function getNewPassword () {
+		if (isset($_POST[self::$updatePassword])) {
+		    return $_POST[self::$updatePassword];
+		}
+	}
+
 	public function keepUserLoggedIn () {
 		return isset($_POST[self::$keep]);
+	}
+
+	public function updatePassword () {
+		return isset($_POST[self::$update]);
 	}
 
 	public function newUserRegistered ($username) {
@@ -74,19 +84,20 @@ class LoginView {
 
 	public function response($isLoggedIn, $message) {
 		if($isLoggedIn) {
-			if (isset($_GET[self::$updatePasswordURL])) {
-				$response = $this->generateChangePasswordHTML($message);
-			} else {
-				$response = $this->generateLogoutButtonHTML($message);
-			}
+			$response = $this->setResponseToPasswordChange($message);
 		} else {
 			$response = $this->generateLoginFormHTML($message);
 		}
 		return $response;
 	}
 
-	private function setResponseIfWantingPasswordChange ($message) {
-		
+	private function setResponseToPasswordChange ($message) {
+		if (isset($_GET[self::$updatePasswordURL])) {
+			$response = $this->generateChangePasswordHTML($message);
+		} else {
+			$response = $this->generateLogoutButtonHTML($message);
+		}
+		return $response;
 	}
 
 	private function generateLogoutButtonHTML($message) {
