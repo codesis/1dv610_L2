@@ -43,7 +43,7 @@ class LoginController {
         $this->checkLoginCredentials();
         $this->verifiedLoginCredentials();
 
-        $this->checkIfCookiesExist();
+        // $this->checkIfCookiesExist();
 
         return $this->isLoggedIn;
     }
@@ -85,22 +85,22 @@ class LoginController {
         }
     }
 
-    private function checkIfCookiesExist () {
-        if ($this->cookieView->checkKeepMeLoggedInCookies()) {
-            $this->returningWithCookies();
-        }
-    }
+    // private function checkIfCookiesExist () {
+    //     if ($this->cookieView->checkKeepMeLoggedInCookies()) {
+    //         $this->returningWithCookies();
+    //     }
+    // }
 
     public function returningWithCookies () {
         if ($this->cookieView->returnWithCookies()) {
             $username = $this->cookieView->getCookieName();
             $password = $this->cookieView->getCookiePassword();
 
-            $this->verifyReturnerOfCookies();
+            $this->verifyReturnerOfCookies($username, $password);
         }
     }
 
-    private function verifyReturnerOfCookies () {
+    private function verifyReturnerOfCookies ($username, $password) {
         if ($this->database->verifyPassword($username, $password)) {
             $this->message = $this->messageView->welcomeBackWithCookiesMessage();
         } else {

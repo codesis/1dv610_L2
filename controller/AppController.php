@@ -78,7 +78,7 @@ class AppController {
         if ($this->registrationController->getNewUserBool()) {
             $this->renderLogin = true;
         } else {
-        $this->message = $this->registrationController->getMessage();
+            $this->message = $this->registrationController->getMessage();
         }
     }
 
@@ -99,6 +99,10 @@ class AppController {
     private function checkLoggedInStatus () {
         if ($this->cookieView->getLoggedInStatus()) {
             $this->isLoggedIn = $this->cookieView->getLoggedInCookie();
+        }
+        if ($this->cookieView->checkKeepMeLoggedInCookies()) {
+            $this->loginController->returningWithCookies();
+            $this->message = $this->loginController->getMessage();
         }
         if ($this->logout());
     }
