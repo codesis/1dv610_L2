@@ -38,7 +38,7 @@ class MessageView {
     }
 
     public function wrongInformationInCookiesMessage () {
-        return $this->message = 'Wrong information in cookies.';
+        return $this->message = 'Wrong information in cookies';
     }
 
     public function usernameExistMessage () {

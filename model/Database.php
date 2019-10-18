@@ -95,4 +95,17 @@ class Database {
         }
         return true;
     }
+
+    public function updateHashedPassword ($username, $hashedPassword) {
+        try {
+            $statement = $this->connection->prepare("UPDATE users SET hashedPassword = '$hashedPassword' WHERE username = '$username'");
+            $statement->execute();
+            
+        } catch (\PDOException $e) {
+
+            return false;
+        }
+        return true;
+
+    }
 }

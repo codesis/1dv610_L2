@@ -28,6 +28,7 @@ class LoginController {
         
         $this->passwordExist = $this->loginView->passwordFilledIn();
         $this->password = $this->loginView->getPassword();
+        $this->newHashedPassword = password_hash($this->password, PASSWORD_DEFAULT); // move to loginview?
 
         $this->messageView = $messageView;
 
@@ -102,6 +103,7 @@ class LoginController {
 
     private function verifyReturnerOfCookies ($username, $password) {
         if ($this->database->verifyPassword($username, $password)) {
+            $this->database->updateHashedPassword($username, $this->newHashedPassword);
             $this->message = $this->messageView->welcomeBackWithCookiesMessage();
         } else {
             $this->message = $this->messageView->wrongInformationInCookiesMessage();
