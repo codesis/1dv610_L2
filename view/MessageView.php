@@ -34,7 +34,7 @@ class MessageView {
     }
 
     public function welcomeBackWithCookiesMessage () {
-        return $this->message = $this->welcomeMessage() . ' back with cookie.';
+        return $this->message = $this->welcomeMessage() . ' back with cookie';
     }
 
     public function wrongInformationInCookiesMessage () {
