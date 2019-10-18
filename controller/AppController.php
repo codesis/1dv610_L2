@@ -100,10 +100,6 @@ class AppController {
         if ($this->cookieView->getLoggedInStatus()) {
             $this->isLoggedIn = $this->cookieView->getLoggedInCookie();
         }
-        if ($this->cookieView->checkKeepMeLoggedInCookies()) {
-            $this->loginController->returningWithCookies();
-            $this->message = $this->loginController->getMessage();
-        }
         if ($this->logout());
     }
 

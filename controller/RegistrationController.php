@@ -33,6 +33,7 @@ class RegistrationController {
         $this->passwordExist = $this->registerView->passwordsFilledIn();
         $this->password = $this->registerView->getPassword();
         $this->tooShortPassword = $this->registerView->tooShortPassword();
+        $this->hashedPassword = password_hash($this->password, PASSWORD_DEFAULT); // move to View?
 
         $this->database->connectToDatabase();
     }
@@ -91,7 +92,7 @@ class RegistrationController {
     }
 
     public function tryToRegisterNewUser () {
-        if (!$this->database->registerNewUser($this->username, $this->password)) {
+        if (!$this->database->registerNewUser($this->username, $this->password, $this->hashedPassword)) {
             $this->message = $this->messageView->usernameExistMessage();
         } else {
             $this->cookieView->newUserRegistratedCookie($this->username);

@@ -24,11 +24,10 @@ class LoginController {
         $this->loginView = $loginView;
         $this->username = $this->loginView->getUsername();
         $this->usernameExist = $this->loginView->usernameFilledIn();
-        $this->hashedUsername = password_hash($this->username, PASSWORD_DEFAULT);
+        $this->hashedUsername = password_hash($this->username, PASSWORD_DEFAULT); // move to loginview?
         
         $this->passwordExist = $this->loginView->passwordFilledIn();
         $this->password = $this->loginView->getPassword();
-        $this->hashedPassword = password_hash($this->password, PASSWORD_DEFAULT);
 
         $this->messageView = $messageView;
 
@@ -36,6 +35,7 @@ class LoginController {
         $this->database = $database;
 
         $this->database->connectToDatabase();
+        $this->hashedPassword = $this->database->getHashedPassword($this->username);
     }
 
       public function login () {
@@ -61,7 +61,7 @@ class LoginController {
     } 
 
     private function verifiedLoginCredentials () {
-		if ($this->database->checkIfUserExist($this->username, $this->password)) {
+		if ($this->database->checkIfUserExist($this->username, $this->password)) { 
             $this->isUserLoggedIn();
 
             $this->isLoggedIn = true;
@@ -92,11 +92,22 @@ class LoginController {
     }
 
     public function returningWithCookies () {
-        if ($this->cookieView->returnWithCookies($this->username, $this->hashedPassword)) {
+        if ($this->cookieView->returnWithCookies()) {
+            $username = $this->cookieView->getCookieName();
+            $password = $this->cookieView->getCookiePassword();
+
+            $this->verifyReturnerOfCookies();
+        }
+    }
+
+    private function verifyReturnerOfCookies () {
+        if ($this->database->verifyPassword($username, $password)) {
             $this->message = $this->messageView->welcomeBackWithCookiesMessage();
         } else {
             $this->message = $this->messageView->wrongInformationInCookiesMessage();
-            // $this->logout();
+            $this->cookieView->killCookies();
+            $this->loginView->emptyUsername();
+            $this->isLoggedIn = false;
         }
     }
 
@@ -111,8 +122,12 @@ class LoginController {
     }
     
     public function logout () {
-        $this->cookieView->killCookies($this->username, $this->hashedPassword);
-        $this->loginView->logOut();
+        $this->cookieView->killCookies();
+
+        $this->setLogoutMessage();
+    }
+
+    private function setLogoutMessage () {
         if ($this->cookieView->getLoggedInStatus() === false) {
             $this->message = $this->getEmptyMessage();
         } else {

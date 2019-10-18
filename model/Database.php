@@ -44,10 +44,10 @@ class Database {
         return false;
     }
 
-    public function registerNewUser ($username, $password) {
+    public function registerNewUser ($username, $password, $hashedPassword) {
         try {
-            $statement = $this->connection->prepare("INSERT INTO users (username, password) VALUES ('$username', '$password')");
-            $statement->execute(array('username' => $username, 'password' => $password));
+            $statement = $this->connection->prepare("INSERT INTO users (username, password, hashedPassword) VALUES ('$username', '$password', '$hashedPassword')");
+            $statement->execute(array('username' => $username, 'password' => $password, 'hashedPassword' => $hashedPassword));
             
         } catch (\PDOException $e) {
 
@@ -56,16 +56,32 @@ class Database {
         return true;
     }
 
-    public function verifyPassword ($username, $password) { // REMEMBER WE HASH PASSWORD
+    public function getHashedPassword ($username) {
         try {
-            $statement = $this->connection->prepare("SELECT * FROM users WHERE username LIKE '$username' AND password LIKE '$password'");
+            $statement = $this->connection->prepare("SELECT hashedPassword FROM users WHERE username LIKE '$username'");
+            $statement->execute();
+
+            $result = $statement->fetchColumn();
+        } catch (\PDOException $e) {
+            return false;
+        }
+        return $result;
+    }
+
+    public function verifyPassword ($username, $hashedPassword) { // REMEMBER WE HASH PASSWORD
+        try {
+            $statement = $this->connection->prepare("SELECT * FROM users WHERE username LIKE '$username' AND hashedPassword LIKE '$hashedPassword'");
             $statement->execute(array('username' => $username, 'password' => $password));
+
+            if ($statement->rowCount() > 0) {
+                return true;
+            }
 
         } catch (\PDOException $e) {
 
             return false;
         }
-        return true; 
+        return false; 
     }
 
     public function updatePassword ($username, $password) {

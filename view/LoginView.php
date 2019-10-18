@@ -50,6 +50,10 @@ class LoginView {
 		}
 	}
 
+	public function emptyUsername () {
+		return $this->holdUsername = '';
+	}
+
 	public function passwordFilledIn () {
 		return isset($_POST[self::$password]);
 	}
