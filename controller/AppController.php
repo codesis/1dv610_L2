@@ -89,6 +89,7 @@ class AppController {
             $this->checkLoggedInStatus();
             $this->checkReturnerOfCookies();
             $this->updateNewPassword();
+            $this->userWantsToBeDeleted();
             $this->login();    
         }
     }
@@ -121,6 +122,16 @@ class AppController {
     private function updateNewPassword () {
         if ($this->loginView->updatePassword()) {
             $this->loginController->updatePassword();
+            $this->message = $this->loginController->getMessage();
+
+            $this->isLoggedIn = $this->loginController->login();
+        }
+    }
+
+    private function userWantsToBeDeleted () {
+        if ($this->loginView->deleteUser()) {
+            $this->loginController->deleteUser();
+
             $this->message = $this->loginController->getMessage();
 
             $this->isLoggedIn = $this->loginController->login();

@@ -72,4 +72,8 @@ class MessageView {
     public function passwordUpdatedMessage () {
         return $this->message = 'Password updated successfully';
     }
+
+    public function userDeletedMessage () {
+        return $this->message = 'Deleted user successfully';
+    }
 }

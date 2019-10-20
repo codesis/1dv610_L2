@@ -136,6 +136,23 @@ class LoginController {
         }    
     }
 
+    public function deleteUser () {
+        $username = $this->loginView->getNameOfUser();
+        $password = $this->loginView->getUserPassword();
+
+        $this->userWantsToBeDeleted($username, $password);
+    }
+
+    private function userWantsToBeDeleted () {
+        if (!$this->database->checkIfUserExist($username, $password)) {
+            $this->message = $this->messageView->wrongCredentialsMessage();
+            $this->isLoggedIn = true;
+        } else {
+            $this->database->deleteUser($username, $password);
+            $this->message = $this->messageView->userDeletedMessage();
+        }
+    }
+
     public function returningWithCookies () {
         if ($this->cookieView->returnWithCookies()) {
             $username = $this->cookieView->getCookieName();

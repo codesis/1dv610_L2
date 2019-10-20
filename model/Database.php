@@ -108,4 +108,17 @@ class Database {
         return true;
 
     }
+
+    public function deleteUser ($username, $password) {
+        try {
+            $statement = $this->connection->prepare('DELETE FROM users WHERE username = :username AND password = :password');
+            $statement->execute(array('username' => $username, 'password' => $password));
+
+        } catch (\PDOException $e) {
+
+            return false;
+        }
+        return true;
+
+    }
 }

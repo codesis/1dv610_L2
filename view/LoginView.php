@@ -108,6 +108,22 @@ class LoginView {
 		}
 	}
 
+	public function deleteUser () {
+		return isset($_POST[self::$delete]);
+	}
+
+	public function getNameOfUser () {
+		if (isset($_POST[self::$username])) {
+			return $_POST[self::$username];
+		}
+	}
+
+	public function getUserPassword () {
+		if (isset($_POST[self::$userPassword])) {
+			return $_POST[self::$userPassword];
+		}
+	}
+
 	public function newUserRegistered ($username) {
 		$this->holdUsername = $username;
 	}
