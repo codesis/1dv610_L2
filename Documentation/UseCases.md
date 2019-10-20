@@ -1,4 +1,4 @@
-##### This application has four (4) Use Cases that are "must-haves" for the assignment. They can be found here: **LINK**. However the basic use cases are modified in this application, e.g. the credentials are not kept alive for 30 days but are instead alive for 1 hour. 
+##### The first four (4) Use Cases, which are general and mandatory for the assignment, can be found [*here*](https://github.com/dntoll/1dv610/blob/master/assignments/A2_resources/UseCases.md "Use Cases 1-4 by Daniel Toll") 
 
 ### Use Case 5 - Update existing password credentials
 
