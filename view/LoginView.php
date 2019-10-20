@@ -90,8 +90,14 @@ class LoginView {
 		}
 	}
 
+	private function getUpdatePasswordRepeat () {
+		if (isset($_POST[self::$updatePasswordRepeat])) {
+			return $_POST[self::$updatePasswordRepeat];
+		}
+	}
+
 	public function tooShortPassword () {
-		if (strlen($this->getUpdatePassword()) <= 5) {
+		if (strlen($this->getUpdatePassword()) <= 5 || strlen($this->getUpdatePasswordRepeat()) <= 5) {
 			return true;
 		} 
 	}
