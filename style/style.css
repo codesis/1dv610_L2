@@ -9,7 +9,6 @@ body {
 .container {
     background-color: white;
     margin: auto;
-    min-height: 600px;
     border-radius: 16px;
 }
 

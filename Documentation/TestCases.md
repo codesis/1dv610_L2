@@ -14,6 +14,8 @@ When user wants to update their password a update password form should be shown
 * The text "Welcome, *username*!" is shown
 * An update password form is shown
 
+![Update Password Page](/images/UpdatePasswordPage.png "Update password page")
+
 ---
 
 ## Test Case 5.1, Failed to update password without any entered fields
@@ -27,6 +29,8 @@ Make sure update cannot happen without entering any fields
 #### Output:
 * The text "Password has too few characters, at least 6 characters." is shown
 * An update password form is shown
+
+![Update Password failed](/images/UpdateFailPwTooFewChar.png "Update password failed")
 
 ---
 
@@ -42,6 +46,8 @@ Make sure update cannot happen when only one field is entered
 * The text "Password has too few characters, at least 6 characters." is shown
 * An update password form is shown
 
+![Update Password failed](/images/UpdateFailPwTooFewChar.png "Update password failed")
+
 ---
 
 ## Test Case 5.3, Failed to update password with different inputs
@@ -55,6 +61,8 @@ Make sure update cannot happen if the entered passwords do not match
 #### Output:
 * The text "Passwords do not match." is shown
 * An update password form is shown
+
+![Update Password failed](/images/UpdateFailPwNotMatch.png "Update password failed")
 
 ---
 
@@ -72,6 +80,8 @@ Make sure update cannot happen if cookies are manipulated
 * The text "Wrong information in cookies" is shown
 * Cookies are removed and PHPSESSID is regenerated
 
+![Update Password fail](/images/UpdateFailManipulatedCookies.png "Update password fail")
+
 ---
 
 ## Test Case 5.5, Successfully updated password
@@ -85,6 +95,8 @@ Make sure password is updated when submitting two identical passwords
 #### Output
 * The text "Password updated successfully" is shown
 * An update password form is shown
+
+![Successfully updated password](/images/SuccessUpdatedPw.png "Successfully updated password")
 
 ---
 
@@ -100,6 +112,8 @@ When user wants to delete their account a delete account form should be shown
 * The text "Welcome, *username*!" is shown
 * A delete account form is shown
 
+![Delete Account Page](/images/DeleteAccountPage.png "Delete account page")
+
 ---
 
 ## Test Case 6.1, Failed to delete user without entering any fields
@@ -113,6 +127,8 @@ Make sure deletion cannot happen without entering any fields
 #### Output:
 * The text "Wrong name or password" is shown
 * A delete account form is shown
+
+![Update Password Page](/images/UpdatePasswordPage.png "Update password page")
 
 ---
 
@@ -128,6 +144,8 @@ Make sure deletion cannot happen with only one field entered
 * The text "Wrong name or password" is shown
 * A delete account form is shown
 
+![Update Password Page](/images/UpdatePasswordPage.png "Update password page")
+
 ---
 
 ## Test Case 6.3, Failed to delete user with both, but faulty, fields entered
@@ -142,6 +160,8 @@ Make sure deletion cannot happen with wrong credentials
 * The text "Wrong name or password" is shown
 * A delete account form is shown
 
+![Update Password Page](/images/UpdatePasswordPage.png "Update password page")
+
 ---
 
 ## Test Case 6.4, Failed to delete user with one correct credential entered
@@ -155,6 +175,8 @@ Make sure deletion cannot happen with only one correct credential entered
 #### Output:
 * The text "Wrong name or password" is shown
 * A delete account form is shown
+
+![Update Password Page](/images/UpdatePasswordPage.png "Update password page")
 
 ---
 
@@ -171,6 +193,8 @@ Make sure deletion is made when both correct credentials are entered
 * The text "Deleted user successfully" is shown
 * The login form is shown
 
+![Update Password Page](/images/UpdatePasswordPage.png "Update password page")
+
 ---
 
 ## Test Case 6.6, Fail to login deleted user
@@ -185,3 +209,5 @@ Make sure the deleted user is deleted from the database and cannot sign in
 * The text "Not logged in" is shown
 * The text "Wrong name or password" is shown
 * The login form is shown
+
+![Update Password Page](/images/UpdatePasswordPage.png "Update password page")
