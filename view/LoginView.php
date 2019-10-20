@@ -48,6 +48,10 @@ class LoginView {
 		}
 	}
 
+	public function hashUsername () {
+		return password_hash($this->getUsername(), PASSWORD_DEFAULT);
+	}
+
 	public function setUsername () {
 		if ($this->getUsername()) {
 			$this->holdUsername = $this->getUsername();
@@ -70,6 +74,10 @@ class LoginView {
 		if ($this->passwordFilledIn()) {
 		    return $_POST[self::$password];
 		}
+	}
+
+	public function hashPassword () {
+		return password_hash($this->getPassword(), PASSWORD_DEFAULT);
 	}
 
 	public function updatePassword () {

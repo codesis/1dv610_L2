@@ -24,11 +24,11 @@ class LoginController {
         $this->loginView = $loginView;
         $this->username = $this->loginView->getUsername();
         $this->usernameExist = $this->loginView->usernameFilledIn();
-        $this->hashedUsername = password_hash($this->username, PASSWORD_DEFAULT); // move to loginview?
+        $this->hashedUsername = $this->loginView->hashUsername();
         
         $this->passwordExist = $this->loginView->passwordFilledIn();
         $this->password = $this->loginView->getPassword();
-        $this->newHashedPassword = password_hash($this->password, PASSWORD_DEFAULT); // move to loginview?
+        $this->newHashedPassword = $this->loginView->hashPassword(); // move to loginview?
 
         $this->newPasswordsFilledIn = $this->loginView->passwordsFilledIn();
         $this->tooShortPassword = $this->loginView->tooShortPassword();

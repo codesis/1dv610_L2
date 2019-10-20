@@ -82,6 +82,10 @@ class RegisterView {
 		}
 	}
 
+	public function hashPassword () {
+		return password_hash($this->getPassword(), PASSWORD_DEFAULT);
+	}
+
 	
 	public function response ($message) {
 		$response = $this->generateRegisterFormHTML($message);
