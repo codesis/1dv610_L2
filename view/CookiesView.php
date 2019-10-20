@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * CookieView
+ * 
+ * Handles cookies by setting, killing and regenerating them
+ */
+
 namespace view;
 
 class CookiesView {

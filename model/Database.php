@@ -1,6 +1,10 @@
 <?php
 
-// REMEMBER TO REMOVE ECHOES BEFORE PUBLICING!
+/**
+ * Database model
+ * 
+ * Handles connection and querys to the database with Exception handling
+ */
 
 namespace model;
 

@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * App Controller
+ * 
+ * Handles Login Controller and Registration Controller from user actions
+ * Routes the login and registration controllers into one
+ */
+
 namespace controller;
 
 require_once('LoginController.php');

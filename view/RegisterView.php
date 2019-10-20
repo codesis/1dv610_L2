@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * RegisterView
+ * 
+ * Handles super-globals, hashes passwords and generate HTML
+ */
+
 namespace view;
 
 class RegisterView {

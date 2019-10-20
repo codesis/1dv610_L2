@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * LoginView
+ * 
+ * Handles super-globals, hashes passwords and generate HTML
+ * 
+ * TODO: Restructure parts for when user is logged in to its own View
+ */
+
 namespace view;
 
 class LoginView {

@@ -1,4 +1,12 @@
 <?php
+/**
+ * Registration Controller
+ * Handles the user actions on the registration page
+ * Handles RegistrationView for user actions on the mentioned page
+ * Handles messages from MessageView depending on user actions on mentioned page
+ * Handles cookies from CookieView depending on user actions on mentioned page
+ * Handles the database model accordingly to user actions on mentioned page
+ */
 
 namespace controller;
 

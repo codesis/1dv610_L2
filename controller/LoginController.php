@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Login Controller
+ * Handles the user actions on the login and logged in pages
+ * Handles LoginView for user actions on the login and logged in pages
+ * Handles messages from MessageView depending on user actions on mentioned pages
+ * Handles cookies from CookieView accordingly to user actions on mentioned pages
+ * Handles the database model accordingly to user actions on mentioned pages
+ * 
+ * TODO: Restructure parts for logged in page to its own Controller
+ */
+
 namespace controller;
 
 
