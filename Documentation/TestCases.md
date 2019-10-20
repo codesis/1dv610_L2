@@ -67,8 +67,105 @@ Make sure password is updated when submitting two identical passwords
 * Press "Update password" button
 
 #### Output
-* "The text "Password updated successfully" is shown
+* The text "Password updated successfully" is shown
 * An update password form is shown
 
 ---
 
+## Test Case 6.0, Show Delete Form
+When user wants to delete their account a delete account form should be shown
+
+#### Input:
+* Test case 1.7 Successful login with correct Username and Password
+* Press "Delete account"
+
+#### Output:
+* The text "Logged In" is shown
+* The text "Welcome, *username*!" is shown
+* A delete account form is shown
+
+---
+
+## Test Case 6.1, Failed to delete user without entering any fields
+Make sure deletion cannot happen without entering any fields
+
+#### Input:
+* Test case 6.0
+* Make sure username and password field are left empty
+* Press "Delete account" button
+
+#### Output:
+* The text "Wrong name or password" is shown
+* A delete account form is shown
+
+---
+
+## Test Case 6.2, Failed to delete user with only one field entered
+Make sure deletion cannot happen with only one field entered
+
+#### Input:
+* Test Case 6.0
+* Enter text in username field, leave password field empty
+* Press "Delete account" button
+
+#### Output:
+* The text "Wrong name or password" is shown
+* A delete account form is shown
+
+---
+
+## Test Case 6.3, Failed to delete user with both, but faulty, fields entered
+Make sure deletion cannot happen with wrong credentials
+
+#### Input:
+* Test Case 6.0
+* Enter text in both fields but faulty ones
+* Press "Delete account" button
+
+#### Output:
+* The text "Wrong name or password" is shown
+* A delete account form is shown
+
+---
+
+## Test Case 6.4, Failed to delete user with one correct credential entered
+Make sure deletion cannot happen with only one correct credential entered
+
+#### Input:
+* Test Case 6.0
+* Enter the correct username in the username field and a faulty password in the password field
+* Press "Delete account" button
+
+#### Output:
+* The text "Wrong name or password" is shown
+* A delete account form is shown
+
+---
+
+## Test Case 6.5, Successfully deleted user
+Make sure deletion is made when both correct credentials are entered
+
+#### Input:
+* Test Case 6.0
+* Enter the correct username and password in the fields
+* Press "Delete account" button
+
+#### Output:
+* The text "Not logged in" is shown
+* The text "Deleted user successfully" is shown
+* The login form is shown
+
+---
+
+## Test Case 6.6, Fail to login deleted user
+Make sure the deleted user is deleted from the database and cannot sign in
+
+#### Input:
+* Test Case 6.5
+* Enter the deleted user's username and password
+* Press "Login"
+
+#### Output:
+* The text "Not logged in" is shown
+* The text "Wrong name or password" is shown
+* The login form is shown
