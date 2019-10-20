@@ -14,7 +14,7 @@ When user wants to update their password a update password form should be shown
 * The text "Welcome, *username*!" is shown
 * An update password form is shown
 
-![Update Password Page](/images/UpdatePasswordPage.png "Update password page")
+![Update Password Page](https://github.com/codesis/1dv610_L2/blob/master/Documentation/images/UpdatePasswordPage.png?raw=true "Update password page")
 
 ---
 
@@ -30,7 +30,7 @@ Make sure update cannot happen without entering any fields
 * The text "Password has too few characters, at least 6 characters." is shown
 * An update password form is shown
 
-![Update Password failed](/images/UpdateFailPwTooFewChar.png "Update password failed")
+![Update Password failed](https://github.com/codesis/1dv610_L2/blob/master/Documentation/images/UpdateFailPwTooFewChar.png?raw=true "Update password failed")
 
 ---
 
@@ -46,7 +46,7 @@ Make sure update cannot happen when only one field is entered
 * The text "Password has too few characters, at least 6 characters." is shown
 * An update password form is shown
 
-![Update Password failed](/images/UpdateFailPwTooFewChar.png "Update password failed")
+![Update Password failed](https://github.com/codesis/1dv610_L2/blob/master/Documentation/images/UpdateFailPwTooFewChar.png?raw=true "Update password failed")
 
 ---
 
@@ -62,7 +62,7 @@ Make sure update cannot happen if the entered passwords do not match
 * The text "Passwords do not match." is shown
 * An update password form is shown
 
-![Update Password failed](/images/UpdateFailPwNotMatch.png "Update password failed")
+![Update Password failed](https://github.com/codesis/1dv610_L2/blob/master/Documentation/images/UpdateFailPwNotMatch.png?raw=true "Update password failed")
 
 ---
 
@@ -80,7 +80,7 @@ Make sure update cannot happen if cookies are manipulated
 * The text "Wrong information in cookies" is shown
 * Cookies are removed and PHPSESSID is regenerated
 
-![Update Password fail](/images/UpdateFailManipulatedCookies.png "Update password fail")
+![Update Password fail](https://github.com/codesis/1dv610_L2/blob/master/Documentation/images/UpdateFailManipulatedCookies.png?raw=true "Update password fail")
 
 ---
 
@@ -96,7 +96,7 @@ Make sure password is updated when submitting two identical passwords
 * The text "Password updated successfully" is shown
 * An update password form is shown
 
-![Successfully updated password](/images/SuccessUpdatedPw.png "Successfully updated password")
+![Successfully updated password](https://github.com/codesis/1dv610_L2/blob/master/Documentation/images/SuccessUpdatedPw.png?raw=true "Successfully updated password")
 
 ---
 
@@ -112,7 +112,7 @@ When user wants to delete their account a delete account form should be shown
 * The text "Welcome, *username*!" is shown
 * A delete account form is shown
 
-![Delete Account Page](/images/DeleteAccountPage.png "Delete account page")
+![Delete Account Page](https://github.com/codesis/1dv610_L2/blob/master/Documentation/images/DeleteAccountPage.png?raw=true "Delete account page")
 
 ---
 
