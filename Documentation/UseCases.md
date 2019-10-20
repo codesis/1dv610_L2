@@ -1,5 +1,7 @@
 ##### The first four (4) Use Cases, which are general and mandatory for the assignment, can be found [*here*](https://github.com/dntoll/1dv610/blob/master/assignments/A2_resources/UseCases.md "Use Cases 1-4 by Daniel Toll") 
 
+###### Author: Emma Källström
+
 ### Use Case 5 - Update existing password credentials
 
 #### Main scenario
