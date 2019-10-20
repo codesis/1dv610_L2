@@ -86,7 +86,6 @@ class CookiesView {
 
 		session_regenerate_id(self::$phpSessCookie);
 		session_unset();
-		session_destroy();
 	}
 
 	public function returnWithCookies () {
