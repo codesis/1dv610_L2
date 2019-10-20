@@ -10,12 +10,12 @@
 
 #### Alternate Scenarios
 * 5a. The user could not be authenticated (wrong, manipulated or nonexistent credentials)
-* i. System presents an error message
-* ii. Step 2 in Use Case 1.
+  * i. System presents an error message
+  * ii. Step 2 in Use Case 1.
 
 * 5b. Credentials could not be saved (Passwords are too short (<= 5) or do not match)
-* i. System presents an error message
-* ii. Step 2 in main scenario
+  * i. System presents an error message
+  * ii. Step 2 in main scenario
 
 ---
 ### Use Case 6 - Delete existing user
@@ -28,7 +28,7 @@
 
 #### Alternate scenarios
 * 6a. The user could not be authenticated (wrong or nonexistent credentials)
-* i. System presents an error message
-* ii. Step 2 in main scenario
+  * i. System presents an error message
+  * ii. Step 2 in main scenario
 
 ---
