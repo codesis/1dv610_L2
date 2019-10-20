@@ -15,10 +15,10 @@ body {
     border-radius: 16px;
 }
 .container a:link {
-    color: rgb(168, 125, 149);
+    color: pink;
 }
 .container a:visited {
-    color: pink;
+    color: rgb(168, 125, 149);
 }
 .container a:hover {
     color: rgb(238, 117, 212);
