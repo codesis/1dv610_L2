@@ -128,7 +128,7 @@ Make sure deletion cannot happen without entering any fields
 * The text "Wrong name or password" is shown
 * A delete account form is shown
 
-![Update Password Page](/images/UpdatePasswordPage.png "Update password page")
+![Delete Account Page](https://github.com/codesis/1dv610_L2/blob/master/Documentation/images/DeleteAccountPage.png?raw=true "Delete account page")
 
 ---
 
@@ -144,7 +144,7 @@ Make sure deletion cannot happen with only one field entered
 * The text "Wrong name or password" is shown
 * A delete account form is shown
 
-![Update Password Page](/images/UpdatePasswordPage.png "Update password page")
+![Delete Account Page](https://github.com/codesis/1dv610_L2/blob/master/Documentation/images/DeleteAccountPage.png?raw=true "Delete account page")
 
 ---
 
@@ -160,7 +160,7 @@ Make sure deletion cannot happen with wrong credentials
 * The text "Wrong name or password" is shown
 * A delete account form is shown
 
-![Update Password Page](/images/UpdatePasswordPage.png "Update password page")
+![Delete Account Page](https://github.com/codesis/1dv610_L2/blob/master/Documentation/images/DeleteAccountPage.png?raw=true "Delete account page")
 
 ---
 
@@ -176,7 +176,7 @@ Make sure deletion cannot happen with only one correct credential entered
 * The text "Wrong name or password" is shown
 * A delete account form is shown
 
-![Update Password Page](/images/UpdatePasswordPage.png "Update password page")
+![Delete Account Page](https://github.com/codesis/1dv610_L2/blob/master/Documentation/images/DeleteAccountPage.png?raw=true "Delete account page")
 
 ---
 
@@ -193,7 +193,7 @@ Make sure deletion is made when both correct credentials are entered
 * The text "Deleted user successfully" is shown
 * The login form is shown
 
-![Update Password Page](/images/UpdatePasswordPage.png "Update password page")
+![Delete Account Page](https://github.com/codesis/1dv610_L2/blob/master/Documentation/images/DeleteAccountPage.png?raw=true "Delete account page")
 
 ---
 
@@ -210,4 +210,4 @@ Make sure the deleted user is deleted from the database and cannot sign in
 * The text "Wrong name or password" is shown
 * The login form is shown
 
-![Update Password Page](/images/UpdatePasswordPage.png "Update password page")
+![Delete Account Page](https://github.com/codesis/1dv610_L2/blob/master/Documentation/images/DeleteAccountPage.png?raw=true "Delete account page")
