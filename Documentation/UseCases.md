@@ -2,7 +2,7 @@
 
 ###### Author: Emma Källström
 
-### Use Case 5 - Update existing password credentials
+## Use Case 5 - Update existing password credentials
 
 #### Main scenario
 * Starts when a user wants to change its password
@@ -20,7 +20,7 @@
   * ii. Step 2 in main scenario
 
 ---
-### Use Case 6 - Delete existing user
+## Use Case 6 - Delete existing user
 
 #### Main scenario
 * Starts when a user wants to delete its account
