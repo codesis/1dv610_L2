@@ -49,11 +49,6 @@ class AppController {
         } else {
             $this->checkIfNewUser();
         }
-
-        if ($this->loginView->updatePassword()) {
-            $this->loginController->updatePassword();
-            $this->message = $this->loginController->getMessage();
-        }
     }
 
     private function register () {
@@ -93,8 +88,8 @@ class AppController {
         } else {
             $this->checkLoggedInStatus();
             $this->checkReturnerOfCookies();
+            $this->updateNewPassword();
             $this->login();    
-
         }
     }
 
@@ -104,6 +99,13 @@ class AppController {
 
         $response = $this->loginView->response($this->isLoggedIn, $this->message);
         $this->layoutView->render($this->isLoggedIn, $username, $this->loginView, $this->dateTimeView, $this->message, $response);    
+    }
+
+    private function checkLoggedInStatus () {
+        if ($this->cookieView->getLoggedInStatus()) {
+            $this->isLoggedIn = $this->cookieView->getLoggedInCookie();
+        }
+        if ($this->logout());
     }
 
     private function checkReturnerOfCookies () {
@@ -116,11 +118,13 @@ class AppController {
         if ($this->logout());
     }
 
-    private function checkLoggedInStatus () {
-        if ($this->cookieView->getLoggedInStatus()) {
-            $this->isLoggedIn = $this->cookieView->getLoggedInCookie();
+    private function updateNewPassword () {
+        if ($this->loginView->updatePassword()) {
+            $this->loginController->updatePassword();
+            $this->message = $this->loginController->getMessage();
+
+            $this->isLoggedIn = $this->loginController->login();
         }
-        if ($this->logout());
     }
 
     private function login () {

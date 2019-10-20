@@ -95,12 +95,10 @@ class CookiesView {
 		}
 	}
 
-	// public function verifyLoggedInUsernameCookie ($username) {
-	// 	if (password_verify($username, $_COOKIE[self::$cookieLoggedIn])) {
-	// 		return true;
-	// 	} else {
-	// 		return false;
-	// 	}
-	// }
+	public function verifyLoggedInUsernameCookie () {
+		if (password_verify($this->getCookieUserLoggedIn(), $this->getLoggedInCookie())) {
+			return true;
+		} 
+	}
 
 }

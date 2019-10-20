@@ -30,6 +30,10 @@ class LoginController {
         $this->password = $this->loginView->getPassword();
         $this->newHashedPassword = password_hash($this->password, PASSWORD_DEFAULT); // move to loginview?
 
+        $this->newPasswordsFilledIn = $this->loginView->passwordsFilledIn();
+        $this->tooShortPassword = $this->loginView->tooShortPassword();
+        $this->passwordsMatching = $this->loginView->getNewPassword();
+
         $this->messageView = $messageView;
 
         $this->cookieView = $cookieView;
@@ -98,13 +102,36 @@ class LoginController {
         $this->cookieView->keepMeLoggedIn($this->username, $this->newHashedPassword);
     }
 
-    public function updatePassword () {
-        $username = $this->cookieView->getCookieUserLoggedIn();
-        $password = $this->loginView->getNewPassword();
+    public function updatePassword () {        
+        if ($this->cookieView->verifyLoggedInUsernameCookie()) {
+            $this->verifyNewPassword();    
+        }
+        $this->isLoggedIn = true;
+    }
 
+    private function verifyNewPassword () {
+        if ($this->tooShortPassword) {
+            $this->message = $this->messageView->tooShortPasswordMessage();
+        } else {
+           $this->notMatchingNewPassword();
+        }
+    }
+
+    private function notMatchingNewPassword () {
+        if (!$this->passwordsMatching) {
+            $this->message = $this->messageView->notMatchingPasswordsMessage();
+        } else {
+            $username = $this->cookieView->getCookieUserLoggedIn();
+            $password = $this->loginView->getNewPassword();
+
+            $this->updateUserPassword($username, $password);
+        }
+    }
+
+    private function updateUserPassword ($username, $password) {
         if ($this->database->updatePassword($username, $password)) {
             $this->message = $this->messageView->passwordUpdatedMessage();
-        }
+        }    
     }
 
     public function returningWithCookies () {

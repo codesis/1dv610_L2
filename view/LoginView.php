@@ -54,6 +54,10 @@ class LoginView {
 		return $this->holdUsername = '';
 	}
 
+	public function keepUserLoggedIn () {
+		return isset($_POST[self::$keep]);
+	}
+
 	public function passwordFilledIn () {
 		return isset($_POST[self::$password]);
 	}
@@ -64,18 +68,40 @@ class LoginView {
 		}
 	}
 
-	public function getNewPassword () {
+	public function updatePassword () {
+		return isset($_POST[self::$update]);
+	}
+
+	private function getUpdatePassword () {
 		if (isset($_POST[self::$updatePassword])) {
-		    return $_POST[self::$updatePassword];
+			return $_POST[self::$updatePassword];
 		}
 	}
 
-	public function keepUserLoggedIn () {
-		return isset($_POST[self::$keep]);
+	public function tooShortPassword () {
+		if (strlen($this->getUpdatePassword()) <= 5) {
+			return true;
+		} 
 	}
 
-	public function updatePassword () {
-		return isset($_POST[self::$update]);
+	public function passwordsFilledIn () {
+		return isset($_POST[self::$updatePassword]) && isset($_POST[self::$updatePasswordRepeat]);
+	}
+
+	private function passwordsMatching () {
+		if ($this->passwordsFilledIn()) {
+			if ($_POST[self::$updatePassword] == $_POST[self::$updatePasswordRepeat]) {
+				return true;
+			}
+		}
+	}
+
+	public function getNewPassword() {
+		if ($this->passwordsMatching()) {
+		    return $_POST[self::$updatePassword];
+		} else {
+			return false;
+		}
 	}
 
 	public function newUserRegistered ($username) {
@@ -112,7 +138,7 @@ class LoginView {
 
 	private function generateChangePasswordHTML ($message) {
 		return '
-			<a href="?">Back to start</a>
+		<a href="?">Back to start</a>
 			<form method="post" >
 				<fieldset>
 			    <legend>Update password</legend>
@@ -126,7 +152,7 @@ class LoginView {
 
 				<input type="submit" name="' . self::$update . '" value="Update password"/>
 				</fieldset>
-				</form>
+			</form>
 		';
 	}
 	
