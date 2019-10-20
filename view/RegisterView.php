@@ -34,7 +34,7 @@ class RegisterView {
 
 	public function setUsername () {
 		if ($this->getUsername()) {
-			if ($this->checkUsernameForHTML($this->getUsername()) == true) {
+			if ($this->checkUsernameForHTML($this->getUsername())) {
 				$this->username = strip_tags($this->getUsername());
 			} else {
 				$this->username = $this->getUsername();

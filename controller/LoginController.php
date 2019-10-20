@@ -28,7 +28,7 @@ class LoginController {
         
         $this->passwordExist = $this->loginView->passwordFilledIn();
         $this->password = $this->loginView->getPassword();
-        $this->newHashedPassword = $this->loginView->hashPassword(); // move to loginview?
+        $this->newHashedPassword = $this->loginView->hashPassword();
 
         $this->newPasswordsFilledIn = $this->loginView->passwordsFilledIn();
         $this->tooShortPassword = $this->loginView->tooShortPassword();
