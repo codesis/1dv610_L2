@@ -104,9 +104,11 @@ class LoginController {
 
     public function updatePassword () {        
         if ($this->cookieView->verifyLoggedInUsernameCookie()) {
-            $this->verifyNewPassword();    
+            $this->verifyNewPassword();   
+            $this->isLoggedIn = true; 
+        } else {
+            $this->wrongCookies();
         }
-        $this->isLoggedIn = true;
     }
 
     private function verifyNewPassword () {
@@ -148,10 +150,14 @@ class LoginController {
             $this->checkIfCookieMessage();
             $this->isLoggedIn = true;
         } else {
-            $this->message = $this->messageView->wrongInformationInCookiesMessage();
-            $this->cookieView->killCookies();
-            $this->loginView->emptyUsername();
+            $this->wrongCookies();
         }
+    }
+
+    private function wrongCookies () {
+        $this->message = $this->messageView->wrongInformationInCookiesMessage();
+        $this->cookieView->killCookies();
+        $this->loginView->emptyUsername();
     }
 
     private function checkIfCookieMessage () {

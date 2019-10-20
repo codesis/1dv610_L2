@@ -15,6 +15,10 @@ class LoginView {
 	private static $loggedIn = 'LoginView::isLoggedIn';
 	private static $updatePasswordURL = 'updatepassword';
 	private static $loginPage = '?';
+	private static $deleteAccountURL = 'deleteaccount';
+	private static $delete = 'LoginView::Delete';
+	private static $username = 'LoginView::User';
+	private static $userPassword = 'LoginView::UserPassword';
 	private static $headerLocationString = 'Location: ?';
 	private $holdUsername = '';
 
@@ -121,6 +125,15 @@ class LoginView {
 		if (isset($_GET[self::$updatePasswordURL])) {
 			$response = $this->generateChangePasswordHTML($message);
 		} else {
+			$response = $this->setResponseToDeleteAccount($message);
+		}
+		return $response;
+	}
+
+	private function setResponseToDeleteAccount ($message) {
+		if (isset($_GET[self::$deleteAccountURL])) {
+			$response = $this->generateDeleteAccountHTML($message);
+		} else {
 			$response = $this->generateLogoutButtonHTML($message);
 		}
 		return $response;
@@ -129,9 +142,10 @@ class LoginView {
 	private function generateLogoutButtonHTML($message) {
 		return '
 		<a href="?updatepassword">Update password</a>
+		<a href="?deleteaccount">Delete account</a>
 			<form method="post" >
 				<p id="' . self::$messageId . '">' . $message .'</p>
-				<input type="submit" name="' . self::$logout . '" value="logout"/>
+				<input type="submit" name="' . self::$logout . '" value="Logout"/>
 			</form>
 		';
 	}
@@ -139,9 +153,10 @@ class LoginView {
 	private function generateChangePasswordHTML ($message) {
 		return '
 		<a href="?">Back to start</a>
+		<a href="?deleteaccount">Delete account</a>
 			<form method="post" >
 				<fieldset>
-			    <legend>Update password</legend>
+			    <legend>Update password - enter a new password</legend>
 			    <p id="' . self::$messageId . '">' . $message .'</p>
 
 				<label for="' . self::$updatePassword . '">Enter new password: </label>
@@ -151,6 +166,27 @@ class LoginView {
 				<input type="password" id="' . self::$updatePasswordRepeat . '" name="' . self::$updatePasswordRepeat . '" value="" />
 
 				<input type="submit" name="' . self::$update . '" value="Update password"/>
+				</fieldset>
+			</form>
+		';
+	}
+
+	private function generateDeleteAccountHTML ($message) {
+		return '
+		<a href="?">Back to start</a>
+		<a href="?updatepassword">Update password</a>
+			<form method="post" >
+				<fieldset>
+			    <legend>Delete account - enter your username and password</legend>
+				<p id="' . self::$messageId . '">' . $message .'</p>
+				
+				<label for="' . self::$username . '">Username :</label>
+				<input type="text" id="' . self::$username . '" name="' . self::$username . '" value="" />
+
+				<label for="' . self::$userPassword . '">Password :</label>
+				<input type="password" id="' . self::$userPassword . '" name="' . self::$userPassword . '" value="" />
+
+				<input type="submit" name="' . self::$delete . '" value="Delete account"/>
 				</fieldset>
 			</form>
 		';
