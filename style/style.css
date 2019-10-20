@@ -15,13 +15,13 @@ body {
     border-radius: 16px;
 }
 .container a:link {
-    color: white;
+    color: rgb(168, 125, 149);
 }
 .container a:visited {
-    color: grey;
+    color: pink;
 }
 .container a:hover {
-    color: pink;
+    color: rgb(238, 117, 212);
 }
 
 fieldset {
