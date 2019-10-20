@@ -90,7 +90,7 @@ class AppController {
             $this->checkReturnerOfCookies();
             $this->updateNewPassword();
             $this->userWantsToBeDeleted();
-            $this->login();    
+            $this->userWantsToLogin();    
         }
     }
 
@@ -106,7 +106,7 @@ class AppController {
         if ($this->cookieView->getLoggedInStatus()) {
             $this->isLoggedIn = $this->cookieView->getLoggedInCookie();
         }
-        if ($this->logout());
+        if ($this->userWantsToLogout());
     }
 
     private function checkReturnerOfCookies () {
@@ -114,9 +114,9 @@ class AppController {
             $this->loginController->returningWithCookies();
             $this->message = $this->loginController->getMessage();
 
-            $this->isLoggedIn = $this->loginController->login();
+            $this->isLoggedIn = $this->loginController->userWantsToLogin();
         } 
-        if ($this->logout());
+        if ($this->userWantsToLogout());
     }
 
     private function updateNewPassword () {
@@ -124,7 +124,7 @@ class AppController {
             $this->loginController->updatePassword();
             $this->message = $this->loginController->getMessage();
 
-            $this->isLoggedIn = $this->loginController->login();
+            $this->isLoggedIn = $this->loginController->userWantsToLogin();
         }
     }
 
@@ -134,19 +134,19 @@ class AppController {
 
             $this->message = $this->loginController->getMessage();
 
-            $this->isLoggedIn = $this->loginController->login();
+            $this->isLoggedIn = $this->loginController->userWantsToLogin();
         }
     }
 
-    private function login () {
+    private function userWantsToLogin () {
         if ($this->loginView->login()) {   
-            $this->isLoggedIn = $this->loginController->login();
+            $this->isLoggedIn = $this->loginController->userWantsToLogin();
             $this->message = $this->loginController->getMessage();
         }
         $this->loginResponse();
     }
 
-    private function logout () {
+    private function userWantsToLogout () {
         if ($this->loginView->logOut()) {
             $this->isLoggedIn = $this->loginController->logout();
             $this->message = $this->loginController->getMessage();

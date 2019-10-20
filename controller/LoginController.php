@@ -43,7 +43,7 @@ class LoginController {
         $this->hashedPassword = $this->database->getHashedPassword($this->username);
     }
 
-      public function login () {
+      public function userWantsToLogin () {
         $this->loginView->setUsername();
         $this->checkLoginCredentials();
         $this->verifiedLoginCredentials();
