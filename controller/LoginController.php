@@ -143,12 +143,13 @@ class LoginController {
         $this->userWantsToBeDeleted($username, $password);
     }
 
-    private function userWantsToBeDeleted () {
+    private function userWantsToBeDeleted ($username, $password) {
         if (!$this->database->checkIfUserExist($username, $password)) {
             $this->message = $this->messageView->wrongCredentialsMessage();
             $this->isLoggedIn = true;
         } else {
             $this->database->deleteUser($username, $password);
+            $this->cookieView->killCookies();
             $this->message = $this->messageView->userDeletedMessage();
         }
     }
