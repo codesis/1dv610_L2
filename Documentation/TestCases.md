@@ -58,7 +58,23 @@ Make sure update cannot happen if the entered passwords do not match
 
 ---
 
-## Test Case 5.4, Successfully updated password
+## Test Case 5.4, Failed to update password with correct inputs and manipulated cookies
+Make sure update cannot happen if cookies are manipulated
+
+#### Input:
+* Test Case 5.0
+* Change the content of the cookieLoggedIn
+* Enter two identical passwords with minimum 6 characters each
+* Press "Update password"
+
+#### Output:
+* The text "Not logged in" is shown
+* The text "Wrong information in cookies" is shown
+* Cookies are removed and PHPSESSID is regenerated
+
+---
+
+## Test Case 5.5, Successfully updated password
 Make sure password is updated when submitting two identical passwords
 
 #### Input:
