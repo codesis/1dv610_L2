@@ -1,13 +1,16 @@
 body {
-    background-image: url("/style/image/backgroundImage.jpg");
+    /* background-image: url("/style/image/backgroundImage.jpg"); */
+    background-color: black;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     width: 50%;
     margin: auto;
     text-align: center;
+    color: white;
 }
 
 .container {
-    background-color: white;
+    background-color: rgb(77, 76, 76);
+    color: rgb(184, 184, 184);
     margin: auto;
     border-radius: 16px;
 }
