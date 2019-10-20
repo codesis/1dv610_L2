@@ -68,7 +68,7 @@ class RegistrationController {
     }
 
     private function notMatchingPasswords () {
-        if (!$this->password) {
+        if ($this->password === false) {
             $this->message = $this->messageView->notMatchingPasswordsMessage();
         } 
     }

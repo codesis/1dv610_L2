@@ -1,28 +1,12 @@
-## Requirement specification
-###### Author: Emma Källström
+### This application has four (4) Use Cases that are "must-haves" for the assignment. They can be found here: **LINK**. However the basic use cases are modified in this application, e.g. the credentials are not kept alive for 30 days but are instead alive for 1 hour. 
 
-## Secure Authentication component for the web
-The system is a software component that provides secure authentication for the web. The component should be used by several applications and programmers. Therefore it is important to provide a component aimed primarely to the programmer.
+#### Use Case 5 - Update existing password credentials
 
-### Supplementary specification
+##### Main scenario
+* Starts when a user wants to change its password
+* System asks for password
+* User provides password
+* System updates the saved credentials and presents a success message
 
-System Quality Requirements
-* The system should respond to input in an acceptable timeframe.
-* The system should be user-friendly
-* System provides helpful error messages
-* System avoids unnecessary input
-* The system should be secure
-* The system should follow web standards.
-
-Security Considerations
-* SQL injections
-* Javascript injections
-* Password handling
-* Session hijacking
-
-Other Considerations
-* The system should be written in only in PHP.
-
----
-## Use Case 1 Authenticate user
-### Main scenario
+##### Alternate Scenarios
+* 
