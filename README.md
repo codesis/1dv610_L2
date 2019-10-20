@@ -1,6 +1,16 @@
 # Assignment 2 and 4 for the course 1DV610
 ###### Author: Emma Källström
 
+## What is implemented
+The application forms a very simple CRUD app. The application has all the required Test Cases for the assignment implemented, plus thirteen (13) extra Test Cases which handles updating the user's password and deleting an existing user.
+
+### The user may: 
+##### *Parts of CRUD within parantheses*
+* Register a new user (Create)
+* Login an existing user (Read)
+* Update the logged in user's password (Update)
+* Delete an existing user (Delete)
+
 ## How to install
 ##### Programming language: PHP
 ### Local instructions:
