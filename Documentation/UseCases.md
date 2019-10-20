@@ -26,7 +26,7 @@
 * Starts when a user wants to delete its account
 * System asks for user credentials
 * User provides credentials
-* System deletes the saved credentials and presents a success message
+* System deletes the saved credentials, ends the session and presents a success message
 
 #### Alternate scenarios
 * 6a. The user could not be authenticated (wrong or nonexistent credentials)
